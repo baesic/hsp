@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HSP 자가 테스트</title>
+    <title>HSP 自我测试</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -89,99 +89,107 @@
 
     <div class="container mx-auto max-w-3xl bg-white shadow-2xl rounded-xl p-6 md:p-10">
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-sky-700 mb-2">HSP 자가 테스트</h1>
-            <p class="text-gray-600 text-sm md:text-base">매우 민감한 사람 척도 - 개정판 (HSP-R)</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-sky-700 mb-2">HSP 自我测试</h1>
+            <p class="text-gray-600 text-sm md:text-base">高度敏感人群量表 - 修订版 (HSP-R)</p>
         </header>
 
         <div id="introduction" class="mb-8 p-4 bg-sky-50 border border-sky-200 rounded-lg">
-            <h2 class="text-xl font-semibold text-sky-600 mb-2">테스트 안내</h2>
+            <h2 class="text-xl font-semibold text-sky-600 mb-2">测试说明</h2>
             <p class="text-gray-700 text-sm">
-                아래 각 질문에 대해 전반적으로 자신을 가장 잘 설명하는 숫자를 선택해주십시오.<br>
-                (1="전혀 그렇지 않다"부터 7="매우 그렇다"까지입니다.)<br>
-                모든 질문에 답변해주셔야 정확한 결과를 얻을 수 있습니다.
+                请回答以下每个问题，选择最能描述您整体情况的数字。<br>
+                (1=“完全不” 到 7=“非常”.)<br>
+                为了获得准确的结果，您需要回答所有问题。
             </p>
         </div>
 
         <form id="hspTestForm">
             <div id="questionsContainer" class="space-y-6">
-                </div>
+                {/* 问题将在此处动态添加。 */}
+            </div>
 
             <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <button type="button" id="submitButton" class="btn-primary font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 w-full sm:w-auto">
-                    결과 보기
+                    查看结果
                 </button>
                 <button type="button" id="restartButton" class="btn-secondary font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 w-full sm:w-auto" style="display: none;">
-                    다시 시작
+                    重新开始测试
                 </button>
             </div>
         </form>
 
         <div id="resultsContainer" class="mt-10" style="display: none;">
-            <h2 class="text-2xl md:text-3xl font-bold text-sky-700 text-center mb-6">테스트 결과</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-sky-700 text-center mb-6">测试结果</h2>
             
             <div id="totalScoreResult" class="result-card p-6 rounded-lg shadow-lg mb-6 border border-sky-200">
-                <h3 class="text-xl font-semibold mb-2">총 민감도 점수</h3>
+                <h3 class="text-xl font-semibold mb-2">总敏感度得分</h3>
                 <p id="totalScore" class="text-lg"></p>
                 <p id="averageTotalScore" class="text-lg"></p>
                 <p id="interpretation" class="mt-3 text-base italic"></p>
             </div>
 
-            <h3 class="text-xl font-semibold text-sky-600 mb-4 text-center">하위 척도별 결과</h3>
+            <h3 class="text-xl font-semibold text-sky-600 mb-4 text-center">各分量表结果</h3>
             <div id="subscaleResults" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                </div>
+                {/* 各分量表结果将在此处动态添加。 */}
+            </div>
         </div>
 
         <footer class="mt-12 pt-8 border-t border-gray-300 text-xs text-gray-500">
             <p class="mb-2">
-                <strong>참고 문헌:</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href="https://osf.io/preprints/psyarxiv/w7bqu" target="_blank" class="text-sky-600 hover:underline">https://osf.io/preprints/psyarxiv/w7bqu</a>.
-                (참고: 이것은 사전 인쇄본이며 아직 동료 검토를 거치지 않았습니다. 2025년 중반 이후 온라인에서 출판된 논문의 인용 정보를 확인하십시오.)
+                此在线测试是根据 Pluess, M., Aron, E., 等人 (2024) 的“高度敏感人群量表 - 修订版 (HSP-R)” PDF 问卷改编而成，旨在方便用户在线进行自我评估。我们尊重原始研究和问卷的版权。此网络版本仅用于个人理解和教育目的。
             </p>
             <p class="mb-2">
-                이 설문지는 저작권법에 의해 보호됩니다. 무단 수정은 엄격히 금지됩니다. 개인적, 임상적, 교육적 및 연구 목적으로 이 설문지를 복제할 수 있는 권한이 부여됩니다.
+                Elaine Aron 博士的原始高度敏感人群自我测试（此修订版量表基于该测试）也可以在以下网址找到：<a href="https://hsperson.com/test/highly-sensitive-test/" target="_blank" class="text-sky-600 hover:underline">https://hsperson.com/test/highly-sensitive-test/</a>
             </p>
-            <p>
-                척도에 대한 더 많은 정보: 
-                <a href="https://sensitivityresearch.com/" target="_blank" class="text-sky-600 hover:underline">sensitivityresearch.com</a> 및 
+            <p class="mb-2">
+                <strong>此改编中使用的 HSP-R 量表的参考文献：</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href="https://osf.io/preprints/psyarxiv/w7bqu" target="_blank" class="text-sky-600 hover:underline">https://osf.io/preprints/psyarxiv/w7bqu</a>.
+                (注意：这是一个预印本版本，尚未经过同行评审。请在 2025 年年中之后在线查看已发表文章的引文。)
+            </p>
+            <p class="mb-2">
+                此问卷 (HSP-R) 受版权法保护。严禁未经授权的修改。允许出于个人、临床、教育和研究目的复制此问卷，前提是符合原始作者的条件（包括引用完整参考文献并链接到其网站）。
+            </p>
+             <p class="mb-2">
+                有关敏感性研究和 HSP 特征的更多信息，请访问：
+                <a href="https://sensitivityresearch.com/" target="_blank" class="text-sky-600 hover:underline">sensitivityresearch.com</a> 和 
                 <a href="https://hsperson.com/" target="_blank" class="text-sky-600 hover:underline">hsperson.com</a>
             </p>
             <p class="mb-2">
-                위에 설명된 허가를 넘어서는 모든 사용에 대해서는 첫 번째 저자(<a href="mailto:m.pluess@surrey.ac.uk" >m.pluess@surrey.ac.uk</a>)에게 문의하십시오.
-            </p>            
+                对于超出上述许可范围的任何使用，请通过 m.pluess@surrey.ac.uk 联系第一作者。
+            </p>
              <p class="mt-4 text-center">
-                본 테스트는 자기 이해를 돕기 위한 참고 자료이며, 전문적인 심리 진단을 대체할 수 없습니다.
-            </p>            
+                此测试是用于自我理解的工具，不能替代专业的心理诊断。
+            </p>
         </footer>
     </div>
 
     <script>
         const questions = [
-            { text: "주변의 물건들이 옮겨졌을 때 알아채는 편인가요?", subscale: "Sensitivity to Details" },
-            { text: "긍정적이든 부정적이든 피드백에 쉽게 영향을 받는 편인가요?", subscale: "Emotional Reactivity" },
-            { text: "밝은 빛, 강한 냄새, 거친 직물 또는 가까운 곳의 사이렌 소리 같은 것에 쉽게 압도되는 편인가요?", subscale: "Overstimulation" },
-            { text: "다른 사람들이 무엇을 느끼는지 쉽게 알아채는 편인가요?", subscale: "Social Sensitivity" },
-            { text: "섬세하거나 좋은 향, 맛, 소리, 예술 작품을 알아보고 즐기는 편인가요?", subscale: "Sensitivity to Positive Experiences" },
-            { text: "주변 사람들의 기분에 쉽게 영향을 받는 편인가요?", subscale: "Emotional Reactivity" },
-            { text: "어떤 일에 대해 깊이 생각하는 경향이 있나요?", subscale: "Depth of Processing" },
-            { text: "어떤 상황에 대해 다른 사람이 어떻게 느낄지 잘 예측하는 편인가요?", subscale: "Social Sensitivity" },
-            { text: "시끄러운 소리나 혼란스러운 장면과 같은 강한 자극에 불편함을 느끼나요?", subscale: "Overstimulation" },
-            { text: "드러내든 드러내지 않든, 자신의 경험에 대해 일반적으로 강하게 반응하는 편인가요?", subscale: "Emotional Reactivity" },
-            { text: "다른 사람들이 당신에게 그들이 느끼거나 생각하는 것을 잘 이해한다고 말하나요?", subscale: "Social Sensitivity" },
-            { text: "음악에 깊이 몰입하는 경향이 있나요?", subscale: "Sensitivity to Positive Experiences" },
-            { text: "철학적인 질문에 대해 생각하는 자신을 발견하곤 하나요?", subscale: "Depth of Processing" },
-            { text: "다른 사람들보다 날씨 변화를 더 잘 알아채는 것 같나요?", subscale: "Sensitivity to Details" },
-            { text: "주변에 많은 일이 일어나고 있을 때 불쾌할 정도로 흥분되나요?", subscale: "Overstimulation" },
-            { text: "예술이나 음악에 깊이 감동하는 편인가요?", subscale: "Sensitivity to Positive Experiences" },
-            { text: "계절이 바뀌는 미묘한 신호(겨울/봄 등)를 알아채는 경향이 있나요?", subscale: "Sensitivity to Details" },
-            { text: "깊이 있는 대화를 좋아하나요?", subscale: "Depth of Processing" }
-        ];
+            { text: "当周围的物品被移动过时，您会注意到吗？", subscale: "Sensitivity to Details" },
+            { text: "您容易受到反馈（无论是负面的还是正面的）的影响吗？", subscale: "Emotional Reactivity" },
+            { text: "您是否容易被强光、浓烈气味、粗糙布料或近处的警报声等事物所淹没？", subscale: "Overstimulation" },
+            { text: "您能轻易察觉他人的感受吗？", subscale: "Social Sensitivity" },
+            { text: "您会注意到并欣赏精致或美好的气味、味道、声音、艺术品吗？", subscale: "Sensitivity to Positive Experiences" },
+            { text: "您容易受到周围人情绪的影响吗？", subscale: "Emotional Reactivity" },
+            { text: "您倾向于深入思考事物吗？", subscale: "Depth of Processing" },
+            { text: "您擅长预测某人对某种情况可能会有的感受吗？", subscale: "Social Sensitivity" },
+            { text: "您会被强烈的刺激（如巨大的噪音或混乱的场面）所困扰吗？", subscale: "Overstimulation" },
+            { text: "无论是否表现出来，您通常会对自己的经历做出强烈反应吗？", subscale: "Emotional Reactivity" },
+            { text: "其他人会告诉您，您很擅长理解他们的感受或想法吗？", subscale: "Social Sensitivity" },
+            { text: "您倾向于深度沉浸在音乐中吗？", subscale: "Sensitivity to Positive Experiences" },
+            { text: "您会发现自己思考哲学问题吗？", subscale: "Depth of Processing" },
+            { text: "您似乎比其他人更能注意到天气的变化吗？", subscale: "Sensitivity to Details" },
+            { text: "当周围发生很多事情时，您会感到不愉快的兴奋吗？", subscale: "Overstimulation" },
+            { text: "您会被艺术或音乐深深打动吗？", subscale: "Sensitivity to Positive Experiences" },
+            { text: "您倾向于注意到季节变化的细微迹象（如冬/春等）吗？", subscale: "Sensitivity to Details" },
+            { text: "您喜欢深度对话吗？", subscale: "Depth of Processing" }
+        ]; // 所有问题已翻译
 
         const subscaleDefinitions = {
-            "Overstimulation": { name: "과도한 자극", questionsIndices: [2, 8, 14] }, // 0-indexed (Q3, Q9, Q15)
-            "Sensitivity to Positive Experiences": { name: "긍정적 경험에 대한 민감성", questionsIndices: [4, 11, 15] }, // (Q5, Q12, Q16)
-            "Social Sensitivity": { name: "사회적 민감성", questionsIndices: [3, 7, 10] }, // (Q4, Q8, Q11)
-            "Depth of Processing": { name: "정보 처리의 깊이", questionsIndices: [6, 12, 17] }, // (Q7, Q13, Q18)
-            "Emotional Reactivity": { name: "정서적 반응성", questionsIndices: [1, 5, 9] }, // (Q2, Q6, Q10)
-            "Sensitivity to Details": { name: "세부 사항에 대한 민감성", questionsIndices: [0, 13, 16] } // (Q1, Q14, Q17)
+            "Overstimulation": { name: "过度刺激", questionsIndices: [2, 8, 14] }, // 已翻译
+            "Sensitivity to Positive Experiences": { name: "对积极体验的敏感性", questionsIndices: [4, 11, 15] }, // 已翻译
+            "Social Sensitivity": { name: "社交敏感性", questionsIndices: [3, 7, 10] }, // 已翻译
+            "Depth of Processing": { name: "信息处理深度", questionsIndices: [6, 12, 17] }, // 已翻译
+            "Emotional Reactivity": { name: "情绪反应性", questionsIndices: [1, 5, 9] }, // 已翻译
+            "Sensitivity to Details": { name: "对细节的敏感性", questionsIndices: [0, 13, 16] } // 已翻译
         };
 
         const questionsContainer = document.getElementById('questionsContainer');
@@ -194,12 +202,13 @@
         const subscaleResultsEl = document.getElementById('subscaleResults');
 
         function renderQuestions() {
+            questionsContainer.innerHTML = ''; 
             questions.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-gray-200';
                 
                 let radioButtonsHtml = '<div class="flex flex-wrap justify-between items-center mt-3">';
-                radioButtonsHtml += `<span class="text-xs text-gray-500 scale-label mr-2">전혀 그렇지 않다</span>`;
+                radioButtonsHtml += `<span class="text-xs text-gray-500 scale-label mr-2">完全不</span>`; // 已翻译
                 for (let i = 1; i <= 7; i++) {
                     radioButtonsHtml += `
                         <label for="q${index}_${i}" class="flex flex-col items-center cursor-pointer mx-1">
@@ -208,7 +217,7 @@
                         </label>
                     `;
                 }
-                radioButtonsHtml += `<span class="text-xs text-gray-500 scale-label ml-2">매우 그렇다</span>`;
+                radioButtonsHtml += `<span class="text-xs text-gray-500 scale-label ml-2">非常</span>`; // 已翻译
                 radioButtonsHtml += '</div>';
 
                 questionDiv.innerHTML = `
@@ -233,23 +242,23 @@
             }
 
             if (!allAnswered) {
-                alert("모든 질문에 답변해주세요.");
+                alert("请回答所有问题。"); // 已翻译
                 return;
             }
 
             const totalScore = answers.reduce((sum, val) => sum + val, 0);
             const averageTotalScore = totalScore / answers.length;
 
-            totalScoreEl.textContent = `총점: ${totalScore} 점`;
-            averageTotalScoreEl.textContent = `평균 점수: ${averageTotalScore.toFixed(2)} 점`;
+            totalScoreEl.textContent = `总得分: ${totalScore} 分`; // 已翻译
+            averageTotalScoreEl.textContent = `平均得分: ${averageTotalScore.toFixed(2)} 分`; // 已翻译
 
             if (averageTotalScore > 5) {
-                interpretationEl.textContent = "해석: 평균 점수가 5점보다 높으므로, 높은 민감성(HSP) 경향을 나타냅니다. 이 점수는 개인의 특성을 이해하는 데 도움을 줄 수 있으며, 절대적인 진단은 아닙니다.";
+                interpretationEl.textContent = "解读：平均得分高于 5 分表明具有高度敏感 (HSP) 的倾向。此分数有助于理解个人特质，并非绝对诊断。"; // 已翻译
             } else {
-                interpretationEl.textContent = "해석: 평균 점수가 5점 이하이므로, 일반적인 민감성 수준을 나타냅니다. 이 점수는 개인의 특성을 이해하는 데 도움을 줄 수 있으며, 절대적인 진단은 아닙니다.";
+                interpretationEl.textContent = "解读：平均得分为 5 分或以下表明敏感度处于一般水平。此分数有助于理解个人特质，并非绝对诊断。"; // 已翻译
             }
 
-            subscaleResultsEl.innerHTML = ''; // Clear previous results
+            subscaleResultsEl.innerHTML = ''; 
             for (const key in subscaleDefinitions) {
                 const subscale = subscaleDefinitions[key];
                 let subscaleScore = 0;
@@ -262,15 +271,15 @@
                 subscaleDiv.className = 'result-card p-4 rounded-lg shadow-md border border-sky-100';
                 subscaleDiv.innerHTML = `
                     <h4 class="text-lg font-semibold text-sky-700 mb-1">${subscale.name}</h4>
-                    <p class="text-sm">총점: ${subscaleScore} 점</p>
-                    <p class="text-sm">평균 점수: ${averageSubscaleScore.toFixed(2)} 점</p>
-                `;
+                    <p class="text-sm">总得分: ${subscaleScore} 分</p>
+                    <p class="text-sm">平均得分: ${averageSubscaleScore.toFixed(2)} 分</p>
+                `; // 已翻译
                 subscaleResultsEl.appendChild(subscaleDiv);
             }
 
             resultsContainer.style.display = 'block';
             submitButton.style.display = 'none';
-            restartButton.style.display = 'inline-block'; // Show restart button
+            restartButton.style.display = 'inline-block';
             window.scrollTo({ top: resultsContainer.offsetTop - 20, behavior: 'smooth' });
         }
         
@@ -286,7 +295,6 @@
         submitButton.addEventListener('click', calculateResults);
         restartButton.addEventListener('click', restartTest);
 
-        // 페이지 로드 시 질문 렌더링
         renderQuestions();
     </script>
 
