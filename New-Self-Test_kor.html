@@ -83,6 +83,27 @@
         .scale-label {
             font-size: 0.8rem;
         }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .share-button:hover {
+             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+         .share-generic {
+            background-color: #6b7280; /* bg-gray-500 */
+            color: white;
+        }
+        .share-generic:hover {
+            background-color: #4b5563; /* bg-gray-600 */
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-100 to-sky-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-sky-300 selection:text-sky-900">
@@ -129,6 +150,18 @@
             <h3 class="text-xl font-semibold text-sky-600 mb-4 text-center">하위 척도별 결과</h3>
             <div id="subscaleResults" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 </div>
+
+            <div id="shareResults" class="mt-8 pt-6 border-t border-gray-200 text-center">
+                <h3 class="text-xl font-semibold text-sky-600 mb-4">결과 공유하기</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button type="button" id="shareGeneric" class="share-button share-generic">
+                        공유하기
+                    </button>
+                </div>
+                 <p class="text-sm text-gray-500 mt-4">
+                    * 인스타그램은 웹사이트에서 직접 게시물 공유를 지원하지 않습니다. '공유하기' 버튼을 통해 다른 앱으로 링크를 공유하거나, 결과를 캡처하여 공유해주세요.
+                </p>
+            </div>
         </div>
 
         <footer class="mt-12 pt-8 border-t border-gray-300 text-xs text-gray-500">
@@ -192,6 +225,10 @@
         const averageTotalScoreEl = document.getElementById('averageTotalScore');
         const interpretationEl = document.getElementById('interpretation');
         const subscaleResultsEl = document.getElementById('subscaleResults');
+        const shareGenericButton = document.getElementById('shareGeneric');
+
+        let lastTotalScore = 0;
+        let lastInterpretation = '';
 
         function renderQuestions() {
             questions.forEach((q, index) => {
@@ -240,14 +277,14 @@
             const totalScore = answers.reduce((sum, val) => sum + val, 0);
             const averageTotalScore = totalScore / answers.length;
 
+            lastTotalScore = totalScore; // Store for sharing
+            lastInterpretation = averageTotalScore > 5 
+                ? "높은 민감성(HSP) 경향을 나타냅니다." 
+                : "일반적인 민감성 수준을 나타냅니다."; // Store for sharing
+
             totalScoreEl.textContent = `총점: ${totalScore} 점`;
             averageTotalScoreEl.textContent = `평균 점수: ${averageTotalScore.toFixed(2)} 점`;
-
-            if (averageTotalScore > 5) {
-                interpretationEl.textContent = "해석: 평균 점수가 5점보다 높으므로, 높은 민감성(HSP) 경향을 나타냅니다. 이 점수는 개인의 특성을 이해하는 데 도움을 줄 수 있으며, 절대적인 진단은 아닙니다.";
-            } else {
-                interpretationEl.textContent = "해석: 평균 점수가 5점 이하이므로, 일반적인 민감성 수준을 나타냅니다. 이 점수는 개인의 특성을 이해하는 데 도움을 줄 수 있으며, 절대적인 진단은 아닙니다.";
-            }
+            interpretationEl.textContent = `해석: ${lastInterpretation} 이 점수는 개인의 특성을 이해하는 데 도움을 줄 수 있으며, 절대적인 진단은 아닙니다.`;
 
             subscaleResultsEl.innerHTML = ''; // Clear previous results
             for (const key in subscaleDefinitions) {
@@ -280,11 +317,43 @@
             subscaleResultsEl.innerHTML = '';
             submitButton.style.display = 'inline-block';
             restartButton.style.display = 'none';
+            lastTotalScore = 0; // Reset stored score
+            lastInterpretation = ''; // Reset stored interpretation
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function shareGeneric() {
+            const url = window.location.href;
+            const text = `HSP 자가 테스트 결과: 총점 ${lastTotalScore}점 (${lastInterpretation})`;
+            const title = 'HSP 자가 테스트 결과';
+
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url,
+                }).then(() => {
+                    console.log('Successful share');
+                }).catch((error) => {
+                    console.log('Error sharing', error);
+                });
+            } else {
+                // Fallback for browsers that do not support the Web Share API
+                alert(`이 브라우저에서는 직접 공유를 지원하지 않습니다. 아래 내용을 복사하여 공유해주세요:\n\n${title}\n${text}\n${url}`);
+                // Optional: Copy to clipboard
+                // navigator.clipboard.writeText(`${title}\n${text}\n${url}`).then(() => {
+                //     alert('결과가 클립보드에 복사되었습니다.');
+                // }).catch(err => {
+                //     console.error('Failed to copy: ', err);
+                // });
+            }
+        }
+
+
         submitButton.addEventListener('click', calculateResults);
         restartButton.addEventListener('click', restartTest);
+        shareGenericButton.addEventListener('click', shareGeneric);
+
 
         // 페이지 로드 시 질문 렌더링
         renderQuestions();
