@@ -97,20 +97,6 @@
         .share-button:hover {
              box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
-        .share-facebook {
-            background-color: #1877F2;
-            color: white;
-        }
-        .share-facebook:hover {
-            background-color: #166FE5;
-        }
-        .share-kakaotalk {
-            background-color: #FEE500;
-            color: #191919;
-        }
-        .share-kakaotalk:hover {
-            background-color: #FADA00;
-        }
          .share-generic {
             background-color: #6b7280; /* bg-gray-500 */
             color: white;
@@ -126,8 +112,6 @@
             background-color: #059669; /* bg-emerald-600 */
         }
     </style>
-    <!-- Kakao SDK -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <!-- html2canvas library -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
@@ -179,21 +163,15 @@
             <div id="shareResults" class="mt-8 pt-6 border-t border-gray-200 text-center">
                 <h3 class="text-xl font-semibold text-sky-600 mb-4">결과 공유하기</h3>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <button type="button" id="shareFacebook" class="share-button share-facebook">
-                        Facebook
-                    </button>
-                    <button type="button" id="shareKakaotalk" class="share-button share-kakaotalk">
-                        KakaoTalk
-                    </button>
                      <button type="button" id="downloadImage" class="share-button share-download" style="display: none;">
                         결과 이미지 다운로드
                     </button>
                     <button type="button" id="shareGeneric" class="share-button share-generic">
-                        공유하기
+                        결과 공유하기
                     </button>
                 </div>
                  <p class="text-sm text-gray-500 mt-4">
-                    * 인스타그램은 웹사이트에서 직접 게시물 공유를 지원하지 않습니다. '결과 이미지 다운로드' 버튼을 통해 이미지를 저장하거나, '공유하기' 버튼을 통해 다른 앱으로 링크를 공유해주세요.
+                    * '결과 공유하기' 버튼은 기기/브라우저에 따라 이미지 또는 텍스트/링크를 공유합니다. 직접 이미지를 저장하려면 '결과 이미지 다운로드' 버튼을 사용하세요.
                 </p>
             </div>
         </div>
@@ -259,17 +237,12 @@
         const averageTotalScoreEl = document.getElementById('averageTotalScore');
         const interpretationEl = document.getElementById('interpretation');
         const subscaleResultsEl = document.getElementById('subscaleResults');
-        const shareFacebookButton = document.getElementById('shareFacebook');
-        const shareKakaotalkButton = document.getElementById('shareKakaotalk');
         const shareGenericButton = document.getElementById('shareGeneric');
         const downloadImageButton = document.getElementById('downloadImage'); // New button
 
         let lastTotalScore = 0;
         let lastInterpretation = '';
         let resultImageBlob = null; // To store the generated image blob
-
-        // Initialize Kakao SDK
-        Kakao.init('YOUR_JAVASCRIPT_KEY'); // Replace with your actual Kakao JavaScript Key
 
         function renderQuestions() {
             questions.forEach((q, index) => {
@@ -379,47 +352,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function shareFacebook() {
-            const url = window.location.href;
-            const text = `HSP 자가 테스트 결과: 총점 ${lastTotalScore}점 (${lastInterpretation})`;
-            // Facebook sharer primarily shares links and text
-            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
-            window.open(facebookShareUrl, '_blank', 'width=600,height=400');
-        }
-
-        function shareKakaotalk() {
-             if (!Kakao.isInitialized()) {
-                alert('카카오톡 공유 기능을 초기화할 수 없습니다. 잠시 후 다시 시도해주세요.');
-                return;
-            }
-
-            const url = window.location.href;
-            const text = `HSP 자가 테스트 결과: 총점 ${lastTotalScore}점\n${lastInterpretation}`;
-
-            // KakaoTalk sharing requires a public image URL, cannot use client-side generated blob directly
-            Kakao.Share.sendDefault({
-                objectType: 'feed',
-                content: {
-                    title: 'HSP 자가 테스트 결과',
-                    description: text,
-                    imageUrl: 'YOUR_IMAGE_URL', // Replace with a *public* image URL if you have one, otherwise remove or use a placeholder
-                    link: {
-                        mobileWebUrl: url,
-                        webUrl: url,
-                    },
-                },
-                buttons: [
-                    {
-                        title: '테스트 결과 보기',
-                        link: {
-                            mobileWebUrl: url,
-                            webUrl: url,
-                        },
-                    },
-                ],
-            });
-        }
-
         function downloadResultImage() {
             if (resultImageBlob) {
                 const url = URL.createObjectURL(resultImageBlob);
@@ -449,7 +381,7 @@
                          navigator.share({
                              files: filesArray,
                              title: title,
-                             text: text,
+                             text: text, // Include text summary even with image
                          }).then(() => {
                              console.log('Successful share with image');
                          }).catch((error) => {
@@ -457,34 +389,35 @@
                              // Fallback to text/url share if image sharing fails or is not fully supported
                              navigator.share({
                                  title: title,
-                                 text: text,
+                                 text: `${text}\n\nHSP 자가 테스트 시도하기: ${url}`, // Add link and message in fallback text
                                  url: url,
-                             }).then(() => console.log('Successful share with text/url'))
-                             .catch((error) => console.log('Error sharing text/url', error));
+                             }).then(() => console.log('Successful share with text/url fallback'))
+                             .catch((error) => console.log('Error sharing text/url fallback', error));
                          });
                      } else {
                          // If cannot share files, fallback to text/url
                          navigator.share({
                              title: title,
-                             text: text,
+                             text: `${text}\n\nHSP 자가 테스트 시도하기: ${url}`, // Add link and message in fallback text
                              url: url,
                          }).then(() => console.log('Successful share with text/url (files not supported)'))
                          .catch((error) => console.log('Error sharing text/url', error));
                      }
                 } else {
-                    // If no image blob, just share text/url
-                    navigator.share({
-                        title: title,
-                        text: text,
-                        url: url,
-                    }).then(() => console.log('Successful share with text/url (no image)'))
-                    .catch((error) => console.log('Error sharing text/url', error));
+                    // If no image blob (shouldn't happen after calculateResults, but as a safeguard), just share text/url
+                     navigator.share({
+                         title: title,
+                         text: `${text}\n\nHSP 자가 테스트 시도하기: ${url}`, // Add link and message
+                         url: url,
+                     }).then(() => console.log('Successful share with text/url (no image blob)'))
+                     .catch((error) => console.log('Error sharing text/url', error));
                 }
             } else {
-                // Fallback for browsers that do not support the Web Share API
-                alert(`이 브라우저에서는 직접 공유를 지원하지 않습니다. '결과 이미지 다운로드' 버튼을 사용하거나, 아래 내용을 복사하여 공유해주세요:\n\n${title}\n${text}\n${url}`);
+                // Fallback for browsers that do not support the Web Share API at all
+                const fallbackText = `HSP 자가 테스트 결과: 총점 ${lastTotalScore}점 (${lastInterpretation})\n\nHSP 자가 테스트 시도하기: ${url}\n\n이 브라우저에서는 직접 공유를 지원하지 않습니다. 위 내용을 복사하여 공유하거나 '결과 이미지 다운로드' 버튼을 사용해주세요.`;
+                alert(fallbackText);
                 // Optional: Copy to clipboard
-                // navigator.clipboard.writeText(`${title}\n${text}\n${url}`).then(() => {
+                // navigator.clipboard.writeText(fallbackText).then(() => {
                 //     alert('결과가 클립보드에 복사되었습니다.');
                 // }).catch(err => {
                 //     console.error('Failed to copy: ', err);
@@ -495,8 +428,6 @@
 
         submitButton.addEventListener('click', calculateResults);
         restartButton.addEventListener('click', restartTest);
-        shareFacebookButton.addEventListener('click', shareFacebook);
-        shareKakaotalkButton.addEventListener('click', shareKakaotalk);
         shareGenericButton.addEventListener('click', shareGeneric);
         downloadImageButton.addEventListener('click', downloadResultImage); // New event listener
 
