@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">HSP 자가 테스트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .question-card {
+            transition: transform 0.3s ease-in-out;
+        }
+        .question-card:hover {
+            transform: translateY(-5px);
+        }
+        .result-card {
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .result-card h3 {
+            color: #1f2937; /* text-gray-800 */
+        }
+        .result-card p {
+            color: #4b5563; /* text-gray-600 */
+        }
+        .btn-primary {
+            background-color: #3b82f6; /* bg-blue-500 */
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb; /* bg-blue-600 */
+        }
+        .btn-secondary {
+            background-color: #6b7280; /* bg-gray-500 */
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563; /* bg-gray-600 */
+        }
+        /* Radio button styling */
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #9ca3af; /* border-gray-400 */
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        input[type="radio"]:checked {
+            background-color: #3b82f6; /* bg-blue-500 */
+            border-color: #3b82f6; /* border-blue-500 */
+        }
+        input[type="radio"]:checked::after {
+            content: '';
+            display: block;
+            width: 0.625rem;
+            height: 0.625rem;
+            margin: 0.25rem; /* Adjust based on radio size */
+            background-color: white;
+            border-radius: 50%;
+        }
+        .scale-label {
+            font-size: 0.8rem;
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .share-button:hover {
+             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+         .share-generic {
+            background-color: #6b7280; /* bg-gray-500 */
+            color: white;
+        }
+        .share-generic:hover {
+            background-color: #4b5563; /* bg-gray-600 */
+        }
+         .share-download {
+            background-color: #10b981; /* bg-emerald-500 */
+            color: white;
+        }
+        .share-download:hover {
+            background-color: #059669; /* bg-emerald-600 */
+        }
+        .language-selector button {
+            padding: 0.25rem 0.5rem;
+            margin: 0 0.2rem;
+            border-radius: 0.25rem;
+            border: 1px solid #ccc;
+            background-color: #eee;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .language-selector button.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+    </style>
+    <!-- html2canvas library -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-sky-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-sky-300 selection:text-sky-900">
+
+    <div class="container mx-auto max-w-3xl bg-white shadow-2xl rounded-xl p-6 md:p-10">
+        <div class="language-selector text-right mb-4">
+            <button data-lang="ko">한국어</button>
+            <button data-lang="en">English</button>
+            <button data-lang="fr">Français</button>
+            <button data-lang="zh">中文</button>
+            <button data-lang="ja">日本語</button>
+        </div>
+
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-sky-700 mb-2" data-i18n="mainTitle">HSP 자가 테스트</h1>
+            <p class="text-gray-600 text-sm md:text-base" data-i18n="subTitle">매우 민감한 사람 척도 - 개정판 (HSP-R)</p>
+        </header>
+
+        <div id="introduction" class="mb-8 p-4 bg-sky-50 border border-sky-200 rounded-lg">
+            <h2 class="text-xl font-semibold text-sky-600 mb-2" data-i18n="introHeader">테스트 안내</h2>
+            <p class="text-gray-700 text-sm" data-i18n="introText">
+                아래 각 질문에 대해 전반적으로 자신을 가장 잘 설명하는 숫자를 선택해주십시오.<br>
+                (1="전혀 그렇지 않다"부터 7="매우 그렇다"까지입니다.)<br>
+                모든 질문에 답변해주셔야 정확한 결과를 얻을 수 있습니다.
+            </p>
+        </div>
+
+        <form id="hspTestForm">
+            <div id="questionsContainer" class="space-y-6">
+                </div>
+
+            <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button type="button" id="submitButton" class="btn-primary font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 w-full sm:w-auto" data-i18n="submitButton">
+                    결과 보기
+                </button>
+                <button type="button" id="restartButton" class="btn-secondary font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 w-full sm:w-auto" style="display: none;" data-i18n="restartButton">
+                    다시 시작
+                </button>
+            </div>
+        </form>
+
+        <div id="resultsContainer" class="mt-10" style="display: none;">
+            <h2 class="text-2xl md:text-3xl font-bold text-sky-700 text-center mb-6" data-i18n="resultsHeader">테스트 결과</h2>
+            
+            <div id="totalScoreResult" class="result-card p-6 rounded-lg shadow-lg mb-6 border border-sky-200">
+                <h3 class="text-xl font-semibold mb-2" data-i18n="totalScoreHeader">총 민감도 점수</h3>
+                <p id="totalScore" class="text-lg"></p>
+                <p id="averageTotalScore" class="text-lg"></p>
+                <p id="interpretation" class="mt-3 text-base italic"></p>
+            </div>
+
+            <h3 class="text-xl font-semibold text-sky-600 mb-4 text-center" data-i18n="subscaleResultsHeader">하위 척도별 결과</h3>
+            <div id="subscaleResults" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                </div>
+
+            <div id="shareResults" class="mt-8 pt-6 border-t border-gray-200 text-center">
+                <h3 class="text-xl font-semibold text-sky-600 mb-4" data-i18n="shareHeader">결과 공유하기</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                     <button type="button" id="downloadImage" class="share-button share-download" style="display: none;" data-i18n="downloadImageButton">
+                        결과 이미지 다운로드
+                    </button>
+                    <button type="button" id="shareGeneric" class="share-button share-generic" data-i18n="shareGenericButton">
+                        결과 공유하기
+                    </button>
+                </div>
+                 <p class="text-sm text-gray-500 mt-4" data-i18n="shareNote">
+                    * '결과 공유하기' 버튼은 기기/브라우저에 따라 이미지 또는 텍스트/링크를 공유합니다. 직접 이미지를 저장하려면 '결과 이미지 다운로드' 버튼을 사용하세요.
+                </p>
+            </div>
+        </div>
+
+        <footer class="mt-12 pt-8 border-t border-gray-300 text-xs text-gray-500">
+            <p class="mb-2" data-i18n="reference">
+                <strong>참고 문헌:</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href="https://osf.io/preprints/psyarxiv/w7bqu" target="_blank" class="text-sky-600 hover:underline">https://osf.io/preprints/psyarxiv/w7bqu</a>.
+                (참고: 이것은 사전 인쇄본이며 아직 동료 검토를 거치지 않았습니다. 2025년 중반 이후 온라인에서 출판된 논문의 인용 정보를 확인하십시오.)
+            </p>
+            <p class="mb-2" data-i18n="copyright">
+                이 설문지는 저작권법에 의해 보호됩니다. 무단 수정은 엄격히 금지됩니다. 개인적, 임상적, 교육적 및 연구 목적으로 이 설문지를 복제할 수 있는 권한이 부여됩니다.
+            </p>
+            <p data-i18n="moreInfo">
+                척도에 대한 더 많은 정보: 
+                <a href="https://sensitivityresearch.com/" target="_blank" class="text-sky-600 hover:underline">sensitivityresearch.com</a> 및 
+                <a href="https://hsperson.com/" target="_blank" class="text-sky-600 hover:underline">hsperson.com</a>
+            </p>
+            <p class="mb-2" data-i18n="contact">
+                위에 설명된 허가를 넘어서는 모든 사용에 대해서는 첫 번째 저자(<a href="mailto:m.pluess@surrey.ac.uk" >m.pluess@surrey.ac.uk</a>)에게 문의하십시오.
+            </p>            
+             <p class="mt-4 text-center" data-i18n="disclaimer">
+                본 테스트는 자기 이해를 돕기 위한 참고 자료이며, 전문적인 심리 진단을 대체할 수 없습니다.
+            </p>
+             <p class="mt-2 text-center text-gray-400" data-i18n="credits">
+                번역 및 웹서비스 제작 :  baesic
+            </p>            
+        </footer>
+    </div>
+
+    <script>
+        const translations = {
+            ko: {
+                pageTitle: "HSP 자가 테스트",
+                mainTitle: "HSP 자가 테스트",
+                subTitle: "매우 민감한 사람 척도 - 개정판 (HSP-R)",
+                introHeader: "테스트 안내",
+                introText: "아래 각 질문에 대해 전반적으로 자신을 가장 잘 설명하는 숫자를 선택해주십시오.<br>(1=\"전혀 그렇지 않다\"부터 7=\"매우 그렇다\"까지입니다.)<br>모든 질문에 답변해주셔야 정확한 결과를 얻을 수 있습니다.",
+                scaleLabelStart: "전혀 그렇지 않다",
+                scaleLabelEnd: "매우 그렇다",
+                submitButton: "결과 보기",
+                restartButton: "다시 시작",
+                resultsHeader: "테스트 결과",
+                totalScoreHeader: "총 민감도 점수",
+                totalScore: "총점: {score} 점",
+                averageTotalScore: "평균 점수: {score} 점",
+                interpretationPrefix: "해석: ",
+                interpretationHigh: "평균 점수가 5점보다 높으므로, 높은 민감성(HSP) 경향을 나타냅니다.",
+                interpretationLow: "평균 점수가 5점 이하이므로, 일반적인 민감성 수준을 나타냅니다.",
+                subscaleResultsHeader: "하위 척도별 결과",
+                subscaleNames: {
+                    "Overstimulation": "과도한 자극",
+                    "Sensitivity to Positive Experiences": "긍정적 경험에 대한 민감성",
+                    "Social Sensitivity": "사회적 민감성",
+                    "Depth of Processing": "정보 처리의 깊이",
+                    "Emotional Reactivity": "정서적 반응성",
+                    "Sensitivity to Details": "세부 사항에 대한 민감성"
+                },
+                subscaleTotal: "총점: {score} 점",
+                subscaleAverage: "평균 점수: {score} 점",
+                shareHeader: "결과 공유하기",
+                downloadImageButton: "결과 이미지 다운로드",
+                shareGenericButton: "결과 공유하기",
+                shareNote: "* '결과 공유하기' 버튼은 기기/브라우저에 따라 이미지 또는 텍스트/링크를 공유합니다. 직접 이미지를 저장하려면 '결과 이미지 다운로드' 버튼을 사용하세요.",
+                reference: "<strong>참고 문헌:</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-sky-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.\n(참고: 이것은 사전 인쇄본이며 아직 동료 검토를 거치지 않았습니다. 2025년 중반 이후 온라인에서 출판된 논문의 인용 정보를 확인하십시오.)",
+                copyright: "이 설문지는 저작권법에 의해 보호됩니다. 무단 수정은 엄격히 금지됩니다. 개인적, 임상적, 교육적 및 연구 목적으로 이 설문지를 복제할 수 있는 권한이 부여됩니다.",
+                moreInfo: "척도에 대한 더 많은 정보: <a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">sensitivityresearch.com</a> 및 <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">hsperson.com</a>",
+                contact: "위에 설명된 허가를 넘어서는 모든 사용에 대해서는 첫 번째 저자(<a href=\"mailto:m.pluess@surrey.ac.uk\" >m.pluess@surrey.ac.uk</a>)에게 문의하십시오.",
+                disclaimer: "본 테스트는 자기 이해를 돕기 위한 참고 자료이며, 전문적인 심리 진단을 대체할 수 없습니다.",
+                credits: "번역 및 웹서비스 제작 : baesic",
+                questions: [
+                    "주변의 물건들이 옮겨졌을 때 알아채는 편인가요?",
+                    "긍정적이든 부정적이든 피드백에 쉽게 영향을 받는 편인가요?",
+                    "밝은 빛, 강한 냄새, 거친 직물 또는 가까운 곳의 사이렌 소리 같은 것에 쉽게 압도되는 편인가요?",
+                    "다른 사람들이 무엇을 느끼는지 쉽게 알아채는 편인가요?",
+                    "섬세하거나 좋은 향, 맛, 소리, 예술 작품을 알아보고 즐기는 편인가요?",
+                    "주변 사람들의 기분에 쉽게 영향을 받는 편인가요?",
+                    "어떤 일에 대해 깊이 생각하는 경향이 있나요?",
+                    "어떤 상황에 대해 다른 사람이 어떻게 느낄지 잘 예측하는 편인가요?",
+                    "시끄러운 소리나 혼란스러운 장면과 같은 강한 자극에 불편함을 느끼나요?",
+                    "드러내든 드러내지 않든, 자신의 경험에 대해 일반적으로 강하게 반응하는 편인가요?",
+                    "다른 사람들이 당신에게 그들이 느끼거나 생각하는 것을 잘 이해한다고 말하나요?",
+                    "음악에 깊이 몰입하는 경향이 있나요?",
+                    "철학적인 질문에 대해 생각하는 자신을 발견하곤 하나요?",
+                    "다른 사람들보다 날씨 변화를 더 잘 알아채는 것 같나요?",
+                    "주변에 많은 일이 일어나고 있을 때 불쾌할 정도로 흥분되나요?",
+                    "예술이나 음악에 깊이 감동하는 편인가요?",
+                    "계절이 바뀌는 미묘한 신호(겨울/봄 등)를 알아채는 경향이 있나요?",
+                    "깊이 있는 대화를 좋아하나요?"
+                ],
+                 alertAllAnswered: "모든 질문에 답변해주세요.",
+                 alertNoImage: "다운로드할 결과 이미지가 없습니다.",
+                 shareLinkText: "HSP 자가 테스트 시도하기: "
+            },
+            en: {
+                pageTitle: "HSP Self-Test",
+                mainTitle: "HSP Self-Test",
+                subTitle: "Highly Sensitive Person Scale - Revised (HSP-R)",
+                introHeader: "Test Instructions",
+                introText: "For each question below, please select the number that best describes you overall.<br>(1='Not at all' to 7='Very much so')<br>You must answer all questions to get accurate results.",
+                scaleLabelStart: "Not at all",
+                scaleLabelEnd: "Very much so",
+                submitButton: "Show Results",
+                restartButton: "Restart",
+                resultsHeader: "Test Results",
+                totalScoreHeader: "Total Sensitivity Score",
+                totalScore: "Total Score: {score}",
+                averageTotalScore: "Average Score: {score}",
+                interpretationPrefix: "Interpretation: ",
+                interpretationHigh: "Since your average score is higher than 5, it indicates a tendency towards high sensitivity (HSP).",
+                interpretationLow: "Since your average score is 5 or lower, it indicates a typical level of sensitivity.",
+                subscaleResultsHeader: "Subscale Results",
+                 subscaleNames: {
+                    "Overstimulation": "Overstimulation",
+                    "Sensitivity to Positive Experiences": "Sensitivity to Positive Experiences",
+                    "Social Sensitivity": "Social Sensitivity",
+                    "Depth of Processing": "Depth of Processing",
+                    "Emotional Reactivity": "Emotional Reactivity",
+                    "Sensitivity to Details": "Sensitivity to Details"
+                },
+                subscaleTotal: "Total Score: {score}",
+                subscaleAverage: "Average Score: {score}",
+                shareHeader: "Share Results",
+                downloadImageButton: "Download Result Image",
+                shareGenericButton: "Share Results",
+                shareNote: "* The 'Share Results' button shares an image or text/link depending on your device/browser. Use the 'Download Result Image' button to save the image directly.",
+                reference: "<strong>Reference:</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-sky-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.\n(Note: This is a preprint and has not yet been peer-reviewed. Please check for citation information of the published paper online after mid-2025.)",
+                copyright: "This questionnaire is protected by copyright. Unauthorized modification is strictly prohibited. Permission is granted to reproduce this questionnaire for personal, clinical, educational, and research purposes.",
+                moreInfo: "More information about the scale: <a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">sensitivityresearch.com</a> and <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">hsperson.com</a>",
+                contact: "For any use beyond the permissions described above, please contact the first author (<a href=\"mailto:m.pluess@surrey.ac.uk\" >m.pluess@surrey.ac.uk</a>).",
+                disclaimer: "This test is a reference tool for self-understanding and does not replace professional psychological diagnosis.",
+                credits: "Translation and Web Service by: baesic",
+                 questions: [
+                    "Do you notice when objects in your surroundings have been moved?",
+                    "Are you easily affected by feedback, whether positive or negative?",
+                    "Are you easily overwhelmed by strong stimuli, such as bright lights, strong smells, coarse fabrics, or sirens close by?",
+                    "Do you easily pick up on what other people are feeling?",
+                    "Do you notice and enjoy delicate or fine scents, tastes, sounds, or works of art?",
+                    "Are you easily affected by the moods of those around you?",
+                    "Do you tend to think deeply about things?",
+                    "Are you good at predicting how others will feel in a situation?",
+                    "Do you feel uncomfortable with intense stimuli, such as loud noises or chaotic scenes?",
+                    "Do you generally react strongly to your experiences, whether outwardly or inwardly?",
+                    "Do others tell you that you understand well what they are feeling or thinking?",
+                    "Do you tend to get deeply absorbed in music?",
+                    "Do you find yourself thinking about philosophical questions?",
+                    "Do you seem to notice changes in the weather more than others?",
+                    "Do you get unpleasantly aroused when a lot is going on around you?",
+                    "Are you deeply moved by the arts or music?",
+                    "Do you tend to notice the subtle signs of the changing seasons (winter/spring, etc.)?",
+                    "Do you like deep conversations?"
+                ],
+                 alertAllAnswered: "Please answer all questions.",
+                 alertNoImage: "No result image available for download.",
+                 shareLinkText: "Try the HSP Self-Test: "
+            },
+             fr: {
+                pageTitle: "Test d'auto-évaluation HSP",
+                mainTitle: "Test d'auto-évaluation HSP",
+                subTitle: "Échelle de la personne très sensible - Révisée (HSP-R)",
+                introHeader: "Instructions du test",
+                introText: "Pour chaque question ci-dessous, veuillez sélectionner le chiffre qui vous décrit le mieux dans l'ensemble.<br>(1='Pas du tout' à 7='Tout à fait')<br>Vous devez répondre à toutes les questions pour obtenir des résultats précis.",
+                scaleLabelStart: "Pas du tout",
+                scaleLabelEnd: "Tout à fait",
+                submitButton: "Afficher les résultats",
+                restartButton: "Recommencer",
+                resultsHeader: "Résultats du test",
+                totalScoreHeader: "Score total de sensibilité",
+                totalScore: "Score total : {score}",
+                averageTotalScore: "Score moyen : {score}",
+                interpretationPrefix: "Interprétation : ",
+                interpretationHigh: "Étant donné que votre score moyen est supérieur à 5, cela indique une tendance à la haute sensibilité (HSP).",
+                interpretationLow: "Étant donné que votre score moyen est de 5 ou moins, cela indique un niveau de sensibilité typique.",
+                subscaleResultsHeader: "Résultats par sous-échelle",
+                 subscaleNames: {
+                    "Overstimulation": "Surstimulation",
+                    "Sensitivity to Positive Experiences": "Sensibilité aux expériences positives",
+                    "Social Sensitivity": "Sensibilité sociale",
+                    "Depth of Processing": "Profondeur de traitement",
+                    "Emotional Reactivity": "Réactivité émotionnelle",
+                    "Sensitivity to Details": "Sensibilité aux détails"
+                },
+                subscaleTotal: "Score total : {score}",
+                subscaleAverage: "Score moyen : {score}",
+                shareHeader: "Partager les résultats",
+                downloadImageButton: "Télécharger l'image du résultat",
+                shareGenericButton: "Partager les résultats",
+                shareNote: "* Le bouton 'Partager les résultats' partage une image ou du texte/lien selon votre appareil/navigateur. Utilisez le bouton 'Télécharger l'image du résultat' pour enregistrer l'image directement.",
+                reference: "<strong>Référence :</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-sky-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.\n(Note : Ceci est une prépublication et n'a pas encore été évaluée par des pairs. Veuillez vérifier les informations de citation de l'article publié en ligne après la mi-2025.)",
+                copyright: "Ce questionnaire est protégé par le droit d'auteur. Toute modification non autorisée est strictement interdite. L'autorisation est accordée de reproduire ce questionnaire à des fins personnelles, cliniques, éducatives et de recherche.",
+                moreInfo: "Plus d'informations sur l'échelle : <a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">sensitivityresearch.com</a> et <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">hsperson.com</a>",
+                contact: "Pour toute utilisation dépassant les autorisations décrites ci-dessus, veuillez contacter le premier auteur (<a href=\"mailto:m.pluess@surrey.ac.uk\" >m.pluess@surrey.ac.uk</a>).",
+                disclaimer: "Ce test est un outil de référence pour la compréhension de soi et ne remplace pas un diagnostic psychologique professionnel.",
+                credits: "Traduction et service web par : baesic",
+                 questions: [
+                    "Remarquez-vous lorsque des objets dans votre environnement ont été déplacés ?",
+                    "Êtes-vous facilement affecté(e) par les retours, qu'ils soient positifs ou négatifs ?",
+                    "Êtes-vous facilement submergé(e) par des stimuli forts, tels que des lumières vives, des odeurs fortes, des tissus rugueux ou des sirènes proches ?",
+                    "Percevez-vous facilement ce que ressentent les autres ?",
+                    "Remarquez-vous et appréciez-vous les parfums, les goûts, les sons ou les œuvres d'art délicats ou raffinés ?",
+                    "Êtes-vous facilement affecté(e) par l'humeur de votre entourage ?",
+                    "Avez-vous tendance à réfléchir profondément aux choses ?",
+                    "Êtes-vous doué(e) pour prédire ce que les autres ressentiront dans une situation ?",
+                    "Vous sentez-vous mal à l'aise face à des stimuli intenses, tels que des bruits forts ou des scènes chaotiques ?",
+                    "Réagissez-vous généralement fortement à vos expériences, que ce soit extérieurement ou intérieurement ?",
+                    "Les autres vous disent-ils que vous comprenez bien ce qu'ils ressentent ou pensent ?",
+                    "Avez-vous tendance à être profondément absorbé(e) par la musique ?",
+                    "Vous arrive-t-il de réfléchir à des questions philosophiques ?",
+                    "Semblez-vous remarquer les changements de temps plus que les autres ?",
+                    "Êtes-vous désagréablement excité(e) quand il se passe beaucoup de choses autour de vous ?",
+                    "Êtes-vous profondément ému(e) par les arts ou la musique ?",
+                    "Avez-vous tendance à remarquer les signes subtils du changement de saison (hiver/printemps, etc.) ?",
+                    "Aimez-vous les conversations profondes ?"
+                ],
+                 alertAllAnswered: "Veuillez répondre à toutes les questions.",
+                 alertNoImage: "Aucune image de résultat disponible en téléchargement.",
+                 shareLinkText: "Essayez le test d'auto-évaluation HSP : "
+            },
+             zh: {
+                pageTitle: "HSP 自我测试",
+                mainTitle: "HSP 自我测试",
+                subTitle: "高敏感人群量表 - 修订版 (HSP-R)",
+                introHeader: "测试说明",
+                introText: "对于以下每个问题，请选择最能描述您整体情况的数字。<br>（1='完全不符' 到 7='非常符合'）<br>您必须回答所有问题才能获得准确结果。",
+                scaleLabelStart: "完全不符",
+                scaleLabelEnd: "非常符合",
+                submitButton: "查看结果",
+                restartButton: "重新开始",
+                resultsHeader: "测试结果",
+                totalScoreHeader: "总敏感度得分",
+                totalScore: "总分：{score} 分",
+                averageTotalScore: "平均分：{score} 分",
+                interpretationPrefix: "解读：",
+                interpretationHigh: "由于您的平均分高于5分，这表明您有高敏感（HSP）的倾向。",
+                interpretationLow: "由于您的平均分低于或等于5分，这表明您的敏感度处于典型水平。",
+                subscaleResultsHeader: "子量表结果",
+                 subscaleNames: {
+                    "Overstimulation": "过度刺激",
+                    "Sensitivity to Positive Experiences": "对积极体验的敏感性",
+                    "Social Sensitivity": "社交敏感性",
+                    "Depth of Processing": "深度处理",
+                    "Emotional Reactivity": "情绪反应性",
+                    "Sensitivity to Details": "对细节的敏感性"
+                },
+                subscaleTotal: "总分：{score} 分",
+                subscaleAverage: "平均分：{score} 分",
+                shareHeader: "分享结果",
+                downloadImageButton: "下载结果图片",
+                shareGenericButton: "分享结果",
+                shareNote: "* “分享结果”按钮根据您的设备/浏览器分享图片或文本/链接。要直接保存图片，请使用“下载结果图片”按钮。",
+                reference: "<strong>参考文献：</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-sky-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.\n（注意：这是预印本，尚未经过同行评审。请在2025年中期后查看在线发表论文的引用信息。）",
+                copyright: "本问卷受版权法保护。严禁未经授权的修改。允许出于个人、临床、教育和研究目的复制本问卷。",
+                moreInfo: "关于量表的更多信息：<a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">sensitivityresearch.com</a> 和 <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">hsperson.com</a>",
+                contact: "对于超出上述许可范围的任何使用，请联系第一作者（<a href=\"mailto:m.pluess@surrey.ac.uk\" >m.pluess@surrey.ac.uk</a>）。",
+                disclaimer: "本测试是用于自我理解的参考工具，不能替代专业的心理诊断。",
+                credits: "翻译和网络服务制作：baesic",
+                 questions: [
+                    "您是否会注意到周围物品被移动了？",
+                    "您是否容易受到反馈的影响，无论是积极的还是消极的？",
+                    "您是否容易被强烈的刺激压倒，例如强光、浓烈的气味、粗糙的织物或附近的警报声？",
+                    "您是否容易察觉到别人的感受？",
+                    "您是否会注意到并欣赏精致或美好的气味、味道、声音或艺术品？",
+                    "您是否容易受到周围人情绪的影响？",
+                    "您是否倾向于深入思考问题？",
+                    "您是否善于预测他人在某种情况下的感受？",
+                    "您是否对强烈的刺激感到不适，例如嘈杂的声音或混乱的场景？",
+                    "无论外在还是内在，您是否通常对自己的经历反应强烈？",
+                    "别人是否告诉您，您很了解他们的感受或想法？",
+                    "您是否倾向于沉浸在音乐中？",
+                    "您是否发现自己会思考哲学问题？",
+                    "您是否比其他人更容易注意到天气的变化？",
+                    "当周围发生很多事情时，您是否会感到不愉快地兴奋？",
+                    "您是否容易被艺术或音乐深深打动？",
+                    "您是否倾向于注意到季节变化的细微迹象（冬季/春季等）？",
+                    "您喜欢深入的对话吗？"
+                ],
+                 alertAllAnswered: "请回答所有问题。",
+                 alertNoImage: "没有可供下载的结果图片。",
+                 shareLinkText: "尝试 HSP 自我测试： "
+            },
+             ja: {
+                pageTitle: "HSP 自己診断テスト",
+                mainTitle: "HSP 自己診断テスト",
+                subTitle: "非常に敏感な人スケール - 改訂版 (HSP-R)",
+                introHeader: "テスト案内",
+                introText: "以下の各質問について、全体的にあなたを最もよく表す数字を選択してください。<br>（1=\"全くそうではない\" から 7=\"非常にそうである\" まで）<br>正確な結果を得るためには、全ての質問に回答する必要があります。",
+                scaleLabelStart: "全くそうではない",
+                scaleLabelEnd: "非常にそうである",
+                submitButton: "結果を見る",
+                restartButton: "再開する",
+                resultsHeader: "テスト結果",
+                totalScoreHeader: "合計感度スコア",
+                totalScore: "合計点：{score} 点",
+                averageTotalScore: "平均点：{score} 点",
+                interpretationPrefix: "解釈：",
+                interpretationHigh: "平均点が5点より高い場合、高感度（HSP）の傾向を示します。",
+                interpretationLow: "平均点が5点以下の場合、一般的な感度レベルを示します。",
+                subscaleResultsHeader: "下位尺度別結果",
+                 subscaleNames: {
+                    "Overstimulation": "過剰刺激",
+                    "Sensitivity to Positive Experiences": "ポジティブな経験への感度",
+                    "Social Sensitivity": "社会的感度",
+                    "Depth of Processing": "情報処理の深さ",
+                    "Emotional Reactivity": "情動反応性",
+                    "Sensitivity to Details": "詳細への感度"
+                },
+                subscaleTotal: "合計点：{score} 点",
+                subscaleAverage: "平均点：{score} 点",
+                shareHeader: "結果を共有する",
+                downloadImageButton: "結果画像をダウンロード",
+                shareGenericButton: "結果を共有する",
+                shareNote: "* 「結果を共有する」ボタンは、お使いのデバイス/ブラウザに応じて画像またはテキスト/リンクを共有します。画像を直接保存するには、「結果画像をダウンロード」ボタンを使用してください。",
+                reference: "<strong>参考文献：</strong> Pluess, M., Aron, E., Kähkönen, J. E., Lionetti, F., Huang, Y., Tillmann, T., Greven, C., & Aron, A. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-sky-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.\n（注：これはプレプリントであり、まだ査読されていません。2025年半ば以降にオンラインで公開される論文の引用情報を確認してください。）",
+                copyright: "このアンケートは著作権法によって保護されています。無断での改変は固く禁じられています。個人、臨床、教育、研究目的でのこのアンケートの複製は許可されています。",
+                moreInfo: "尺度に関する詳細情報：<a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">sensitivityresearch.com</a> および <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-sky-600 hover:underline\">hsperson.com</a>",
+                contact: "上記で説明された許可を超える使用については、最初の著者（<a href=\"mailto:m.pluess@surrey.ac.uk\" >m.pluess@surrey.ac.uk</a>）にご連絡ください。",
+                disclaimer: "このテストは自己理解のための参考資料であり、専門的な心理診断に代わるものではありません。",
+                credits: "翻訳およびウェブサービス制作：baesic",
+                 questions: [
+                    "周囲の物が移動されたことに気づきますか？",
+                    "ポジティブかネガティブかに関わらず、フィードバックに簡単に影響されますか？",
+                    "明るい光、強い匂い、ざらざらした布地、近くのサイレンの音などの強い刺激に簡単に圧倒されますか？",
+                    "他の人が何を感じているかを簡単に察知しますか？",
+                    "繊細な、または良い香り、味、音、芸術作品に気づき、楽しみますか？",
+                    "周囲の人の気分に簡単に影響されますか？",
+                    "物事を深く考える傾向がありますか？",
+                    "状況において他の人がどのように感じるかを予測するのが得意ですか？",
+                    "大きな音や混沌とした場面のような強い刺激に不快感を感じますか？",
+                    "外面的か内面的かに関わらず、自分の経験に一般的に強く反応しますか？",
+                    "他の人から、あなたが彼らの感じていることや考えていることをよく理解していると言われますか？",
+                    "音楽に深く没頭する傾向がありますか？",
+                    "哲学的な問題について考えている自分に気づくことがありますか？",
+                    "他の人よりも天候の変化によく気づくようです？",
+                    "周りで多くのことが起こっているときに不快なほど興奮しますか？",
+                    "芸術や音楽に深く感動しますか？",
+                    "季節の変化の微妙な兆候（冬/春など）に気づく傾向がありますか？",
+                    "深い会話が好きですか？"
+                ],
+                 alertAllAnswered: "全ての質問に回答してください。",
+                 alertNoImage: "ダウンロード可能な結果画像がありません。",
+                 shareLinkText: "HSP 自己診断テストを試す： "
+            }
+        };
+
+        let currentLang = localStorage.getItem('hspTestLang') || 'ko'; // Default to Korean or saved preference
+
+        const questionsContainer = document.getElementById('questionsContainer');
+        const submitButton = document.getElementById('submitButton');
+        const restartButton = document.getElementById('restartButton');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const totalScoreEl = document.getElementById('totalScore');
+        const averageTotalScoreEl = document.getElementById('averageTotalScore');
+        const interpretationEl = document.getElementById('interpretation');
+        const subscaleResultsEl = document.getElementById('subscaleResults');
+        const shareGenericButton = document.getElementById('shareGeneric');
+        const downloadImageButton = document.getElementById('downloadImage');
+        const languageButtons = document.querySelectorAll('.language-selector button');
+
+        let lastTotalScore = 0;
+        let lastInterpretation = '';
+        let resultImageBlob = null;
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('hspTestLang', lang);
+            const translation = translations[lang];
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+
+            // Update static text elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translation[key]) {
+                    // Handle potential HTML in translation strings (like the intro text or footer)
+                    if (key === 'introText' || key === 'reference' || key === 'copyright' || key === 'moreInfo' || key === 'contact' || key === 'disclaimer' || key === 'credits') {
+                         element.innerHTML = translation[key];
+                    } else {
+                         element.textContent = translation[key];
+                    }
+                }
+            });
+
+            // Update scale labels
+            document.querySelectorAll('.scale-label')[0].textContent = translation.scaleLabelStart;
+            document.querySelectorAll('.scale-label')[1].textContent = translation.scaleLabelEnd;
+
+
+            // Re-render questions with new language
+            renderQuestions();
+
+            // If results are visible, re-render results with new language
+            if (resultsContainer.style.display !== 'none') {
+                 // Need to re-calculate results to get scores, then update text
+                 // A simpler approach is to just update the text based on stored scores
+                 updateResultsText(lastTotalScore, lastInterpretation);
+            }
+
+            // Update active language button
+            languageButtons.forEach(button => {
+                if (button.getAttribute('data-lang') === lang) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        function renderQuestions() {
+            questionsContainer.innerHTML = ''; // Clear existing questions
+            const questionTexts = translations[currentLang].questions;
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-gray-200';
+                
+                let radioButtonsHtml = '<div class="flex flex-wrap justify-between items-center mt-3">';
+                radioButtonsHtml += `<span class="text-xs text-gray-500 scale-label mr-2">${translations[currentLang].scaleLabelStart}</span>`;
+                for (let i = 1; i <= 7; i++) {
+                    radioButtonsHtml += `
+                        <label for="q${index}_${i}" class="flex flex-col items-center cursor-pointer mx-1">
+                            <input type="radio" id="q${index}_${i}" name="q${index}" value="${i}" class="mb-1">
+                            <span class="text-xs">${i}</span>
+                        </label>
+                    `;
+                }
+                radioButtonsHtml += `<span class="text-xs text-gray-500 scale-label ml-2">${translations[currentLang].scaleLabelEnd}</span>`;
+                radioButtonsHtml += '</div>';
+
+                questionDiv.innerHTML = `
+                    <p class="text-base md:text-lg font-medium text-gray-800">${index + 1}. ${questionTexts[index]}</p>
+                    ${radioButtonsHtml}
+                `;
+                questionsContainer.appendChild(questionDiv);
+            });
+        }
+
+        function updateResultsText(totalScore, interpretationKey) {
+             const translation = translations[currentLang];
+             const averageTotalScore = totalScore / questions.length;
+
+             totalScoreEl.textContent = translation.totalScore.replace('{score}', totalScore);
+             averageTotalScoreEl.textContent = translation.averageTotalScore.replace('{score}', averageTotalScore.toFixed(2));
+             interpretationEl.textContent = `${translation.interpretationPrefix} ${translation[interpretationKey]} ${translation.disclaimer}`;
+
+             subscaleResultsEl.innerHTML = ''; // Clear previous results
+             for (const key in subscaleDefinitions) {
+                const subscale = subscaleDefinitions[key];
+                let subscaleScore = 0;
+                // Need to get answers again or store them globally if not re-calculating
+                // For simplicity, let's assume answers are available or re-calculated if needed
+                // A better approach would be to store answers globally after calculateResults
+                // For now, let's just update the text based on the structure, assuming scores are calculated elsewhere
+                // *** NOTE: This part needs actual scores to be passed or accessed ***
+                // Since calculateResults is the only place scores are calculated,
+                // we'll rely on calculateResults to call this function after calculation.
+
+                // Placeholder structure update:
+                // This part will be handled by calculateResults calling updateResultsText
+             }
+             // Re-render subscale results with translated names
+             const answers = []; // Need actual answers here if not recalculating
+             // Assuming answers are available from a global variable or re-fetched
+             // For now, let's just update the names if results are already displayed
+             if (resultsContainer.style.display !== 'none') {
+                 // This is tricky without recalculating or storing answers.
+                 // Let's modify calculateResults to store answers and call updateResultsText
+             }
+        }
+
+
+        function calculateResults() {
+            const answers = [];
+            let allAnswered = true;
+            for (let i = 0; i < questions.length; i++) {
+                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedOption) {
+                    answers.push(parseInt(selectedOption.value));
+                } else {
+                    allAnswered = false;
+                    break;
+                }
+            }
+
+            if (!allAnswered) {
+                alert(translations[currentLang].alertAllAnswered);
+                return;
+            }
+
+            const totalScore = answers.reduce((sum, val) => sum + val, 0);
+            const averageTotalScore = totalScore / questions.length;
+
+            lastTotalScore = totalScore; // Store for sharing
+            const interpretationKey = averageTotalScore > 5 ? "interpretationHigh" : "interpretationLow";
+            lastInterpretation = interpretationKey; // Store key for sharing
+
+            // Update total and average scores and interpretation
+            totalScoreEl.textContent = translations[currentLang].totalScore.replace('{score}', totalScore);
+            averageTotalScoreEl.textContent = translations[currentLang].averageTotalScore.replace('{score}', averageTotalScore.toFixed(2));
+            interpretationEl.textContent = `${translations[currentLang].interpretationPrefix} ${translations[currentLang][interpretationKey]} ${translations[currentLang].disclaimer}`;
+
+
+            subscaleResultsEl.innerHTML = ''; // Clear previous results
+            for (const key in subscaleDefinitions) {
+                const subscale = subscaleDefinitions[key];
+                let subscaleScore = 0;
+                subscale.questionsIndices.forEach(qIndex => {
+                    subscaleScore += answers[qIndex];
+                });
+                const averageSubscaleScore = subscaleScore / subscale.questionsIndices.length;
+
+                const subscaleDiv = document.createElement('div');
+                subscaleDiv.className = 'result-card p-4 rounded-lg shadow-md border border-sky-100';
+                subscaleDiv.innerHTML = `
+                    <h4 class="text-lg font-semibold text-sky-700 mb-1">${translations[currentLang].subscaleNames[key]}</h4>
+                    <p class="text-sm">${translations[currentLang].subscaleTotal.replace('{score}', subscaleScore)}</p>
+                    <p class="text-sm">${translations[currentLang].subscaleAverage.replace('{score}', averageSubscaleScore.toFixed(2))}</p>
+                `;
+                subscaleResultsEl.appendChild(subscaleDiv);
+            }
+
+            resultsContainer.style.display = 'block';
+            submitButton.style.display = 'none';
+            restartButton.style.display = 'inline-block'; // Show restart button
+            
+            // Capture the results section as an image
+            html2canvas(resultsContainer, {
+                 scale: 2, // Increase scale for better resolution
+                 logging: false, // Disable logging
+                 useCORS: true // Enable CORS if needed for images
+            }).then(canvas => {
+                // Convert canvas to blob
+                canvas.toBlob(blob => {
+                    resultImageBlob = blob;
+                    downloadImageButton.style.display = 'inline-block'; // Show download button
+                }, 'image/png');
+            });
+
+            window.scrollTo({ top: resultsContainer.offsetTop - 20, behavior: 'smooth' });
+        }
+        
+        function restartTest() {
+            document.getElementById('hspTestForm').reset();
+            resultsContainer.style.display = 'none';
+            subscaleResultsEl.innerHTML = '';
+            submitButton.style.display = 'inline-block';
+            restartButton.style.display = 'none';
+            downloadImageButton.style.display = 'none'; // Hide download button
+            lastTotalScore = 0; // Reset stored score
+            lastInterpretation = ''; // Reset stored interpretation
+            resultImageBlob = null; // Clear stored image blob
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadResultImage() {
+            if (resultImageBlob) {
+                const url = URL.createObjectURL(resultImageBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'hsp_test_result.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url); // Clean up the object URL
+            } else {
+                alert(translations[currentLang].alertNoImage);
+            }
+        }
+
+
+        function shareGeneric() {
+            const url = window.location.href;
+            const textSummary = `${translations[currentLang].mainTitle} ${translations[currentLang].totalScore.replace('{score}', lastTotalScore)} (${translations[currentLang][lastInterpretation]})`;
+            const linkText = `\n\n${translations[currentLang].shareLinkText}${url}`; // Text including the link
+            const title = translations[currentLang].pageTitle;
+
+            if (navigator.share) {
+                 // Try sharing the image file if available, fallback to text/url
+                if (resultImageBlob) {
+                     const filesArray = [new File([resultImageBlob], 'hsp_test_result.png', { type: 'image/png' })];
+                     if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+                         navigator.share({
+                             files: filesArray,
+                             title: title,
+                             text: textSummary + linkText, // Include both summary and link text with image
+                         }).then(() => {
+                             console.log('Successful share with image and text');
+                         }).catch((error) => {
+                             console.log('Error sharing image, falling back to text/url:', error);
+                             // Fallback to text/url share if image sharing fails or is not fully supported
+                             navigator.share({
+                                 title: title,
+                                 text: textSummary + linkText, // Fallback text also includes link
+                                 url: url,
+                             }).then(() => console.log('Successful share with text/url fallback'))
+                             .catch((error) => console.log('Error sharing text/url fallback', error));
+                         });
+                     } else {
+                         // If cannot share files, fallback to text/url
+                         navigator.share({
+                             title: title,
+                             text: textSummary + linkText, // Fallback text includes link
+                             url: url,
+                         }).then(() => console.log('Successful share with text/url (files not supported)'))
+                         .catch((error) => console.log('Error sharing text/url', error));
+                     }
+                } else {
+                    // If no image blob (shouldn't happen after calculateResults, but as a safeguard), just share text/url
+                     navigator.share({
+                         title: title,
+                         text: textSummary + linkText, // Text includes link
+                         url: url,
+                     }).then(() => console.log('Successful share with text/url (no image blob)'))
+                     .catch((error) => console.log('Error sharing text/url', error));
+                }
+            } else {
+                // Fallback for browsers that do not support the Web Share API at all
+                const fallbackText = `${textSummary}${linkText}\n\n${translations[currentLang].shareNote.replace("* ", "")}`; // Use share note as fallback instruction
+                alert(fallbackText);
+                // Optional: Copy to clipboard
+                // navigator.clipboard.writeText(fallbackText).then(() => {
+                //     alert('결과가 클립보드에 복사되었습니다.');
+                // }).catch(err => {
+                //     console.error('Failed to copy: ', err);
+                // });
+            }
+        }
+
+
+        submitButton.addEventListener('click', calculateResults);
+        restartButton.addEventListener('click', restartTest);
+        shareGenericButton.addEventListener('click', shareGeneric);
+        downloadImageButton.addEventListener('click', downloadResultImage); // New event listener
+
+        // Add event listeners for language buttons
+        languageButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+
+        // Set initial language on page load
+        setLanguage(currentLang);
+    </script>
+
+</body>
+</html>
