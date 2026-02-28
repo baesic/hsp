@@ -285,6 +285,8 @@
                 ],
                  alertAllAnswered: "모든 질문에 답변해주세요.",
                  alertNoImage: "다운로드할 결과 이미지가 없습니다.",
+                 alertCopied: "결과가 클립보드에 복사되었습니다!",
+                 alertCopyManual: "아래 텍스트를 복사해주세요:",
                  shareLinkText: "HSP 자가 테스트 시도하기: "
             },
             en: {
@@ -347,6 +349,8 @@
                 ],
                  alertAllAnswered: "Please answer all questions.",
                  alertNoImage: "No result image available for download.",
+                 alertCopied: "Results copied to clipboard!",
+                 alertCopyManual: "Copy the text below:",
                  shareLinkText: "Try the HSP Self-Test: "
             },
              fr: {
@@ -409,6 +413,8 @@
                 ],
                  alertAllAnswered: "Veuillez répondre à toutes les questions.",
                  alertNoImage: "Aucune image de résultat disponible en téléchargement.",
+                 alertCopied: "Résultats copiés dans le presse-papiers !",
+                 alertCopyManual: "Copiez le texte ci-dessous :",
                  shareLinkText: "Essayez le test d'auto-évaluation HSP : "
             },
              zh: {
@@ -471,6 +477,8 @@
                 ],
                  alertAllAnswered: "请回答所有问题。",
                  alertNoImage: "没有可供下载的结果图片。",
+                 alertCopied: "结果已复制到剪贴板！",
+                 alertCopyManual: "请复制以下文字：",
                  shareLinkText: "尝试 HSP 自我测试： "
             },
              ja: {
@@ -533,11 +541,29 @@
                 ],
                  alertAllAnswered: "全ての質問に回答してください。",
                  alertNoImage: "ダウンロード可能な結果画像がありません。",
+                 alertCopied: "結果がクリップボードにコピーされました！",
+                 alertCopyManual: "以下のテキストをコピーしてください：",
                  shareLinkText: "HSP 自己診断テストを試す： "
             }
         };
 
-        let currentLang = localStorage.getItem('hspTestLang') || 'ko'; // Default to Korean or saved preference
+        const subscaleDefinitions = {
+            "Overstimulation": { questionsIndices: [2, 8, 14] }, 
+            "Sensitivity to Positive Experiences": { questionsIndices: [4, 11, 15] }, 
+            "Social Sensitivity": { questionsIndices: [3, 7, 10] }, 
+            "Depth of Processing": { questionsIndices: [6, 12, 17] }, 
+            "Emotional Reactivity": { questionsIndices: [1, 5, 9] }, 
+            "Sensitivity to Details": { questionsIndices: [0, 13, 16] } 
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlLang = urlParams.get('lang');
+        if (!urlLang && window.location.hash) {
+            const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
+            if (hashMatch) urlLang = hashMatch[1];
+        }
+        let currentLang = urlLang || localStorage.getItem('hspTestLang') || 'ko'; 
+        if (!translations[currentLang]) currentLang = 'ko';
 
         const questionsContainer = document.getElementById('questionsContainer');
         const submitButton = document.getElementById('submitButton');
@@ -553,11 +579,18 @@
 
         let lastTotalScore = 0;
         let lastInterpretation = '';
+        let lastAnswers = [];
         let resultImageBlob = null;
 
         function setLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('hspTestLang', lang);
+            
+            // Update URL to reflect current language for easy manual sharing
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', lang);
+            window.history.replaceState({}, '', newUrl);
+
             const translation = translations[lang];
 
             // Update HTML lang attribute
@@ -576,12 +609,7 @@
                 }
             });
 
-            // Update scale labels
-            document.querySelectorAll('.scale-label')[0].textContent = translation.scaleLabelStart;
-            document.querySelectorAll('.scale-label')[1].textContent = translation.scaleLabelEnd;
-
-
-            // Re-render questions with new language
+            // Re-render questions with new language (scale labels are embedded by renderQuestions)
             renderQuestions();
 
             // If results are visible, re-render results with new language
@@ -605,7 +633,7 @@
             questionsContainer.innerHTML = ''; // Clear existing questions
             const questionTexts = translations[currentLang].questions;
 
-            questions.forEach((q, index) => {
+            questionTexts.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-gray-200';
                 
@@ -632,34 +660,32 @@
 
         function updateResultsText(totalScore, interpretationKey) {
              const translation = translations[currentLang];
-             const averageTotalScore = totalScore / questions.length;
+             const questionsLength = translation.questions.length;
+             const averageTotalScore = totalScore / questionsLength;
 
              totalScoreEl.textContent = translation.totalScore.replace('{score}', totalScore);
              averageTotalScoreEl.textContent = translation.averageTotalScore.replace('{score}', averageTotalScore.toFixed(2));
              interpretationEl.textContent = `${translation.interpretationPrefix} ${translation[interpretationKey]} ${translation.disclaimer}`;
 
+             if (lastAnswers.length === 0) return; // Wait until calculateResults provides answers
+
              subscaleResultsEl.innerHTML = ''; // Clear previous results
              for (const key in subscaleDefinitions) {
                 const subscale = subscaleDefinitions[key];
                 let subscaleScore = 0;
-                // Need to get answers again or store them globally if not re-calculating
-                // For simplicity, let's assume answers are available or re-calculated if needed
-                // A better approach would be to store answers globally after calculateResults
-                // For now, let's just update the text based on the structure, assuming scores are calculated elsewhere
-                // *** NOTE: This part needs actual scores to be passed or accessed ***
-                // Since calculateResults is the only place scores are calculated,
-                // we'll rely on calculateResults to call this function after calculation.
+                subscale.questionsIndices.forEach(qIndex => {
+                    subscaleScore += lastAnswers[qIndex];
+                });
+                const averageSubscaleScore = subscaleScore / subscale.questionsIndices.length;
 
-                // Placeholder structure update:
-                // This part will be handled by calculateResults calling updateResultsText
-             }
-             // Re-render subscale results with translated names
-             const answers = []; // Need actual answers here if not recalculating
-             // Assuming answers are available from a global variable or re-fetched
-             // For now, let's just update the names if results are already displayed
-             if (resultsContainer.style.display !== 'none') {
-                 // This is tricky without recalculating or storing answers.
-                 // Let's modify calculateResults to store answers and call updateResultsText
+                const subscaleDiv = document.createElement('div');
+                subscaleDiv.className = 'result-card p-4 rounded-lg shadow-md border border-sky-100';
+                subscaleDiv.innerHTML = `
+                    <h4 class="text-lg font-semibold text-sky-700 mb-1">${translation.subscaleNames[key]}</h4>
+                    <p class="text-sm">${translation.subscaleTotal.replace('{score}', subscaleScore)}</p>
+                    <p class="text-sm">${translation.subscaleAverage.replace('{score}', averageSubscaleScore.toFixed(2))}</p>
+                `;
+                subscaleResultsEl.appendChild(subscaleDiv);
              }
         }
 
@@ -667,7 +693,8 @@
         function calculateResults() {
             const answers = [];
             let allAnswered = true;
-            for (let i = 0; i < questions.length; i++) {
+            const questionLength = translations[currentLang].questions.length;
+            for (let i = 0; i < questionLength; i++) {
                 const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
                 if (selectedOption) {
                     answers.push(parseInt(selectedOption.value));
@@ -683,52 +710,36 @@
             }
 
             const totalScore = answers.reduce((sum, val) => sum + val, 0);
-            const averageTotalScore = totalScore / questions.length;
+            const averageTotalScore = totalScore / questionLength;
 
             lastTotalScore = totalScore; // Store for sharing
+            lastAnswers = answers; // STORE
             const interpretationKey = averageTotalScore > 5 ? "interpretationHigh" : "interpretationLow";
             lastInterpretation = interpretationKey; // Store key for sharing
 
-            // Update total and average scores and interpretation
-            totalScoreEl.textContent = translations[currentLang].totalScore.replace('{score}', totalScore);
-            averageTotalScoreEl.textContent = translations[currentLang].averageTotalScore.replace('{score}', averageTotalScore.toFixed(2));
-            interpretationEl.textContent = `${translations[currentLang].interpretationPrefix} ${translations[currentLang][interpretationKey]} ${translations[currentLang].disclaimer}`;
-
-
-            subscaleResultsEl.innerHTML = ''; // Clear previous results
-            for (const key in subscaleDefinitions) {
-                const subscale = subscaleDefinitions[key];
-                let subscaleScore = 0;
-                subscale.questionsIndices.forEach(qIndex => {
-                    subscaleScore += answers[qIndex];
-                });
-                const averageSubscaleScore = subscaleScore / subscale.questionsIndices.length;
-
-                const subscaleDiv = document.createElement('div');
-                subscaleDiv.className = 'result-card p-4 rounded-lg shadow-md border border-sky-100';
-                subscaleDiv.innerHTML = `
-                    <h4 class="text-lg font-semibold text-sky-700 mb-1">${translations[currentLang].subscaleNames[key]}</h4>
-                    <p class="text-sm">${translations[currentLang].subscaleTotal.replace('{score}', subscaleScore)}</p>
-                    <p class="text-sm">${translations[currentLang].subscaleAverage.replace('{score}', averageSubscaleScore.toFixed(2))}</p>
-                `;
-                subscaleResultsEl.appendChild(subscaleDiv);
-            }
+            // Use the refactored text updating function
+            updateResultsText(totalScore, interpretationKey);
 
             resultsContainer.style.display = 'block';
             submitButton.style.display = 'none';
             restartButton.style.display = 'inline-block'; // Show restart button
             
-            // Capture the results section as an image
+            // Capture the results section as an image (hide share buttons during capture)
+            const shareSection = document.getElementById('shareResults');
+            if (shareSection) shareSection.style.display = 'none';
             html2canvas(resultsContainer, {
                  scale: 2, // Increase scale for better resolution
                  logging: false, // Disable logging
                  useCORS: true // Enable CORS if needed for images
             }).then(canvas => {
+                if (shareSection) shareSection.style.display = '';
                 // Convert canvas to blob
                 canvas.toBlob(blob => {
                     resultImageBlob = blob;
                     downloadImageButton.style.display = 'inline-block'; // Show download button
                 }, 'image/png');
+            }).catch(() => {
+                if (shareSection) shareSection.style.display = '';
             });
 
             window.scrollTo({ top: resultsContainer.offsetTop - 20, behavior: 'smooth' });
@@ -743,6 +754,7 @@
             downloadImageButton.style.display = 'none'; // Hide download button
             lastTotalScore = 0; // Reset stored score
             lastInterpretation = ''; // Reset stored interpretation
+            lastAnswers = []; // Reset answers
             resultImageBlob = null; // Clear stored image blob
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -764,7 +776,8 @@
 
 
         function shareGeneric() {
-            const url = window.location.href;
+            const baseUrl = window.location.href.split('?')[0].split('#')[0];
+            const url = `${baseUrl}?lang=${currentLang}`;
             const textSummary = `${translations[currentLang].mainTitle} ${translations[currentLang].totalScore.replace('{score}', lastTotalScore)} (${translations[currentLang][lastInterpretation]})`;
             const linkText = `\n\n${translations[currentLang].shareLinkText}${url}`; // Text including the link
             const title = translations[currentLang].pageTitle;
@@ -810,14 +823,16 @@
                 }
             } else {
                 // Fallback for browsers that do not support the Web Share API at all
-                const fallbackText = `${textSummary}${linkText}\n\n${translations[currentLang].shareNote.replace("* ", "")}`; // Use share note as fallback instruction
-                alert(fallbackText);
-                // Optional: Copy to clipboard
-                // navigator.clipboard.writeText(fallbackText).then(() => {
-                //     alert('결과가 클립보드에 복사되었습니다.');
-                // }).catch(err => {
-                //     console.error('Failed to copy: ', err);
-                // });
+                const fallbackText = `${textSummary}${linkText}`;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(fallbackText).then(() => {
+                        alert(translations[currentLang].alertCopied || 'Copied to clipboard!');
+                    }).catch(() => {
+                        prompt(translations[currentLang].alertCopyManual || 'Copy the text below:', fallbackText);
+                    });
+                } else {
+                    prompt(translations[currentLang].alertCopyManual || 'Copy the text below:', fallbackText);
+                }
             }
         }
 
