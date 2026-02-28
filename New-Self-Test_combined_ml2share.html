@@ -69,6 +69,17 @@
         .hsp-result-card { border-left: 4px solid #3b82f6; }
         .adhd-result-card { border-left: 4px solid #8b5cf6; }
         .combined-card { border-left: 4px solid #6366f1; background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); }
+        .mbti-card { border-left: 4px solid #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fff7ed 100%); }
+        .mbti-type-code { font-size: 2.5rem; font-weight: 900; letter-spacing: 0.15em; background: linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .mbti-dim-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; }
+        .mbti-dim-label { font-size: 0.85rem; font-weight: 800; min-width: 1.5rem; text-align: center; }
+        .mbti-dim-label.active { color: #f59e0b; }
+        .mbti-dim-label.inactive { color: #d1d5db; }
+        .mbti-dim-track { flex: 1; height: 1.4rem; background: #e5e7eb; border-radius: 0.7rem; overflow: hidden; position: relative; }
+        .mbti-dim-fill { height: 100%; border-radius: 0.7rem; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: white; transition: width 0.6s ease; }
+        .mbti-dim-fill.left-win { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .mbti-dim-fill.right-win { background: linear-gradient(270deg, #f59e0b, #fbbf24); margin-left: auto; }
+        .mbti-dim-desc { font-size: 0.7rem; color: #6b7280; margin-top: 0.1rem; text-align: center; }
     </style>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
@@ -150,6 +161,18 @@
             </div>
             <h4 class="text-lg font-semibold text-purple-600 mb-3 text-center" data-i18n="adhdSubscaleHeader">ADHD 하위 척도</h4>
             <div id="adhdSubscaleResults" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+
+            <!-- MBTI Estimated Results -->
+            <div id="mbtiSection" class="mbti-card result-card p-6 rounded-lg shadow-lg mb-6 border border-amber-200 mt-8">
+                <h3 class="text-xl font-bold text-amber-700 mb-1" data-i18n="mbtiHeader">🧩 MBTI 성격유형 추정</h3>
+                <p class="text-xs text-gray-500 mb-4" data-i18n="mbtiSubtitle"></p>
+                <div class="text-center my-4">
+                    <span id="mbtiTypeCode" class="mbti-type-code"></span>
+                    <p id="mbtiTypeName" class="text-lg font-semibold text-gray-700 mt-1"></p>
+                </div>
+                <div id="mbtiDimBars" class="my-4 px-2"></div>
+                <p id="mbtiNoteText" class="text-xs text-gray-500 mt-4 italic text-center" data-i18n="mbtiNote"></p>
+            </div>
 
             <div id="shareResults" class="mt-8 pt-6 border-t border-gray-200 text-center">
                 <h3 class="text-xl font-semibold text-indigo-600 mb-4" data-i18n="shareHeader">결과 공유하기</h3>
@@ -292,7 +315,27 @@
                 alertNoImage: "다운로드할 결과 이미지가 없습니다.",
                 alertCopied: "결과가 클립보드에 복사되었습니다!",
                 alertCopyManual: "아래 텍스트를 복사해주세요:",
-                shareLinkText: "HSP & ADHD 융합 자가 테스트 시도하기: "
+                shareLinkText: "HSP & ADHD 융합 자가 테스트 시도하기: ",
+                mbtiHeader: "🧩 MBTI 성격유형 추정",
+                mbtiSubtitle: "HSP·ADHD 응답 패턴 기반 추정 분석",
+                mbtiNote: "※ 이 결과는 HSP·ADHD 응답 패턴을 기반으로 MBTI 차원을 추정한 것이며, 공인된 MBTI 검사를 대체하지 않습니다.",
+                mbtiDimNames: ["외향(E) ↔ 내향(I)", "감각(S) ↔ 직관(N)", "사고(T) ↔ 감정(F)", "판단(J) ↔ 인식(P)"],
+                mbtiLetterDesc: {
+                    E: "외부 활동·사람들로부터 에너지를 얻는 경향",
+                    I: "내면의 세계·조용한 환경에서 에너지를 충전하는 경향",
+                    S: "구체적이고 현실적인 정보에 집중하는 경향",
+                    N: "추상적 개념과 가능성을 탐구하는 경향",
+                    T: "논리와 객관적 분석을 통해 판단하는 경향",
+                    F: "가치와 감정을 고려하여 판단하는 경향",
+                    J: "계획적이고 체계적으로 생활하는 경향",
+                    P: "유연하고 즉흥적으로 대응하는 경향"
+                },
+                mbtiTypes: {
+                    ISTJ: "청렴결백한 논리주의자", ISFJ: "용감한 수호자", INFJ: "선의의 옹호자", INTJ: "용의주도한 전략가",
+                    ISTP: "만능 재주꾼", ISFP: "호기심 많은 예술가", INFP: "열정적인 중재자", INTP: "논리적인 사색가",
+                    ESTP: "모험을 즐기는 사업가", ESFP: "자유로운 영혼의 연예인", ENFP: "재기발랄한 활동가", ENTP: "뜨거운 논쟁을 즐기는 변론가",
+                    ESTJ: "엄격한 관리자", ESFJ: "사교적인 외교관", ENFJ: "정의로운 사회운동가", ENTJ: "대담한 통솔자"
+                }
             },
             en: {
                 pageTitle: "HSP & High-Functioning ADHD Combined Self-Test",
@@ -406,7 +449,27 @@
                 alertNoImage: "No result image available.",
                 alertCopied: "Results copied to clipboard!",
                 alertCopyManual: "Copy the text below:",
-                shareLinkText: "Try the HSP & ADHD Combined Self-Test: "
+                shareLinkText: "Try the HSP & ADHD Combined Self-Test: ",
+                mbtiHeader: "🧩 Estimated MBTI Personality Type",
+                mbtiSubtitle: "Inferred from HSP & ADHD response patterns",
+                mbtiNote: "※ This result estimates MBTI dimensions based on HSP/ADHD response patterns and does not replace an official MBTI assessment.",
+                mbtiDimNames: ["Extraversion(E) ↔ Introversion(I)", "Sensing(S) ↔ Intuition(N)", "Thinking(T) ↔ Feeling(F)", "Judging(J) ↔ Perceiving(P)"],
+                mbtiLetterDesc: {
+                    E: "Energized by external activities and people",
+                    I: "Energized by inner reflection and quiet environments",
+                    S: "Focuses on concrete, practical information",
+                    N: "Explores abstract concepts and possibilities",
+                    T: "Decides based on logic and objective analysis",
+                    F: "Decides based on values and emotions",
+                    J: "Prefers planned and organized lifestyle",
+                    P: "Prefers flexible and spontaneous approach"
+                },
+                mbtiTypes: {
+                    ISTJ: "The Inspector", ISFJ: "The Protector", INFJ: "The Advocate", INTJ: "The Architect",
+                    ISTP: "The Virtuoso", ISFP: "The Adventurer", INFP: "The Mediator", INTP: "The Logician",
+                    ESTP: "The Entrepreneur", ESFP: "The Entertainer", ENFP: "The Campaigner", ENTP: "The Debater",
+                    ESTJ: "The Executive", ESFJ: "The Consul", ENFJ: "The Protagonist", ENTJ: "The Commander"
+                }
             },
             fr: {
                 pageTitle: "Test combiné HSP & TDAH de haut niveau",
@@ -520,7 +583,27 @@
                 alertNoImage: "Aucune image disponible.",
                 alertCopied: "Résultats copiés !",
                 alertCopyManual: "Copiez le texte ci-dessous :",
-                shareLinkText: "Essayez le test combiné HSP & TDAH : "
+                shareLinkText: "Essayez le test combiné HSP & TDAH : ",
+                mbtiHeader: "🧩 Type MBTI estimé",
+                mbtiSubtitle: "Analyse estimée basée sur les réponses HSP et TDAH",
+                mbtiNote: "※ Ce résultat estime les dimensions MBTI à partir des réponses HSP/TDAH et ne remplace pas un test MBTI officiel.",
+                mbtiDimNames: ["Extraversion(E) ↔ Introversion(I)", "Sensation(S) ↔ Intuition(N)", "Pensée(T) ↔ Sentiment(F)", "Jugement(J) ↔ Perception(P)"],
+                mbtiLetterDesc: {
+                    E: "Énergisé par les activités extérieures et les gens",
+                    I: "Énergisé par la réflexion intérieure et le calme",
+                    S: "Se concentre sur les informations concrètes et pratiques",
+                    N: "Explore les concepts abstraits et les possibilités",
+                    T: "Décide par la logique et l'analyse objective",
+                    F: "Décide selon les valeurs et les émotions",
+                    J: "Préfère un mode de vie planifié et organisé",
+                    P: "Préfère une approche flexible et spontanée"
+                },
+                mbtiTypes: {
+                    ISTJ: "L'Inspecteur", ISFJ: "Le Protecteur", INFJ: "L'Avocat", INTJ: "L'Architecte",
+                    ISTP: "Le Virtuose", ISFP: "L'Aventurier", INFP: "Le Médiateur", INTP: "Le Logicien",
+                    ESTP: "L'Entrepreneur", ESFP: "L'Amuseur", ENFP: "Le Militant", ENTP: "Le Débatteur",
+                    ESTJ: "L'Exécutif", ESFJ: "Le Consul", ENFJ: "Le Protagoniste", ENTJ: "Le Commandant"
+                }
             },
             zh: {
                 pageTitle: "HSP与高功能ADHD融合自测",
@@ -613,7 +696,27 @@
                 alertNoImage: "没有可下载的结果图片。",
                 alertCopied: "结果已复制到剪贴板！",
                 alertCopyManual: "请复制以下文字：",
-                shareLinkText: "尝试HSP与ADHD融合自测："
+                shareLinkText: "尝试HSP与ADHD融合自测：",
+                mbtiHeader: "🧩 MBTI性格类型推测",
+                mbtiSubtitle: "基于HSP和ADHD回答模式的推测分析",
+                mbtiNote: "※ 此结果基于HSP/ADHD回答模式推测MBTI维度，不能替代正式MBTI测试。",
+                mbtiDimNames: ["外向(E) ↔ 内向(I)", "感觉(S) ↔ 直觉(N)", "思维(T) ↔ 情感(F)", "判断(J) ↔ 知觉(P)"],
+                mbtiLetterDesc: {
+                    E: "从外部活动和人际交往中获取能量",
+                    I: "从内心世界和安静环境中补充能量",
+                    S: "关注具体、现实的信息",
+                    N: "探索抽象概念和可能性",
+                    T: "通过逻辑和客观分析做出判断",
+                    F: "考虑价值观和情感做出判断",
+                    J: "倾向于有计划和系统化的生活方式",
+                    P: "倾向于灵活和随机应变的方式"
+                },
+                mbtiTypes: {
+                    ISTJ: "检查员", ISFJ: "守护者", INFJ: "提倡者", INTJ: "建筑师",
+                    ISTP: "鉴赏家", ISFP: "探险家", INFP: "调停者", INTP: "逻辑学家",
+                    ESTP: "企业家", ESFP: "表演者", ENFP: "竞选者", ENTP: "辩论家",
+                    ESTJ: "总经理", ESFJ: "执政官", ENFJ: "主人公", ENTJ: "指挥官"
+                }
             },
             ja: {
                 pageTitle: "HSP＆高機能ADHD統合自己テスト",
@@ -706,7 +809,27 @@
                 alertNoImage: "ダウンロード可能な結果画像がありません。",
                 alertCopied: "結果がクリップボードにコピーされました！",
                 alertCopyManual: "以下のテキストをコピーしてください：",
-                shareLinkText: "HSP＆ADHD統合自己テストを試す："
+                shareLinkText: "HSP＆ADHD統合自己テストを試す：",
+                mbtiHeader: "🧩 MBTI性格タイプの推定",
+                mbtiSubtitle: "HSP・ADHDの回答パターンに基づく推定分析",
+                mbtiNote: "※ この結果はHSP・ADHDの回答パターンからMBTI次元を推定したもので、公式MBTIテストの代わりにはなりません。",
+                mbtiDimNames: ["外向(E) ↔ 内向(I)", "感覚(S) ↔ 直観(N)", "思考(T) ↔ 感情(F)", "判断(J) ↔ 知覚(P)"],
+                mbtiLetterDesc: {
+                    E: "外部の活動や人々からエネルギーを得る傾向",
+                    I: "内面の世界や静かな環境でエネルギーを充電する傾向",
+                    S: "具体的で現実的な情報に集中する傾向",
+                    N: "抽象的な概念や可能性を探求する傾向",
+                    T: "論理と客観的分析で判断する傾向",
+                    F: "価値観と感情を考慮して判断する傾向",
+                    J: "計画的で体系的な生活を好む傾向",
+                    P: "柔軟で即興的に対応する傾向"
+                },
+                mbtiTypes: {
+                    ISTJ: "管理者", ISFJ: "擁護者", INFJ: "提唱者", INTJ: "建築家",
+                    ISTP: "巨匠", ISFP: "冒険家", INFP: "仲介者", INTP: "論理学者",
+                    ESTP: "起業家", ESFP: "エンターテイナー", ENFP: "広報運動家", ENTP: "討論者",
+                    ESTJ: "幹部", ESFJ: "領事官", ENFJ: "主人公", ENTJ: "指揮官"
+                }
             }
         };
 
@@ -755,6 +878,7 @@
         let lastScreenerCount = 0;
         let lastHspIsHigh = false;
         let lastAdhdPositive = false;
+        let lastMbtiResult = null;
         let resultImageBlob = null;
 
         const htmlKeys = ['introText', 'hspSectionTitle', 'adhdSectionTitle',
@@ -786,6 +910,7 @@
 
             if (resultsContainer.style.display !== 'none') {
                 updateResultsText();
+                renderMBTI();
             }
 
             languageButtons.forEach(btn => {
@@ -906,6 +1031,86 @@
             }
         }
 
+        function calculateMBTI(hspA, adhdA) {
+            function arrAvg(answers, indices) {
+                return indices.reduce(function(s, i) { return s + answers[i]; }, 0) / indices.length;
+            }
+            // E/I: HSP overstimulation(Q3,Q9,Q15) -> I; ADHD hyperactivity(Q5,Q6,Q12,Q13,Q15,Q16,Q18) -> E
+            var iRaw = (arrAvg(hspA, [2, 8, 14]) - 1) / 6;
+            var eRaw = arrAvg(adhdA, [4, 5, 11, 12, 14, 15, 17]) / 4;
+            var eiSum = eRaw + iRaw + 0.001;
+            var ePct = Math.round((eRaw / eiSum) * 100);
+            var iPct = 100 - ePct;
+
+            // S/N: HSP detail(Q1,Q14,Q17) -> S; HSP depth/abstract(Q7,Q13,Q16,Q18) -> N
+            var sRaw = (arrAvg(hspA, [0, 13, 16]) - 1) / 6;
+            var nRaw = (arrAvg(hspA, [6, 12, 15, 17]) - 1) / 6;
+            var snSum = sRaw + nRaw + 0.001;
+            var sPct = Math.round((sRaw / snSum) * 100);
+            var nPct = 100 - sPct;
+
+            // T/F: HSP emotional/social(Q2,Q4,Q6,Q8,Q10,Q11) -> F; inverse -> T
+            var fRaw = (arrAvg(hspA, [1, 3, 5, 7, 9, 10]) - 1) / 6;
+            var tRaw = Math.max(0, 1 - fRaw);
+            var tfSum = tRaw + fRaw + 0.001;
+            var tPct = Math.round((tRaw / tfSum) * 100);
+            var fPct = 100 - tPct;
+
+            // J/P: ADHD inattention(Q1,Q2,Q3,Q4,Q7,Q8,Q10) -> P; inverse -> J
+            var pRaw = arrAvg(adhdA, [0, 1, 2, 3, 6, 7, 9]) / 4;
+            var jRaw = Math.max(0, 1 - pRaw);
+            var jpSum = jRaw + pRaw + 0.001;
+            var jPct = Math.round((jRaw / jpSum) * 100);
+            var pPct = 100 - jPct;
+
+            var typeCode = (ePct > iPct ? 'E' : 'I') +
+                           (sPct > nPct ? 'S' : 'N') +
+                           (tPct > fPct ? 'T' : 'F') +
+                           (jPct > pPct ? 'J' : 'P');
+
+            return {
+                type: typeCode,
+                dims: [
+                    { left: 'E', right: 'I', leftPct: ePct, rightPct: iPct },
+                    { left: 'S', right: 'N', leftPct: sPct, rightPct: nPct },
+                    { left: 'T', right: 'F', leftPct: tPct, rightPct: fPct },
+                    { left: 'J', right: 'P', leftPct: jPct, rightPct: pPct }
+                ]
+            };
+        }
+
+        function renderMBTI() {
+            var t = translations[currentLang];
+            if (!lastMbtiResult) return;
+            document.getElementById('mbtiTypeCode').textContent = lastMbtiResult.type;
+            document.getElementById('mbtiTypeName').textContent = t.mbtiTypes[lastMbtiResult.type] || '';
+            var barsEl = document.getElementById('mbtiDimBars');
+            barsEl.innerHTML = '';
+            lastMbtiResult.dims.forEach(function(dim, idx) {
+                var winner = dim.leftPct >= dim.rightPct ? dim.left : dim.right;
+                var winPct = Math.max(dim.leftPct, dim.rightPct);
+                var leftActive = dim.leftPct >= dim.rightPct;
+                var row = document.createElement('div');
+                row.className = 'mb-3';
+                var dimLabel = t.mbtiDimNames[idx];
+                var winDesc = t.mbtiLetterDesc[winner];
+                var barHtml = '<div class="mbti-dim-row">';
+                barHtml += '<span class="mbti-dim-label ' + (leftActive ? 'active' : 'inactive') + '">' + dim.left + '</span>';
+                barHtml += '<div class="mbti-dim-track">';
+                if (leftActive) {
+                    barHtml += '<div class="mbti-dim-fill left-win" style="width:' + dim.leftPct + '%">' + dim.leftPct + '%</div>';
+                } else {
+                    barHtml += '<div class="mbti-dim-fill right-win" style="width:' + dim.rightPct + '%">' + dim.rightPct + '%</div>';
+                }
+                barHtml += '</div>';
+                barHtml += '<span class="mbti-dim-label ' + (!leftActive ? 'active' : 'inactive') + '">' + dim.right + '</span>';
+                barHtml += '</div>';
+                barHtml += '<div class="mbti-dim-desc">' + dimLabel + ' — ' + winDesc + '</div>';
+                row.innerHTML = barHtml;
+                barsEl.appendChild(row);
+            });
+        }
+
         function calculateResults() {
             // Collect HSP answers
             const hspAnswers = [];
@@ -934,8 +1139,10 @@
             }
             lastScreenerCount = screenerCount;
             lastAdhdPositive = screenerCount >= 4;
+            lastMbtiResult = calculateMBTI(hspAnswers, adhdAnswers);
 
             updateResultsText();
+            renderMBTI();
 
             resultsContainer.style.display = 'block';
             submitButton.style.display = 'none';
@@ -967,7 +1174,10 @@
             lastHspAnswers = []; lastAdhdAnswers = [];
             lastHspTotal = 0; lastAdhdTotal = 0;
             lastScreenerCount = 0; lastHspIsHigh = false; lastAdhdPositive = false;
-            resultImageBlob = null;
+            lastMbtiResult = null; resultImageBlob = null;
+            document.getElementById('mbtiDimBars').innerHTML = '';
+            document.getElementById('mbtiTypeCode').textContent = '';
+            document.getElementById('mbtiTypeName').textContent = '';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -991,7 +1201,8 @@
             const url = `${baseUrl}?lang=${currentLang}`;
             const t = translations[currentLang];
             const hspAvg = (lastHspTotal / 18).toFixed(2);
-            const textSummary = `${t.mainTitle}\nHSP: ${lastHspTotal}/126 (avg ${hspAvg}) | ADHD Screener: ${lastScreenerCount}/6`;
+            const mbtiText = lastMbtiResult ? ' | MBTI: ' + lastMbtiResult.type : '';
+            const textSummary = `${t.mainTitle}\nHSP: ${lastHspTotal}/126 (avg ${hspAvg}) | ADHD Screener: ${lastScreenerCount}/6${mbtiText}`;
             const linkText = `\n\n${t.shareLinkText}${url}`;
             const title = t.pageTitle;
 
