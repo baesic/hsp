@@ -1,6 +1,18 @@
 # hsp
 HSP & High-Functioning ADHD Self-Test Suite
 
+## 🚀 바로 테스트 하기 (Run Test)
+
+원하는 언어를 클릭하여 바로 웹에서 **HSP & 고기능 ADHD 융합 자가 테스트**를 진행해보세요!  
+(Click your preferred language below to start the combined test immediately)
+
+* � **[테스트 기본 페이지 (Default - 한국어/다국어)](https://baesic.github.io/hsp/)**
+* 🇰🇷 **[한국어 (Korean) 테스트 하기](https://baesic.github.io/hsp/?lang=ko)**
+* 🇺🇸 **[English (영어) 테스트 하기](https://baesic.github.io/hsp/?lang=en)**
+* 🇫🇷 **[Français (프랑스어) 테스트 하기](https://baesic.github.io/hsp/?lang=fr)**
+* 🇨🇳 **[中文 (중국어) 테스트 하기](https://baesic.github.io/hsp/?lang=zh)**
+* 🇯🇵 **[日本語 (일본어) 테스트 하기](https://baesic.github.io/hsp/?lang=ja)**
+
 ---
 
 ## 🌟 주요 기능 (Key Features)
