@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">HSP & 고기능 ADHD 융합 자가 테스트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .question-card { transition: transform 0.3s ease-in-out; }
+        .question-card:hover { transform: translateY(-5px); }
+        .result-card { background-color: #f9fafb; }
+        .result-card h3, .result-card h4 { color: #1f2937; }
+        .result-card p { color: #4b5563; }
+        .btn-primary { background-color: #6366f1; color: white; transition: background-color 0.3s; }
+        .btn-primary:hover { background-color: #4f46e5; }
+        .btn-secondary { background-color: #6b7280; color: white; transition: background-color 0.3s; }
+        .btn-secondary:hover { background-color: #4b5563; }
+        input[type="radio"] {
+            appearance: none; -webkit-appearance: none;
+            width: 1.25rem; height: 1.25rem;
+            border: 2px solid #9ca3af; border-radius: 50%;
+            outline: none; cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        input[type="radio"]:checked { background-color: #6366f1; border-color: #6366f1; }
+        input[type="radio"]:checked::after {
+            content: ''; display: block;
+            width: 0.625rem; height: 0.625rem; margin: 0.25rem;
+            background-color: white; border-radius: 50%;
+        }
+        .scale-label { font-size: 0.75rem; }
+        .share-button {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.75rem 1.5rem; font-weight: 600; border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s, box-shadow 0.3s; cursor: pointer;
+        }
+        .share-button:hover { box-shadow: 0 6px 8px rgba(0,0,0,0.15); }
+        .share-generic { background-color: #6b7280; color: white; }
+        .share-generic:hover { background-color: #4b5563; }
+        .share-download { background-color: #10b981; color: white; }
+        .share-download:hover { background-color: #059669; }
+        .language-selector button {
+            padding: 0.25rem 0.5rem; margin: 0 0.2rem; border-radius: 0.25rem;
+            border: 1px solid #ccc; background-color: #eee; cursor: pointer; font-size: 0.8rem;
+        }
+        .language-selector button.active { background-color: #6366f1; color: white; border-color: #6366f1; }
+        .section-divider {
+            border-top: 3px dashed #d1d5db; margin: 2rem 0; padding-top: 1.5rem;
+        }
+        .test-type-label {
+            display: inline-block; padding: 0.2rem 0.75rem; border-radius: 0.375rem;
+            font-size: 0.75rem; font-weight: 700; margin-right: 0.5rem; vertical-align: middle;
+        }
+        .hsp-label { background-color: #dbeafe; color: #1e40af; }
+        .adhd-label { background-color: #ede9fe; color: #5b21b6; }
+        .part-label {
+            display: inline-block; padding: 0.1rem 0.4rem; border-radius: 0.25rem;
+            font-size: 0.65rem; font-weight: 700; margin-right: 0.3rem; vertical-align: middle;
+        }
+        .part-a { background-color: #fef3c7; color: #92400e; }
+        .part-b { background-color: #e0e7ff; color: #3730a3; }
+        .screener-positive { background-color: #fef2f2; border-color: #fca5a5; }
+        .screener-negative { background-color: #f0fdf4; border-color: #86efac; }
+        .hsp-result-card { border-left: 4px solid #3b82f6; }
+        .adhd-result-card { border-left: 4px solid #8b5cf6; }
+        .combined-card { border-left: 4px solid #6366f1; background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); }
+    </style>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-indigo-300 selection:text-indigo-900">
+
+    <div class="container mx-auto max-w-3xl bg-white shadow-2xl rounded-xl p-6 md:p-10">
+        <div class="language-selector text-right mb-4">
+            <button data-lang="ko">한국어</button>
+            <button data-lang="en">English</button>
+            <button data-lang="fr">Français</button>
+            <button data-lang="zh">中文</button>
+            <button data-lang="ja">日本語</button>
+        </div>
+
+        <header class="text-center mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-2" data-i18n="mainTitle">HSP & 고기능 ADHD 융합 자가 테스트</h1>
+            <p class="text-gray-600 text-sm md:text-base" data-i18n="subTitle">HSP-R (18문항) + ASRS-v1.1 (18문항) 통합 분석</p>
+        </header>
+
+        <div id="introduction" class="mb-8 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+            <h2 class="text-xl font-semibold text-indigo-600 mb-2" data-i18n="introHeader">테스트 안내</h2>
+            <p class="text-gray-700 text-sm" data-i18n="introText"></p>
+        </div>
+
+        <form id="combinedTestForm">
+            <!-- HSP Section -->
+            <div id="hspSection">
+                <h3 class="text-lg font-bold text-blue-700 mb-4 flex items-center" data-i18n="hspSectionTitle">
+                    <span class="test-type-label hsp-label mr-2">HSP</span> 민감성 테스트 (18문항)
+                </h3>
+                <div id="hspQuestionsContainer" class="space-y-6"></div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- ADHD Section -->
+            <div id="adhdSection">
+                <h3 class="text-lg font-bold text-purple-700 mb-4 flex items-center" data-i18n="adhdSectionTitle">
+                    <span class="test-type-label adhd-label mr-2">ADHD</span> 고기능 ADHD 선별 (18문항)
+                </h3>
+                <div id="adhdQuestionsContainer" class="space-y-6"></div>
+            </div>
+
+            <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button type="button" id="submitButton" class="btn-primary font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 w-full sm:w-auto" data-i18n="submitButton">결과 보기</button>
+                <button type="button" id="restartButton" class="btn-secondary font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 w-full sm:w-auto" style="display: none;" data-i18n="restartButton">다시 시작</button>
+            </div>
+        </form>
+
+        <div id="resultsContainer" class="mt-10" style="display: none;">
+            <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 text-center mb-6" data-i18n="resultsHeader">통합 테스트 결과</h2>
+
+            <!-- Combined Insight -->
+            <div id="combinedInsight" class="combined-card result-card p-6 rounded-lg shadow-lg mb-8 border">
+                <h3 class="text-xl font-bold text-indigo-700 mb-3" data-i18n="combinedHeader">🔍 통합 분석</h3>
+                <p id="combinedText" class="text-base leading-relaxed"></p>
+            </div>
+
+            <!-- HSP Results -->
+            <div class="hsp-result-card result-card p-6 rounded-lg shadow-lg mb-6 border border-blue-200">
+                <h3 class="text-xl font-semibold text-blue-700 mb-2"><span class="test-type-label hsp-label">HSP</span> <span data-i18n="hspResultHeader">HSP 결과</span></h3>
+                <p id="hspTotalScore" class="text-lg"></p>
+                <p id="hspAverageScore" class="text-lg"></p>
+                <p id="hspInterpretation" class="mt-2 text-base italic"></p>
+            </div>
+            <h4 class="text-lg font-semibold text-blue-600 mb-3 text-center" data-i18n="hspSubscaleHeader">HSP 하위 척도</h4>
+            <div id="hspSubscaleResults" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"></div>
+
+            <!-- ADHD Results -->
+            <div id="adhdScreenerResult" class="adhd-result-card result-card p-6 rounded-lg shadow-lg mb-6 border-2">
+                <h3 class="text-xl font-semibold text-purple-700 mb-2"><span class="test-type-label adhd-label">ADHD</span> <span data-i18n="adhdScreenerHeader">Part A 선별 결과</span></h3>
+                <p id="adhdScreenerScore" class="text-lg font-bold"></p>
+                <p id="adhdScreenerInterp" class="mt-2 text-base italic"></p>
+            </div>
+            <div class="adhd-result-card result-card p-6 rounded-lg shadow-lg mb-6 border border-purple-200">
+                <h3 class="text-xl font-semibold text-purple-700 mb-2"><span class="test-type-label adhd-label">ADHD</span> <span data-i18n="adhdTotalHeader">전체 응답 요약</span></h3>
+                <p id="adhdTotalScore" class="text-lg"></p>
+                <p id="adhdAverageScore" class="text-lg"></p>
+            </div>
+            <h4 class="text-lg font-semibold text-purple-600 mb-3 text-center" data-i18n="adhdSubscaleHeader">ADHD 하위 척도</h4>
+            <div id="adhdSubscaleResults" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+
+            <div id="shareResults" class="mt-8 pt-6 border-t border-gray-200 text-center">
+                <h3 class="text-xl font-semibold text-indigo-600 mb-4" data-i18n="shareHeader">결과 공유하기</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button type="button" id="downloadImage" class="share-button share-download" style="display: none;" data-i18n="downloadImageButton">결과 이미지 다운로드</button>
+                    <button type="button" id="shareGeneric" class="share-button share-generic" data-i18n="shareGenericButton">결과 공유하기</button>
+                </div>
+                <p class="text-sm text-gray-500 mt-4" data-i18n="shareNote"></p>
+            </div>
+        </div>
+
+        <footer class="mt-12 pt-8 border-t border-gray-300 text-xs text-gray-500">
+            <p class="mb-3 font-semibold text-gray-600" data-i18n="footerHspTitle"></p>
+            <p class="mb-2" data-i18n="hspReference"></p>
+            <p class="mb-2" data-i18n="hspCopyright"></p>
+            <p class="mb-2" data-i18n="hspMoreInfo"></p>
+            <p class="mb-4" data-i18n="hspContact"></p>
+            <p class="mb-3 font-semibold text-gray-600" data-i18n="footerAdhdTitle"></p>
+            <p class="mb-2" data-i18n="adhdReference"></p>
+            <p class="mb-2" data-i18n="adhdCopyright"></p>
+            <p class="mb-2" data-i18n="adhdPublicInterest"></p>
+            <p class="mb-2" data-i18n="adhdMoreInfo"></p>
+            <p class="mb-4" data-i18n="adhdContact"></p>
+            <p class="mt-4 text-center" data-i18n="disclaimer"></p>
+            <p class="mt-2 text-center text-gray-400" data-i18n="credits"></p>
+        </footer>
+    </div>
+
+    <script>
+        const translations = {
+            ko: {
+                pageTitle: "HSP & 고기능 ADHD 융합 자가 테스트",
+                mainTitle: "HSP & 고기능 ADHD 융합 자가 테스트",
+                subTitle: "HSP-R (18문항) + ASRS-v1.1 (18문항) 통합 분석",
+                introHeader: "테스트 안내",
+                introText: "이 테스트는 <strong>HSP(매우 민감한 사람)</strong>과 <strong>고기능 ADHD</strong>를 한 번에 평가합니다.<br><br>▸ <strong>Part 1 (HSP)</strong>: 18문항, 1~7점 척도 (1=전혀 그렇지 않다 ~ 7=매우 그렇다)<br>▸ <strong>Part 2 (ADHD)</strong>: 18문항, 0~4점 빈도 척도 (0=전혀 없음 ~ 4=매우 자주)<br><br>모든 36문항에 답변해주셔야 정확한 결과를 얻을 수 있습니다.",
+                hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> 민감성 테스트 (18문항)',
+                adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> 고기능 ADHD 선별 (18문항)',
+                submitButton: "결과 보기",
+                restartButton: "다시 시작",
+                resultsHeader: "통합 테스트 결과",
+                combinedHeader: "🔍 통합 분석",
+                combinedBoth: "당신은 <strong>높은 민감성(HSP)</strong>과 <strong>ADHD 증상</strong>을 모두 보이고 있습니다. 이는 '민감한 ADHD'로 불리는 유형에 해당할 수 있으며, 내면의 갈등이 클 수 있습니다. HSP의 깊은 정보 처리와 ADHD의 주의력 분산이 공존하면, 과도한 자극에 압도되기 쉽고 감정 기복도 커질 수 있습니다. 전문가와의 상담을 통해 두 특성을 모두 고려한 맞춤 전략을 찾아보시기 바랍니다.",
+                combinedHspOnly: "당신은 <strong>높은 민감성(HSP)</strong> 경향을 보이지만, ADHD 선별 점수는 임상적 기준에 미치지 않습니다. HSP는 타고난 기질적 특성으로, 자극에 깊이 반응하고 세밀하게 정보를 처리하는 것이 특징입니다. 경계 설정과 에너지 보호가 핵심 전략이 될 수 있습니다.",
+                combinedAdhdOnly: "ADHD 선별에서 <strong>임상적으로 유의미한 증상</strong>이 나타났지만, HSP 점수는 높지 않습니다. 고기능 ADHD는 보상 전략으로 인해 겉으로 잘 기능하는 것처럼 보일 수 있으나, 내면의 에너지 소모가 클 수 있습니다. 전문가 상담을 권장합니다.",
+                combinedNeither: "HSP와 ADHD 모두에서 높은 점수를 보이지 않습니다. 그러나 일상에서 어려움을 느끼신다면, 이 결과와 관계없이 전문가와 상담하시기 바랍니다. 고기능 ADHD는 보상 전략으로 인해 선별 도구에서 낮은 점수를 받을 수 있습니다.",
+                hspResultHeader: "HSP 결과",
+                hspTotalScore: "HSP 총점: {score} / 126",
+                hspAverageScore: "HSP 평균: {score} (1~7 척도)",
+                hspInterpHigh: "평균 5점 초과 — 높은 민감성(HSP) 경향",
+                hspInterpLow: "평균 5점 이하 — 일반적 민감성 수준",
+                hspSubscaleHeader: "HSP 하위 척도",
+                hspSubscaleNames: {
+                    "Overstimulation": "과도한 자극",
+                    "Sensitivity to Positive Experiences": "긍정적 경험에 대한 민감성",
+                    "Social Sensitivity": "사회적 민감성",
+                    "Depth of Processing": "정보 처리의 깊이",
+                    "Emotional Reactivity": "정서적 반응성",
+                    "Sensitivity to Details": "세부 사항에 대한 민감성"
+                },
+                hspSubscaleTotal: "총점: {score}",
+                hspSubscaleAvg: "평균: {score}",
+                adhdScreenerHeader: "Part A 선별 결과",
+                adhdScreenerScore: "임상적 유의 응답: {count} / 6",
+                adhdScreenerPositive: "4개 이상 — 성인 ADHD 증상과 높은 일치. 전문가 상담 권장.",
+                adhdScreenerNegative: "4개 미만. 고기능 ADHD는 보상 전략으로 낮은 점수가 나올 수 있습니다.",
+                adhdTotalHeader: "전체 응답 요약",
+                adhdTotalScore: "ADHD 총점: {score} / 72",
+                adhdAverageScore: "ADHD 평균: {score} (0~4 척도)",
+                adhdSubscaleHeader: "ADHD 하위 척도",
+                adhdSubscaleNames: {
+                    "Inattention": "주의력 결핍",
+                    "Hyperactivity": "과잉행동-충동성"
+                },
+                adhdSubscaleTotal: "총점: {score} / {max}",
+                adhdSubscaleAvg: "평균: {score}",
+                hspScaleStart: "전혀 그렇지 않다",
+                hspScaleEnd: "매우 그렇다",
+                adhdScaleLabels: ["전혀 없음", "거의 없음", "가끔", "자주", "매우 자주"],
+                partALabel: "Part A",
+                partBLabel: "Part B",
+                shareHeader: "결과 공유하기",
+                downloadImageButton: "결과 이미지 다운로드",
+                shareGenericButton: "결과 공유하기",
+                shareNote: "* '결과 공유하기' 버튼은 기기/브라우저에 따라 이미지 또는 텍스트/링크를 공유합니다.",
+                footerHspTitle: "[ HSP-R 출처 및 저작권 ]",
+                hspReference: "<strong>참고 문헌:</strong> Pluess, M., Aron, E., et al. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.",
+                hspCopyright: "이 설문지는 저작권법에 의해 보호됩니다. 개인적, 임상적, 교육적 및 연구 목적으로 복제할 수 있는 권한이 부여됩니다.",
+                hspMoreInfo: "척도에 대한 더 많은 정보: <a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">sensitivityresearch.com</a> | <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">hsperson.com</a>",
+                hspContact: "허가 범위를 넘어서는 사용: <a href=\"mailto:m.pluess@surrey.ac.uk\">m.pluess@surrey.ac.uk</a>",
+                footerAdhdTitle: "[ ASRS-v1.1 출처 및 저작권 ]",
+                adhdReference: "<strong>출처:</strong> ASRS-v1.1은 세계보건기구(WHO)와의 협력 하에 Lenard Adler, MD (NYU), Ronald C. Kessler, PhD (Harvard), Thomas Spencer, MD (Harvard)에 의해 개발되었습니다.",
+                adhdCopyright: "© New York University and Ronald C. Kessler, PhD. All rights reserved.",
+                adhdPublicInterest: "<strong>공익 안내:</strong> 본 테스트는 WHO 공동 개발 ASRS-v1.1 기반으로, 개인의 자기 이해와 교육 목적으로 제공됩니다. '고기능 ADHD'란 보상 전략으로 일상 기능을 유지하면서도 ADHD 증상을 보이는 경우를 말합니다.",
+                adhdMoreInfo: "ADHD 정보: <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
+                adhdContact: "ASRS-v1.1 허가: <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
+                disclaimer: "본 테스트는 자기 이해를 돕기 위한 참고 자료이며, 전문적인 심리·의학적 진단을 대체할 수 없습니다.",
+                credits: "번역 및 웹서비스 제작 : baesic",
+                hspQuestions: [
+                    "주변의 물건들이 옮겨졌을 때 알아채는 편인가요?",
+                    "긍정적이든 부정적이든 피드백에 쉽게 영향을 받는 편인가요?",
+                    "밝은 빛, 강한 냄새, 거친 직물 또는 가까운 곳의 사이렌 소리 같은 것에 쉽게 압도되는 편인가요?",
+                    "다른 사람들이 무엇을 느끼는지 쉽게 알아채는 편인가요?",
+                    "섬세하거나 좋은 향, 맛, 소리, 예술 작품을 알아보고 즐기는 편인가요?",
+                    "주변 사람들의 기분에 쉽게 영향을 받는 편인가요?",
+                    "어떤 일에 대해 깊이 생각하는 경향이 있나요?",
+                    "어떤 상황에 대해 다른 사람이 어떻게 느낄지 잘 예측하는 편인가요?",
+                    "시끄러운 소리나 혼란스러운 장면과 같은 강한 자극에 불편함을 느끼나요?",
+                    "드러내든 드러내지 않든, 자신의 경험에 대해 일반적으로 강하게 반응하는 편인가요?",
+                    "다른 사람들이 당신에게 그들이 느끼거나 생각하는 것을 잘 이해한다고 말하나요?",
+                    "음악에 깊이 몰입하는 경향이 있나요?",
+                    "철학적인 질문에 대해 생각하는 자신을 발견하곤 하나요?",
+                    "다른 사람들보다 날씨 변화를 더 잘 알아채는 것 같나요?",
+                    "주변에 많은 일이 일어나고 있을 때 불쾌할 정도로 흥분되나요?",
+                    "예술이나 음악에 깊이 감동하는 편인가요?",
+                    "계절이 바뀌는 미묘한 신호(겨울/봄 등)를 알아채는 경향이 있나요?",
+                    "깊이 있는 대화를 좋아하나요?"
+                ],
+                adhdQuestions: [
+                    "어려운 부분은 끝냈는데, 프로젝트의 마무리 세부사항을 처리하는 데 얼마나 자주 어려움을 겪습니까?",
+                    "정리 정돈이 필요한 과제를 할 때, 순서를 정하는 데 얼마나 자주 어려움을 겪습니까?",
+                    "약속이나 의무 사항을 기억하는 데 얼마나 자주 어려움을 겪습니까?",
+                    "많은 생각이 필요한 과제가 있을 때, 시작하는 것을 얼마나 자주 피하거나 미룹니까?",
+                    "오래 앉아 있어야 할 때, 손이나 발을 만지작거리거나 꿈틀거리는 일이 얼마나 자주 있습니까?",
+                    "마치 모터에 의해 움직이는 것처럼, 지나치게 활동적이고 무언가를 해야 한다고 느끼는 일이 얼마나 자주 있습니까?",
+                    "지루하거나 어려운 프로젝트를 할 때, 부주의한 실수를 얼마나 자주 합니까?",
+                    "지루하거나 반복적인 일을 할 때, 주의를 유지하는 데 얼마나 자주 어려움을 겪습니까?",
+                    "다른 사람이 직접 말하고 있는데도, 그 말에 집중하는 것이 얼마나 자주 어렵습니까?",
+                    "집이나 직장에서 물건을 잘못 두거나 찾는 데 얼마나 자주 어려움을 겪습니까?",
+                    "주변의 활동이나 소음에 얼마나 자주 주의가 분산됩니까?",
+                    "회의나 자리를 지켜야 하는 상황에서 얼마나 자주 자리를 뜹니까?",
+                    "안절부절 못하거나 불안한 느낌이 얼마나 자주 듭니까?",
+                    "자유 시간이 있을 때, 긴장을 풀고 쉬는 것이 얼마나 자주 어렵습니까?",
+                    "사교적인 상황에서 자신이 너무 많이 말한다고 느끼는 일이 얼마나 자주 있습니까?",
+                    "대화 중에, 상대방이 말을 끝내기 전에 그 사람의 문장을 대신 끝내는 일이 얼마나 자주 있습니까?",
+                    "차례를 기다려야 하는 상황에서 자신의 차례를 기다리는 것이 얼마나 자주 어렵습니까?",
+                    "다른 사람이 바쁠 때 그들을 방해하는 일이 얼마나 자주 있습니까?"
+                ],
+                alertAllAnswered: "모든 질문에 답변해주세요.",
+                alertNoImage: "다운로드할 결과 이미지가 없습니다.",
+                alertCopied: "결과가 클립보드에 복사되었습니다!",
+                alertCopyManual: "아래 텍스트를 복사해주세요:",
+                shareLinkText: "HSP & ADHD 융합 자가 테스트 시도하기: "
+            },
+            en: {
+                pageTitle: "HSP & High-Functioning ADHD Combined Self-Test",
+                mainTitle: "HSP & High-Functioning ADHD Combined Self-Test",
+                subTitle: "HSP-R (18 items) + ASRS-v1.1 (18 items) Integrated Analysis",
+                introHeader: "Test Instructions",
+                introText: "This test evaluates both <strong>HSP (Highly Sensitive Person)</strong> and <strong>High-Functioning ADHD</strong> in a single session.<br><br>▸ <strong>Part 1 (HSP)</strong>: 18 questions, 1–7 scale (1=Not at all to 7=Very much so)<br>▸ <strong>Part 2 (ADHD)</strong>: 18 questions, 0–4 frequency scale (0=Never to 4=Very Often)<br><br>Please answer all 36 questions for accurate results.",
+                hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> Sensitivity Test (18 Questions)',
+                adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> High-Functioning ADHD Screening (18 Questions)',
+                submitButton: "Show Results",
+                restartButton: "Restart",
+                resultsHeader: "Combined Test Results",
+                combinedHeader: "🔍 Integrated Analysis",
+                combinedBoth: "You show traits of both <strong>High Sensitivity (HSP)</strong> and <strong>ADHD symptoms</strong>. This may correspond to what is sometimes called 'Sensitive ADHD,' where deep information processing coexists with attention challenges. The overlap can lead to greater overwhelm from stimulation and heightened emotional fluctuations. A consultation with a professional who understands both traits is recommended for personalized strategies.",
+                combinedHspOnly: "You show a <strong>High Sensitivity (HSP)</strong> tendency, but your ADHD screening score does not meet clinical thresholds. HSP is an innate temperamental trait characterized by deep processing and strong responses to stimulation. Boundary setting and energy protection are key strategies.",
+                combinedAdhdOnly: "Your ADHD screening shows <strong>clinically significant symptoms</strong>, but your HSP score is not elevated. High-functioning ADHD may appear as normal functioning on the surface due to compensatory strategies, but internal energy expenditure may be high. Professional consultation is recommended.",
+                combinedNeither: "Neither HSP nor ADHD scores are elevated. However, if you experience difficulties in daily life, consider consulting a professional regardless. High-functioning ADHD may score low on screening tools due to compensatory strategies.",
+                hspResultHeader: "HSP Results",
+                hspTotalScore: "HSP Total: {score} / 126",
+                hspAverageScore: "HSP Average: {score} (1–7 scale)",
+                hspInterpHigh: "Average above 5 — indicates high sensitivity (HSP) tendency",
+                hspInterpLow: "Average 5 or below — typical sensitivity level",
+                hspSubscaleHeader: "HSP Subscales",
+                hspSubscaleNames: {
+                    "Overstimulation": "Overstimulation",
+                    "Sensitivity to Positive Experiences": "Sensitivity to Positive Experiences",
+                    "Social Sensitivity": "Social Sensitivity",
+                    "Depth of Processing": "Depth of Processing",
+                    "Emotional Reactivity": "Emotional Reactivity",
+                    "Sensitivity to Details": "Sensitivity to Details"
+                },
+                hspSubscaleTotal: "Total: {score}",
+                hspSubscaleAvg: "Average: {score}",
+                adhdScreenerHeader: "Part A Screener Result",
+                adhdScreenerScore: "Clinically significant responses: {count} / 6",
+                adhdScreenerPositive: "4 or more — highly consistent with adult ADHD. Professional consultation recommended.",
+                adhdScreenerNegative: "Fewer than 4. High-functioning ADHD may score low due to compensatory strategies.",
+                adhdTotalHeader: "Overall Summary",
+                adhdTotalScore: "ADHD Total: {score} / 72",
+                adhdAverageScore: "ADHD Average: {score} (0–4 scale)",
+                adhdSubscaleHeader: "ADHD Subscales",
+                adhdSubscaleNames: {
+                    "Inattention": "Inattention",
+                    "Hyperactivity": "Hyperactivity-Impulsivity"
+                },
+                adhdSubscaleTotal: "Total: {score} / {max}",
+                adhdSubscaleAvg: "Average: {score}",
+                hspScaleStart: "Not at all",
+                hspScaleEnd: "Very much so",
+                adhdScaleLabels: ["Never", "Rarely", "Sometimes", "Often", "Very Often"],
+                partALabel: "Part A",
+                partBLabel: "Part B",
+                shareHeader: "Share Results",
+                downloadImageButton: "Download Result Image",
+                shareGenericButton: "Share Results",
+                shareNote: "* The 'Share Results' button shares an image or text/link depending on your device/browser.",
+                footerHspTitle: "[ HSP-R Source & Copyright ]",
+                hspReference: "<strong>Reference:</strong> Pluess, M., Aron, E., et al. (2024). Evolution of the Concept of Sensitivity and its Measurement: The Highly Sensitive Person Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.",
+                hspCopyright: "This questionnaire is protected by copyright. Permission is granted for personal, clinical, educational, and research purposes.",
+                hspMoreInfo: "More info: <a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">sensitivityresearch.com</a> | <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">hsperson.com</a>",
+                hspContact: "Beyond permissions: <a href=\"mailto:m.pluess@surrey.ac.uk\">m.pluess@surrey.ac.uk</a>",
+                footerAdhdTitle: "[ ASRS-v1.1 Source & Copyright ]",
+                adhdReference: "<strong>Source:</strong> ASRS-v1.1 developed with the WHO by Lenard Adler, MD (NYU), Ronald C. Kessler, PhD (Harvard), Thomas Spencer, MD (Harvard).",
+                adhdCopyright: "© New York University and Ronald C. Kessler, PhD. All rights reserved.",
+                adhdPublicInterest: "<strong>Public Interest:</strong> Based on the WHO co-developed ASRS-v1.1, provided for personal self-understanding and educational purposes. 'High-functioning ADHD' refers to maintaining daily functioning while exhibiting ADHD symptoms through compensatory strategies.",
+                adhdMoreInfo: "ADHD info: <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
+                adhdContact: "ASRS-v1.1 permissions: <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
+                disclaimer: "This test is a reference tool for self-understanding and does not replace professional psychological or medical diagnosis.",
+                credits: "Translation and Web Service by: baesic",
+                hspQuestions: [
+                    "Do you notice when objects in your surroundings have been moved?",
+                    "Are you easily affected by feedback, whether positive or negative?",
+                    "Are you easily overwhelmed by strong stimuli, such as bright lights, strong smells, coarse fabrics, or sirens close by?",
+                    "Do you easily pick up on what other people are feeling?",
+                    "Do you notice and enjoy delicate or fine scents, tastes, sounds, or works of art?",
+                    "Are you easily affected by the moods of those around you?",
+                    "Do you tend to think deeply about things?",
+                    "Are you good at predicting how others will feel in a situation?",
+                    "Do you feel uncomfortable with intense stimuli, such as loud noises or chaotic scenes?",
+                    "Do you generally react strongly to your experiences, whether outwardly or inwardly?",
+                    "Do others tell you that you understand well what they are feeling or thinking?",
+                    "Do you tend to get deeply absorbed in music?",
+                    "Do you find yourself thinking about philosophical questions?",
+                    "Do you seem to notice changes in the weather more than others?",
+                    "Do you get unpleasantly aroused when a lot is going on around you?",
+                    "Are you deeply moved by the arts or music?",
+                    "Do you tend to notice the subtle signs of the changing seasons (winter/spring, etc.)?",
+                    "Do you like deep conversations?"
+                ],
+                adhdQuestions: [
+                    "How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?",
+                    "How often do you have difficulty getting things in order when you have to do a task that requires organization?",
+                    "How often do you have problems remembering appointments or obligations?",
+                    "When you have a task that requires a lot of thought, how often do you avoid or delay getting started?",
+                    "How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?",
+                    "How often do you feel overly active and compelled to do things, like you were driven by a motor?",
+                    "How often do you make careless mistakes when you have to work on a boring or difficult project?",
+                    "How often do you have difficulty keeping your attention when you are doing boring or repetitive work?",
+                    "How often do you have difficulty concentrating on what people say to you, even when they are speaking to you directly?",
+                    "How often do you misplace or have difficulty finding things at home or at work?",
+                    "How often are you distracted by activity or noise around you?",
+                    "How often do you leave your seat in meetings or other situations in which you are expected to remain seated?",
+                    "How often do you feel restless or fidgety?",
+                    "How often do you have difficulty unwinding and relaxing when you have time to yourself?",
+                    "How often do you find yourself talking too much when you are in social situations?",
+                    "When you're in a conversation, how often do you find yourself finishing the sentences of the people you are talking to, before they can finish them themselves?",
+                    "How often do you have difficulty waiting your turn in situations when turn taking is required?",
+                    "How often do you interrupt others when they are busy?"
+                ],
+                alertAllAnswered: "Please answer all questions.",
+                alertNoImage: "No result image available.",
+                alertCopied: "Results copied to clipboard!",
+                alertCopyManual: "Copy the text below:",
+                shareLinkText: "Try the HSP & ADHD Combined Self-Test: "
+            },
+            fr: {
+                pageTitle: "Test combiné HSP & TDAH de haut niveau",
+                mainTitle: "Test combiné HSP & TDAH de haut niveau",
+                subTitle: "HSP-R (18 items) + ASRS-v1.1 (18 items) Analyse intégrée",
+                introHeader: "Instructions du test",
+                introText: "Ce test évalue à la fois <strong>HSP (Personne Hautement Sensible)</strong> et <strong>TDAH de haut niveau</strong> en une seule session.<br><br>▸ <strong>Partie 1 (HSP)</strong> : 18 questions, échelle 1–7 (1=Pas du tout à 7=Tout à fait)<br>▸ <strong>Partie 2 (TDAH)</strong> : 18 questions, échelle de fréquence 0–4 (0=Jamais à 4=Très souvent)<br><br>Veuillez répondre aux 36 questions pour des résultats précis.",
+                hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> Test de sensibilité (18 questions)',
+                adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">TDAH</span> Dépistage TDAH de haut niveau (18 questions)',
+                submitButton: "Afficher les résultats",
+                restartButton: "Recommencer",
+                resultsHeader: "Résultats combinés",
+                combinedHeader: "🔍 Analyse intégrée",
+                combinedBoth: "Vous présentez des traits de <strong>haute sensibilité (HSP)</strong> et de <strong>symptômes de TDAH</strong>. Cela peut correspondre au « TDAH sensible », où un traitement profond de l'information coexiste avec des défis attentionnels. Une consultation professionnelle est recommandée.",
+                combinedHspOnly: "Vous montrez une tendance de <strong>haute sensibilité (HSP)</strong>, mais votre score TDAH ne dépasse pas les seuils cliniques. L'HSP est un trait tempéramental inné caractérisé par un traitement profond.",
+                combinedAdhdOnly: "Votre dépistage TDAH montre des <strong>symptômes cliniquement significatifs</strong>, mais votre score HSP n'est pas élevé. Une consultation professionnelle est recommandée.",
+                combinedNeither: "Ni les scores HSP ni TDAH ne sont élevés. Si vous rencontrez des difficultés, consultez un professionnel.",
+                hspResultHeader: "Résultats HSP",
+                hspTotalScore: "Total HSP : {score} / 126",
+                hspAverageScore: "Moyenne HSP : {score} (échelle 1–7)",
+                hspInterpHigh: "Moyenne supérieure à 5 — tendance haute sensibilité (HSP)",
+                hspInterpLow: "Moyenne de 5 ou moins — niveau de sensibilité typique",
+                hspSubscaleHeader: "Sous-échelles HSP",
+                hspSubscaleNames: {
+                    "Overstimulation": "Surstimulation",
+                    "Sensitivity to Positive Experiences": "Sensibilité aux expériences positives",
+                    "Social Sensitivity": "Sensibilité sociale",
+                    "Depth of Processing": "Profondeur de traitement",
+                    "Emotional Reactivity": "Réactivité émotionnelle",
+                    "Sensitivity to Details": "Sensibilité aux détails"
+                },
+                hspSubscaleTotal: "Total : {score}",
+                hspSubscaleAvg: "Moyenne : {score}",
+                adhdScreenerHeader: "Résultat Part A",
+                adhdScreenerScore: "Réponses cliniquement significatives : {count} / 6",
+                adhdScreenerPositive: "4 ou plus — fortement compatible avec le TDAH adulte.",
+                adhdScreenerNegative: "Moins de 4. Le TDAH de haut niveau peut obtenir un score bas.",
+                adhdTotalHeader: "Résumé global",
+                adhdTotalScore: "Total TDAH : {score} / 72",
+                adhdAverageScore: "Moyenne TDAH : {score} (échelle 0–4)",
+                adhdSubscaleHeader: "Sous-échelles TDAH",
+                adhdSubscaleNames: {
+                    "Inattention": "Inattention",
+                    "Hyperactivity": "Hyperactivité-Impulsivité"
+                },
+                adhdSubscaleTotal: "Total : {score} / {max}",
+                adhdSubscaleAvg: "Moyenne : {score}",
+                hspScaleStart: "Pas du tout",
+                hspScaleEnd: "Tout à fait",
+                adhdScaleLabels: ["Jamais", "Rarement", "Parfois", "Souvent", "Très souvent"],
+                partALabel: "Part A",
+                partBLabel: "Part B",
+                shareHeader: "Partager les résultats",
+                downloadImageButton: "Télécharger l'image",
+                shareGenericButton: "Partager les résultats",
+                shareNote: "* Le bouton partage une image ou du texte/lien selon votre appareil.",
+                footerHspTitle: "[ HSP-R Source et droits d'auteur ]",
+                hspReference: "<strong>Référence :</strong> Pluess, M., Aron, E., et al. (2024). HSP Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.",
+                hspCopyright: "Ce questionnaire est protégé par le droit d'auteur. Reproduction autorisée à des fins personnelles, cliniques, éducatives et de recherche.",
+                hspMoreInfo: "Plus d'informations : <a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">sensitivityresearch.com</a> | <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">hsperson.com</a>",
+                hspContact: "Au-delà des autorisations : <a href=\"mailto:m.pluess@surrey.ac.uk\">m.pluess@surrey.ac.uk</a>",
+                footerAdhdTitle: "[ ASRS-v1.1 Source et droits d'auteur ]",
+                adhdReference: "<strong>Source :</strong> ASRS-v1.1 développé avec l'OMS par Adler, Kessler et Spencer.",
+                adhdCopyright: "© New York University and Ronald C. Kessler, PhD. Tous droits réservés.",
+                adhdPublicInterest: "<strong>Intérêt public :</strong> Basé sur l'ASRS-v1.1 co-développé avec l'OMS, fourni à des fins éducatives.",
+                adhdMoreInfo: "Info TDAH : <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">OMS</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
+                adhdContact: "Autorisations ASRS-v1.1 : <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
+                disclaimer: "Ce test est un outil de référence et ne remplace pas un diagnostic professionnel.",
+                credits: "Traduction et service web par : baesic",
+                hspQuestions: [
+                    "Remarquez-vous lorsque des objets dans votre environnement ont été déplacés ?",
+                    "Êtes-vous facilement affecté(e) par les retours, qu'ils soient positifs ou négatifs ?",
+                    "Êtes-vous facilement submergé(e) par des stimuli forts ?",
+                    "Percevez-vous facilement ce que ressentent les autres ?",
+                    "Remarquez-vous et appréciez-vous les parfums, goûts, sons ou œuvres d'art délicats ?",
+                    "Êtes-vous facilement affecté(e) par l'humeur de votre entourage ?",
+                    "Avez-vous tendance à réfléchir profondément aux choses ?",
+                    "Êtes-vous doué(e) pour prédire les sentiments des autres ?",
+                    "Vous sentez-vous mal à l'aise face à des stimuli intenses ?",
+                    "Réagissez-vous fortement à vos expériences, intérieurement ou extérieurement ?",
+                    "Les autres disent-ils que vous comprenez bien leurs sentiments ?",
+                    "Avez-vous tendance à être profondément absorbé(e) par la musique ?",
+                    "Réfléchissez-vous à des questions philosophiques ?",
+                    "Remarquez-vous les changements de temps plus que les autres ?",
+                    "Êtes-vous désagréablement excité(e) quand il se passe beaucoup de choses ?",
+                    "Êtes-vous profondément ému(e) par les arts ou la musique ?",
+                    "Remarquez-vous les signes subtils du changement de saison ?",
+                    "Aimez-vous les conversations profondes ?"
+                ],
+                adhdQuestions: [
+                    "À quelle fréquence avez-vous du mal à finaliser les derniers détails d'un projet ?",
+                    "À quelle fréquence avez-vous des difficultés à organiser les choses ?",
+                    "À quelle fréquence oubliez-vous des rendez-vous ou obligations ?",
+                    "À quelle fréquence évitez-vous de commencer une tâche nécessitant beaucoup de réflexion ?",
+                    "À quelle fréquence vous agitez-vous quand vous devez rester assis(e) longtemps ?",
+                    "À quelle fréquence vous sentez-vous excessivement actif(ve), comme poussé(e) par un moteur ?",
+                    "À quelle fréquence faites-vous des erreurs d'inattention sur des projets ennuyeux ?",
+                    "À quelle fréquence avez-vous du mal à maintenir votre attention sur un travail répétitif ?",
+                    "À quelle fréquence avez-vous du mal à vous concentrer sur ce qu'on vous dit directement ?",
+                    "À quelle fréquence égarez-vous des choses à la maison ou au travail ?",
+                    "À quelle fréquence êtes-vous distrait(e) par le bruit autour de vous ?",
+                    "À quelle fréquence quittez-vous votre siège en réunion ?",
+                    "À quelle fréquence vous sentez-vous agité(e) ou nerveux(se) ?",
+                    "À quelle fréquence avez-vous du mal à vous détendre pendant votre temps libre ?",
+                    "À quelle fréquence parlez-vous trop en société ?",
+                    "À quelle fréquence finissez-vous les phrases des autres ?",
+                    "À quelle fréquence avez-vous du mal à attendre votre tour ?",
+                    "À quelle fréquence interrompez-vous les autres quand ils sont occupés ?"
+                ],
+                alertAllAnswered: "Veuillez répondre à toutes les questions.",
+                alertNoImage: "Aucune image disponible.",
+                alertCopied: "Résultats copiés !",
+                alertCopyManual: "Copiez le texte ci-dessous :",
+                shareLinkText: "Essayez le test combiné HSP & TDAH : "
+            },
+            zh: {
+                pageTitle: "HSP与高功能ADHD融合自测",
+                mainTitle: "HSP与高功能ADHD融合自测",
+                subTitle: "HSP-R（18题）+ ASRS-v1.1（18题）综合分析",
+                introHeader: "测试说明",
+                introText: "此测试一次性评估<strong>HSP（高敏感人群）</strong>和<strong>高功能ADHD</strong>。<br><br>▸ <strong>第1部分（HSP）</strong>：18题，1-7分量表（1=完全不符 到 7=非常符合）<br>▸ <strong>第2部分（ADHD）</strong>：18题，0-4频率量表（0=从不 到 4=非常频繁）<br><br>请回答所有36题以获得准确结果。",
+                hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> 敏感性测试（18题）',
+                adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> 高功能ADHD筛查（18题）',
+                submitButton: "查看结果",
+                restartButton: "重新开始",
+                resultsHeader: "综合测试结果",
+                combinedHeader: "🔍 综合分析",
+                combinedBoth: "您同时表现出<strong>高敏感（HSP）</strong>和<strong>ADHD症状</strong>。这可能对应于所谓的'敏感型ADHD'，深度信息处理与注意力挑战并存。建议咨询同时了解两种特质的专业人士。",
+                combinedHspOnly: "您表现出<strong>高敏感（HSP）</strong>倾向，但ADHD筛查分数未达到临床阈值。HSP是一种先天的气质特征，以深度处理和对刺激的强烈反应为特征。",
+                combinedAdhdOnly: "您的ADHD筛查显示<strong>临床显著症状</strong>，但HSP分数不高。建议咨询专业人士。",
+                combinedNeither: "HSP和ADHD评分均不高。如果您在日常生活中感到困难，仍建议咨询专业人士。",
+                hspResultHeader: "HSP结果",
+                hspTotalScore: "HSP总分：{score} / 126",
+                hspAverageScore: "HSP平均：{score}（1-7量表）",
+                hspInterpHigh: "平均分高于5 — 高敏感（HSP）倾向",
+                hspInterpLow: "平均分5或以下 — 典型敏感水平",
+                hspSubscaleHeader: "HSP子量表",
+                hspSubscaleNames: {
+                    "Overstimulation": "过度刺激",
+                    "Sensitivity to Positive Experiences": "对积极体验的敏感性",
+                    "Social Sensitivity": "社交敏感性",
+                    "Depth of Processing": "深度处理",
+                    "Emotional Reactivity": "情绪反应性",
+                    "Sensitivity to Details": "对细节的敏感性"
+                },
+                hspSubscaleTotal: "总分：{score}",
+                hspSubscaleAvg: "平均：{score}",
+                adhdScreenerHeader: "Part A筛查结果",
+                adhdScreenerScore: "临床显著应答：{count} / 6",
+                adhdScreenerPositive: "4项或以上 — 与成人ADHD高度一致。建议咨询专业人士。",
+                adhdScreenerNegative: "少于4项。高功能ADHD可能因补偿策略得分较低。",
+                adhdTotalHeader: "整体摘要",
+                adhdTotalScore: "ADHD总分：{score} / 72",
+                adhdAverageScore: "ADHD平均：{score}（0-4量表）",
+                adhdSubscaleHeader: "ADHD子量表",
+                adhdSubscaleNames: {
+                    "Inattention": "注意力缺陷",
+                    "Hyperactivity": "多动-冲动性"
+                },
+                adhdSubscaleTotal: "总分：{score} / {max}",
+                adhdSubscaleAvg: "平均：{score}",
+                hspScaleStart: "完全不符",
+                hspScaleEnd: "非常符合",
+                adhdScaleLabels: ["从不", "很少", "有时", "经常", "非常频繁"],
+                partALabel: "Part A",
+                partBLabel: "Part B",
+                shareHeader: "分享结果",
+                downloadImageButton: "下载结果图片",
+                shareGenericButton: "分享结果",
+                shareNote: "* '分享结果'按钮根据设备/浏览器分享图片或文本/链接。",
+                footerHspTitle: "[ HSP-R 来源与版权 ]",
+                hspReference: "<strong>参考文献：</strong> Pluess, M., Aron, E., et al. (2024). HSP Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.",
+                hspCopyright: "本问卷受版权保护。允许用于个人、临床、教育和研究目的。",
+                hspMoreInfo: "更多信息：<a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">sensitivityresearch.com</a> | <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">hsperson.com</a>",
+                hspContact: "超出许可范围：<a href=\"mailto:m.pluess@surrey.ac.uk\">m.pluess@surrey.ac.uk</a>",
+                footerAdhdTitle: "[ ASRS-v1.1 来源与版权 ]",
+                adhdReference: "<strong>来源：</strong> ASRS-v1.1由WHO协同Adler、Kessler和Spencer开发。",
+                adhdCopyright: "© New York University and Ronald C. Kessler, PhD. 保留所有权利。",
+                adhdPublicInterest: "<strong>公益声明：</strong>基于WHO共同开发的ASRS-v1.1，仅供个人理解和教育目的。",
+                adhdMoreInfo: "ADHD信息：<a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
+                adhdContact: "ASRS-v1.1许可：<a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
+                disclaimer: "本测试是自我理解的参考工具，不能替代专业心理或医学诊断。",
+                credits: "翻译和网络服务制作：baesic",
+                hspQuestions: [
+                    "您是否会注意到周围物品被移动了？","您是否容易受到反馈的影响？","您是否容易被强烈刺激压倒？",
+                    "您是否容易察觉到别人的感受？","您是否会注意到并欣赏精致的气味、味道、声音或艺术品？","您是否容易受到周围人情绪的影响？",
+                    "您是否倾向于深入思考问题？","您是否善于预测他人在某种情况下的感受？","您是否对强烈刺激感到不适？",
+                    "您是否通常对自己的经历反应强烈？","别人是否说您很了解他们的感受？","您是否倾向于沉浸在音乐中？",
+                    "您是否发现自己会思考哲学问题？","您是否比其他人更容易注意到天气变化？","当周围发生很多事情时，您是否感到不愉快地兴奋？",
+                    "您是否容易被艺术或音乐深深打动？","您是否倾向于注意到季节变化的细微迹象？","您喜欢深入的对话吗？"
+                ],
+                adhdQuestions: [
+                    "在完成困难部分后，您多久会在收尾细节上遇到困难？","当需要组织任务时，您多久会在整理事务上遇到困难？",
+                    "您多久会忘记约会或义务？","当有需要大量思考的任务时，您多久会回避或拖延开始？",
+                    "当必须长时间坐着时，您多久会坐立不安？","您多久会感到过度活跃，像被马达驱动一样？",
+                    "在无聊或困难的项目上，您多久会犯粗心错误？","做无聊或重复性工作时，您多久会难以保持注意力？",
+                    "即使别人直接对您说话，您多久会难以集中注意力？","您多久会在家里或工作中放错或找不到东西？",
+                    "您多久会被周围的活动或噪音分散注意力？","在会议或需要坐着的场合，您多久会离开座位？",
+                    "您多久会感到不安或坐立不安？","有空闲时间时，您多久会难以放松？",
+                    "在社交场合，您多久会发现自己说话太多？","在对话中，您多久会在对方说完前帮他们把话说完？",
+                    "在需要轮流的情况下，您多久会难以等待？","当别人忙碌时，您多久会打断他们？"
+                ],
+                alertAllAnswered: "请回答所有问题。",
+                alertNoImage: "没有可下载的结果图片。",
+                alertCopied: "结果已复制到剪贴板！",
+                alertCopyManual: "请复制以下文字：",
+                shareLinkText: "尝试HSP与ADHD融合自测："
+            },
+            ja: {
+                pageTitle: "HSP＆高機能ADHD統合自己テスト",
+                mainTitle: "HSP＆高機能ADHD統合自己テスト",
+                subTitle: "HSP-R（18問）+ ASRS-v1.1（18問）統合分析",
+                introHeader: "テスト案内",
+                introText: "このテストは<strong>HSP（非常に敏感な人）</strong>と<strong>高機能ADHD</strong>を一度に評価します。<br><br>▸ <strong>パート1（HSP）</strong>：18問、1〜7尺度（1=全くそうではない 〜 7=非常にそうである）<br>▸ <strong>パート2（ADHD）</strong>：18問、0〜4頻度尺度（0=全くない 〜 4=非常に頻繁）<br><br>正確な結果のために全36問に回答してください。",
+                hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> 感度テスト（18問）',
+                adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> 高機能ADHDスクリーニング（18問）',
+                submitButton: "結果を見る",
+                restartButton: "再開する",
+                resultsHeader: "統合テスト結果",
+                combinedHeader: "🔍 統合分析",
+                combinedBoth: "<strong>高感度（HSP）</strong>と<strong>ADHD症状</strong>の両方の特徴が見られます。深い情報処理と注意力の課題が共存する「敏感なADHD」に該当する可能性があります。両方の特性を理解する専門家への相談をお勧めします。",
+                combinedHspOnly: "<strong>高感度（HSP）</strong>の傾向がありますが、ADHDスクリーニングスコアは臨床的閾値に達していません。HSPは深い処理と刺激への強い反応を特徴とする生まれつきの気質的特性です。",
+                combinedAdhdOnly: "ADHDスクリーニングで<strong>臨床的に有意な症状</strong>が見られますが、HSPスコアは高くありません。専門家への相談をお勧めします。",
+                combinedNeither: "HSPもADHDも高いスコアではありません。日常生活で困難を感じている場合は、専門家にご相談ください。",
+                hspResultHeader: "HSP結果",
+                hspTotalScore: "HSP合計：{score} / 126",
+                hspAverageScore: "HSP平均：{score}（1〜7尺度）",
+                hspInterpHigh: "平均5点超 — 高感度（HSP）の傾向",
+                hspInterpLow: "平均5点以下 — 一般的な感度レベル",
+                hspSubscaleHeader: "HSP下位尺度",
+                hspSubscaleNames: {
+                    "Overstimulation": "過剰刺激",
+                    "Sensitivity to Positive Experiences": "ポジティブな経験への感度",
+                    "Social Sensitivity": "社会的感度",
+                    "Depth of Processing": "情報処理の深さ",
+                    "Emotional Reactivity": "情動反応性",
+                    "Sensitivity to Details": "詳細への感度"
+                },
+                hspSubscaleTotal: "合計：{score}",
+                hspSubscaleAvg: "平均：{score}",
+                adhdScreenerHeader: "Part Aスクリーニング結果",
+                adhdScreenerScore: "臨床的に有意な回答：{count} / 6",
+                adhdScreenerPositive: "4つ以上 — 成人ADHDと高い一致。専門家への相談を推奨。",
+                adhdScreenerNegative: "4つ未満。高機能ADHDは補償戦略により低スコアになることがあります。",
+                adhdTotalHeader: "全体要約",
+                adhdTotalScore: "ADHD合計：{score} / 72",
+                adhdAverageScore: "ADHD平均：{score}（0〜4尺度）",
+                adhdSubscaleHeader: "ADHD下位尺度",
+                adhdSubscaleNames: {
+                    "Inattention": "不注意",
+                    "Hyperactivity": "多動性-衝動性"
+                },
+                adhdSubscaleTotal: "合計：{score} / {max}",
+                adhdSubscaleAvg: "平均：{score}",
+                hspScaleStart: "全くそうではない",
+                hspScaleEnd: "非常にそうである",
+                adhdScaleLabels: ["全くない", "めったにない", "時々", "しばしば", "非常に頻繁"],
+                partALabel: "Part A",
+                partBLabel: "Part B",
+                shareHeader: "結果を共有する",
+                downloadImageButton: "結果画像をダウンロード",
+                shareGenericButton: "結果を共有する",
+                shareNote: "* デバイス/ブラウザに応じて画像またはテキスト/リンクを共有します。",
+                footerHspTitle: "[ HSP-R 出典と著作権 ]",
+                hspReference: "<strong>参考文献：</strong> Pluess, M., Aron, E., et al. (2024). HSP Scale-Revised. PsyArXiv. <a href=\"https://osf.io/preprints/psyarxiv/w7bqu\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">https://osf.io/preprints/psyarxiv/w7bqu</a>.",
+                hspCopyright: "このアンケートは著作権法で保護されています。個人・臨床・教育・研究目的での複製が許可されています。",
+                hspMoreInfo: "詳細情報：<a href=\"https://sensitivityresearch.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">sensitivityresearch.com</a> | <a href=\"https://hsperson.com/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">hsperson.com</a>",
+                hspContact: "許可を超える使用：<a href=\"mailto:m.pluess@surrey.ac.uk\">m.pluess@surrey.ac.uk</a>",
+                footerAdhdTitle: "[ ASRS-v1.1 出典と著作権 ]",
+                adhdReference: "<strong>出典：</strong> ASRS-v1.1はWHOとの協力でAdler、Kessler、Spencerにより開発。",
+                adhdCopyright: "© New York University and Ronald C. Kessler, PhD. All rights reserved.",
+                adhdPublicInterest: "<strong>公益：</strong>WHO共同開発のASRS-v1.1に基づき、自己理解と教育目的で提供。",
+                adhdMoreInfo: "ADHD情報：<a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
+                adhdContact: "ASRS-v1.1許可：<a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
+                disclaimer: "このテストは自己理解のための参考資料であり、専門的な心理・医学的診断に代わるものではありません。",
+                credits: "翻訳およびウェブサービス制作：baesic",
+                hspQuestions: [
+                    "周囲の物が移動されたことに気づきますか？","フィードバックに簡単に影響されますか？","強い刺激に簡単に圧倒されますか？",
+                    "他の人の感情を簡単に察知しますか？","繊細な香り、味、音、芸術作品に気づき楽しみますか？","周囲の人の気分に簡単に影響されますか？",
+                    "物事を深く考える傾向がありますか？","他の人の感情を予測するのが得意ですか？","強い刺激に不快感を感じますか？",
+                    "自分の経験に強く反応しますか？","他の人から感情をよく理解していると言われますか？","音楽に深く没頭する傾向がありますか？",
+                    "哲学的な問題について考えることがありますか？","天候の変化によく気づきますか？","多くのことが起こると不快に興奮しますか？",
+                    "芸術や音楽に深く感動しますか？","季節の変化の微妙な兆候に気づきますか？","深い会話が好きですか？"
+                ],
+                adhdQuestions: [
+                    "困難な部分の後、最後の細部を仕上げるのが困難な頻度は？","整理が必要なタスクで順序立てが困難な頻度は？",
+                    "約束や義務を覚えておくのに問題がある頻度は？","思考を要するタスクへの着手を避ける頻度は？",
+                    "長時間座る際、手足をそわそわさせる頻度は？","モーターで動かされるように活動的に感じる頻度は？",
+                    "退屈なプロジェクトでうっかりミスをする頻度は？","退屈な仕事で注意を維持するのが困難な頻度は？",
+                    "直接話しかけられても集中が困難な頻度は？","物を置き忘れたり見つけられない頻度は？",
+                    "周囲の騒音に気を取られる頻度は？","会議で席を立つ頻度は？",
+                    "落ち着かない気持ちになる頻度は？","自由時間にリラックスできない頻度は？",
+                    "社交の場で話しすぎる頻度は？","相手の文を先に完成させる頻度は？",
+                    "順番を待つのが困難な頻度は？","他の人を邪魔してしまう頻度は？"
+                ],
+                alertAllAnswered: "全ての質問に回答してください。",
+                alertNoImage: "ダウンロード可能な結果画像がありません。",
+                alertCopied: "結果がクリップボードにコピーされました！",
+                alertCopyManual: "以下のテキストをコピーしてください：",
+                shareLinkText: "HSP＆ADHD統合自己テストを試す："
+            }
+        };
+
+        // HSP subscale definitions (0-indexed, matching hspQuestions)
+        const hspSubscales = {
+            "Overstimulation": { questionsIndices: [2, 8, 14] },
+            "Sensitivity to Positive Experiences": { questionsIndices: [4, 11, 15] },
+            "Social Sensitivity": { questionsIndices: [3, 7, 10] },
+            "Depth of Processing": { questionsIndices: [6, 12, 17] },
+            "Emotional Reactivity": { questionsIndices: [1, 5, 9] },
+            "Sensitivity to Details": { questionsIndices: [0, 13, 16] }
+        };
+
+        // ADHD subscale definitions (0-indexed, matching adhdQuestions)
+        const adhdSubscales = {
+            "Inattention": { questionsIndices: [0, 1, 2, 3, 6, 7, 8, 9, 10] },
+            "Hyperactivity": { questionsIndices: [4, 5, 11, 12, 13, 14, 15, 16, 17] }
+        };
+
+        // ASRS Part A screener thresholds
+        const partAThresholds = [2, 2, 2, 3, 3, 3];
+
+        // State
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlLang = urlParams.get('lang');
+        if (!urlLang && window.location.hash) {
+            const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
+            if (hashMatch) urlLang = hashMatch[1];
+        }
+        let currentLang = urlLang || localStorage.getItem('combinedTestLang') || 'ko';
+        if (!translations[currentLang]) currentLang = 'ko';
+
+        const hspQC = document.getElementById('hspQuestionsContainer');
+        const adhdQC = document.getElementById('adhdQuestionsContainer');
+        const submitButton = document.getElementById('submitButton');
+        const restartButton = document.getElementById('restartButton');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const shareGenericButton = document.getElementById('shareGeneric');
+        const downloadImageButton = document.getElementById('downloadImage');
+        const languageButtons = document.querySelectorAll('.language-selector button');
+
+        let lastHspAnswers = [];
+        let lastAdhdAnswers = [];
+        let lastHspTotal = 0;
+        let lastAdhdTotal = 0;
+        let lastScreenerCount = 0;
+        let lastHspIsHigh = false;
+        let lastAdhdPositive = false;
+        let resultImageBlob = null;
+
+        const htmlKeys = ['introText', 'hspSectionTitle', 'adhdSectionTitle',
+            'hspReference', 'hspCopyright', 'hspMoreInfo', 'hspContact',
+            'adhdReference', 'adhdCopyright', 'adhdPublicInterest', 'adhdMoreInfo', 'adhdContact'];
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('combinedTestLang', lang);
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', lang);
+            window.history.replaceState({}, '', newUrl);
+
+            const t = translations[lang];
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    if (htmlKeys.includes(key)) {
+                        el.innerHTML = t[key];
+                    } else {
+                        el.textContent = t[key];
+                    }
+                }
+            });
+
+            renderQuestions();
+
+            if (resultsContainer.style.display !== 'none') {
+                updateResultsText();
+            }
+
+            languageButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        function renderQuestions() {
+            // HSP questions (1-7 scale)
+            hspQC.innerHTML = '';
+            const hspQ = translations[currentLang].hspQuestions;
+            const scStart = translations[currentLang].hspScaleStart;
+            const scEnd = translations[currentLang].hspScaleEnd;
+
+            hspQ.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-blue-100';
+                let radios = '<div class="flex flex-wrap justify-between items-center mt-3">';
+                radios += `<span class="text-xs text-gray-500 scale-label mr-2">${scStart}</span>`;
+                for (let i = 1; i <= 7; i++) {
+                    radios += `<label for="hsp${idx}_${i}" class="flex flex-col items-center cursor-pointer mx-1">
+                        <input type="radio" id="hsp${idx}_${i}" name="hsp${idx}" value="${i}" class="mb-1">
+                        <span class="text-xs">${i}</span>
+                    </label>`;
+                }
+                radios += `<span class="text-xs text-gray-500 scale-label ml-2">${scEnd}</span></div>`;
+                div.innerHTML = `<p class="text-base md:text-lg font-medium text-gray-800"><span class="test-type-label hsp-label">HSP</span>${idx + 1}. ${q}</p>${radios}`;
+                hspQC.appendChild(div);
+            });
+
+            // ADHD questions (0-4 scale)
+            adhdQC.innerHTML = '';
+            const adhdQ = translations[currentLang].adhdQuestions;
+            const scLabels = translations[currentLang].adhdScaleLabels;
+            const paLabel = translations[currentLang].partALabel;
+            const pbLabel = translations[currentLang].partBLabel;
+
+            adhdQ.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-purple-100';
+                const partTag = idx < 6 ? `<span class="part-label part-a">${paLabel}</span>` : `<span class="part-label part-b">${pbLabel}</span>`;
+                let radios = '<div class="flex flex-wrap justify-between items-center mt-3">';
+                for (let i = 0; i <= 4; i++) {
+                    radios += `<label for="adhd${idx}_${i}" class="flex flex-col items-center cursor-pointer mx-1 mb-2">
+                        <input type="radio" id="adhd${idx}_${i}" name="adhd${idx}" value="${i}" class="mb-1">
+                        <span class="scale-label text-center">${i}<br><span class="text-[0.65rem] text-gray-400">${scLabels[i]}</span></span>
+                    </label>`;
+                }
+                radios += '</div>';
+                div.innerHTML = `<p class="text-base md:text-lg font-medium text-gray-800"><span class="test-type-label adhd-label">ADHD</span>${partTag}${idx + 1}. ${q}</p>${radios}`;
+                adhdQC.appendChild(div);
+            });
+        }
+
+        function updateResultsText() {
+            const t = translations[currentLang];
+
+            // Combined insight
+            let combinedKey;
+            if (lastHspIsHigh && lastAdhdPositive) combinedKey = 'combinedBoth';
+            else if (lastHspIsHigh) combinedKey = 'combinedHspOnly';
+            else if (lastAdhdPositive) combinedKey = 'combinedAdhdOnly';
+            else combinedKey = 'combinedNeither';
+            document.getElementById('combinedText').innerHTML = t[combinedKey];
+
+            // HSP results
+            const hspAvg = (lastHspTotal / 18).toFixed(2);
+            document.getElementById('hspTotalScore').textContent = t.hspTotalScore.replace('{score}', lastHspTotal);
+            document.getElementById('hspAverageScore').textContent = t.hspAverageScore.replace('{score}', hspAvg);
+            document.getElementById('hspInterpretation').textContent = lastHspIsHigh ? t.hspInterpHigh : t.hspInterpLow;
+
+            // HSP subscales
+            const hspSubEl = document.getElementById('hspSubscaleResults');
+            hspSubEl.innerHTML = '';
+            if (lastHspAnswers.length > 0) {
+                for (const key in hspSubscales) {
+                    let score = 0;
+                    hspSubscales[key].questionsIndices.forEach(qi => { score += lastHspAnswers[qi]; });
+                    const avg = (score / hspSubscales[key].questionsIndices.length).toFixed(2);
+                    const div = document.createElement('div');
+                    div.className = 'result-card p-3 rounded-lg shadow-md border border-blue-100';
+                    div.innerHTML = `<h4 class="text-sm font-semibold text-blue-700 mb-1">${t.hspSubscaleNames[key]}</h4>
+                        <p class="text-xs">${t.hspSubscaleTotal.replace('{score}', score)}</p>
+                        <p class="text-xs">${t.hspSubscaleAvg.replace('{score}', avg)}</p>`;
+                    hspSubEl.appendChild(div);
+                }
+            }
+
+            // ADHD screener
+            const screenerEl = document.getElementById('adhdScreenerResult');
+            document.getElementById('adhdScreenerScore').textContent = t.adhdScreenerScore.replace('{count}', lastScreenerCount);
+            document.getElementById('adhdScreenerInterp').textContent = lastAdhdPositive ? t.adhdScreenerPositive : t.adhdScreenerNegative;
+            screenerEl.className = lastAdhdPositive
+                ? 'adhd-result-card result-card p-6 rounded-lg shadow-lg mb-6 border-2 screener-positive'
+                : 'adhd-result-card result-card p-6 rounded-lg shadow-lg mb-6 border-2 screener-negative';
+
+            // ADHD total
+            const adhdAvg = (lastAdhdTotal / 18).toFixed(2);
+            document.getElementById('adhdTotalScore').textContent = t.adhdTotalScore.replace('{score}', lastAdhdTotal);
+            document.getElementById('adhdAverageScore').textContent = t.adhdAverageScore.replace('{score}', adhdAvg);
+
+            // ADHD subscales
+            const adhdSubEl = document.getElementById('adhdSubscaleResults');
+            adhdSubEl.innerHTML = '';
+            if (lastAdhdAnswers.length > 0) {
+                for (const key in adhdSubscales) {
+                    let score = 0;
+                    adhdSubscales[key].questionsIndices.forEach(qi => { score += lastAdhdAnswers[qi]; });
+                    const max = adhdSubscales[key].questionsIndices.length * 4;
+                    const avg = (score / adhdSubscales[key].questionsIndices.length).toFixed(2);
+                    const div = document.createElement('div');
+                    div.className = 'result-card p-3 rounded-lg shadow-md border border-purple-100';
+                    div.innerHTML = `<h4 class="text-sm font-semibold text-purple-700 mb-1">${t.adhdSubscaleNames[key]}</h4>
+                        <p class="text-xs">${t.adhdSubscaleTotal.replace('{score}', score).replace('{max}', max)}</p>
+                        <p class="text-xs">${t.adhdSubscaleAvg.replace('{score}', avg)}</p>`;
+                    adhdSubEl.appendChild(div);
+                }
+            }
+        }
+
+        function calculateResults() {
+            // Collect HSP answers
+            const hspAnswers = [];
+            for (let i = 0; i < 18; i++) {
+                const sel = document.querySelector(`input[name="hsp${i}"]:checked`);
+                if (!sel) { alert(translations[currentLang].alertAllAnswered); return; }
+                hspAnswers.push(parseInt(sel.value));
+            }
+            // Collect ADHD answers
+            const adhdAnswers = [];
+            for (let i = 0; i < 18; i++) {
+                const sel = document.querySelector(`input[name="adhd${i}"]:checked`);
+                if (!sel) { alert(translations[currentLang].alertAllAnswered); return; }
+                adhdAnswers.push(parseInt(sel.value));
+            }
+
+            lastHspAnswers = hspAnswers;
+            lastAdhdAnswers = adhdAnswers;
+            lastHspTotal = hspAnswers.reduce((a, b) => a + b, 0);
+            lastAdhdTotal = adhdAnswers.reduce((a, b) => a + b, 0);
+            lastHspIsHigh = (lastHspTotal / 18) > 5;
+
+            let screenerCount = 0;
+            for (let i = 0; i < 6; i++) {
+                if (adhdAnswers[i] >= partAThresholds[i]) screenerCount++;
+            }
+            lastScreenerCount = screenerCount;
+            lastAdhdPositive = screenerCount >= 4;
+
+            updateResultsText();
+
+            resultsContainer.style.display = 'block';
+            submitButton.style.display = 'none';
+            restartButton.style.display = 'inline-block';
+
+            const shareSection = document.getElementById('shareResults');
+            if (shareSection) shareSection.style.display = 'none';
+            html2canvas(resultsContainer, { scale: 2, logging: false, useCORS: true }).then(canvas => {
+                if (shareSection) shareSection.style.display = '';
+                canvas.toBlob(blob => {
+                    resultImageBlob = blob;
+                    downloadImageButton.style.display = 'inline-block';
+                }, 'image/png');
+            }).catch(() => {
+                if (shareSection) shareSection.style.display = '';
+            });
+
+            window.scrollTo({ top: resultsContainer.offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function restartTest() {
+            document.getElementById('combinedTestForm').reset();
+            resultsContainer.style.display = 'none';
+            document.getElementById('hspSubscaleResults').innerHTML = '';
+            document.getElementById('adhdSubscaleResults').innerHTML = '';
+            submitButton.style.display = 'inline-block';
+            restartButton.style.display = 'none';
+            downloadImageButton.style.display = 'none';
+            lastHspAnswers = []; lastAdhdAnswers = [];
+            lastHspTotal = 0; lastAdhdTotal = 0;
+            lastScreenerCount = 0; lastHspIsHigh = false; lastAdhdPositive = false;
+            resultImageBlob = null;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadResultImage() {
+            if (resultImageBlob) {
+                const url = URL.createObjectURL(resultImageBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'hsp_adhd_combined_result.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } else {
+                alert(translations[currentLang].alertNoImage);
+            }
+        }
+
+        function shareGeneric() {
+            const baseUrl = window.location.href.split('?')[0].split('#')[0];
+            const url = `${baseUrl}?lang=${currentLang}`;
+            const t = translations[currentLang];
+            const hspAvg = (lastHspTotal / 18).toFixed(2);
+            const textSummary = `${t.mainTitle}\nHSP: ${lastHspTotal}/126 (avg ${hspAvg}) | ADHD Screener: ${lastScreenerCount}/6`;
+            const linkText = `\n\n${t.shareLinkText}${url}`;
+            const title = t.pageTitle;
+
+            if (navigator.share) {
+                if (resultImageBlob) {
+                    const filesArray = [new File([resultImageBlob], 'hsp_adhd_result.png', { type: 'image/png' })];
+                    if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+                        navigator.share({ files: filesArray, title, text: textSummary + linkText })
+                        .catch(() => navigator.share({ title, text: textSummary + linkText, url }).catch(() => {}));
+                    } else {
+                        navigator.share({ title, text: textSummary + linkText, url }).catch(() => {});
+                    }
+                } else {
+                    navigator.share({ title, text: textSummary + linkText, url }).catch(() => {});
+                }
+            } else {
+                const fallbackText = `${textSummary}${linkText}`;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(fallbackText).then(() => {
+                        alert(t.alertCopied);
+                    }).catch(() => {
+                        prompt(t.alertCopyManual, fallbackText);
+                    });
+                } else {
+                    prompt(t.alertCopyManual, fallbackText);
+                }
+            }
+        }
+
+        submitButton.addEventListener('click', calculateResults);
+        restartButton.addEventListener('click', restartTest);
+        shareGenericButton.addEventListener('click', shareGeneric);
+        downloadImageButton.addEventListener('click', downloadResultImage);
+
+        languageButtons.forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+        });
+
+        setLanguage(currentLang);
+    </script>
+</body>
+</html>
