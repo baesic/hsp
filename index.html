@@ -1064,43 +1064,32 @@
             // Overstimulation subscale [Q3,Q9,Q15]: easily overwhelmed -> I
             // Inverse (comfortable with stimulation) -> E
             var overstim = norm(avg(hspA, [2, 8, 14]));
-            var iScore = overstim;
-            var eScore = 1.0 - overstim;
-
-            var eiSum = eScore + iScore + 0.001;
-            var ePct = Math.round((eScore / eiSum) * 100);
-            var iPct = 100 - ePct;
+            var iPct = Math.round(overstim * 100);
+            var ePct = 100 - iPct;
 
             // --- 2. S/N (Sensing / Intuition) ---
             // Detail Sensitivity subscale [Q1,Q14,Q17]: concrete sensory detection -> S
             // Depth of Processing subscale [Q7,Q13,Q18]: abstract/philosophical -> N
             var sScore = norm(avg(hspA, [0, 13, 16]));
             var nScore = norm(avg(hspA, [6, 12, 17]));
-
-            var snSum = sScore + nScore + 0.001;
-            var sPct = Math.round((sScore / snSum) * 100);
+            var snSum = sScore + nScore;
+            var sPct = snSum === 0 ? 50 : Math.round((sScore / snSum) * 100);
             var nPct = 100 - sPct;
 
             // --- 3. T/F (Thinking / Feeling) ---
             // Social Sensitivity [Q4,Q8,Q11] + Emotional Reactivity [Q2,Q6,Q10] -> F
             // Low empathic/emotional engagement -> T (inverse)
             var fScore = norm(avg(hspA, [1, 3, 5, 7, 9, 10]));
-            var tScore = 1.0 - fScore;
-
-            var tfSum = tScore + fScore + 0.001;
-            var tPct = Math.round((tScore / tfSum) * 100);
-            var fPct = 100 - tPct;
+            var fPct = Math.round(fScore * 100);
+            var tPct = 100 - fPct;
 
             // --- 4. J/P (Judging / Perceiving) ---
             // Positive Experience Sensitivity [Q5,Q12,Q16]: aesthetic openness,
             // spontaneous immersion in art/music -> P
             // Low aesthetic openness: practical, structure-preferring -> J (inverse)
             var pScore = norm(avg(hspA, [4, 11, 15]));
-            var jScore = 1.0 - pScore;
-
-            var jpSum = jScore + pScore + 0.001;
-            var jPct = Math.round((jScore / jpSum) * 100);
-            var pPct = 100 - jPct;
+            var pPct = Math.round(pScore * 100);
+            var jPct = 100 - pPct;
 
             var typeCode = (ePct > iPct ? 'E' : 'I') +
                            (sPct > nPct ? 'S' : 'N') +
