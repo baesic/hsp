@@ -1033,40 +1033,73 @@
 
         function calculateMBTI(hspA, adhdA) {
             function arrAvg(answers, indices) {
+                if (!indices || indices.length === 0) return 0;
                 return indices.reduce(function(s, i) { return s + answers[i]; }, 0) / indices.length;
             }
-            // E/I: HSP overstimulation(Q3,Q9,Q15) -> I; ADHD hyperactivity(Q5,Q6,Q12,Q13,Q15,Q16,Q18) -> E
+            
+            // --- 1. E/I (Extraversion / Introversion) ---
+            // I: HSP Overstimulation & Withdrawal (Q3,Q9,Q15 -> idx 2,8,14)
+            // mapped 0~1 (Average expected ~0.5)
             var iRaw = (arrAvg(hspA, [2, 8, 14]) - 1) / 6;
-            var eRaw = arrAvg(adhdA, [4, 5, 11, 12, 14, 15, 17]) / 4;
-            var eiSum = eRaw + iRaw + 0.001;
-            var ePct = Math.round((eRaw / eiSum) * 100);
+            var iWeight = iRaw * 1.0; 
+            
+            // E: ADHD Hyperactivity/Impulsivity acting outward (Q6,Q12,Q15,Q16,Q18 -> idx 5,11,14,15,17)
+            // mapped 0~1 (Average expected ASRS freq ~0.25)
+            var eRaw = arrAvg(adhdA, [5, 11, 14, 15, 17]) / 4;
+            // Normalizing against population avg. (0.5 / 0.25 = 2.0 multiplier)
+            var eWeight = eRaw * 2.0; 
+            
+            var eiSum = eWeight + iWeight + 0.001;
+            var ePct = Math.round((eWeight / eiSum) * 100);
             var iPct = 100 - ePct;
 
-            // S/N: HSP detail(Q1,Q14,Q17) -> S; HSP depth/abstract(Q7,Q13,Q16,Q18) -> N
-            var sRaw = (arrAvg(hspA, [0, 13, 16]) - 1) / 6;
-            var nRaw = (arrAvg(hspA, [6, 12, 15, 17]) - 1) / 6;
-            var snSum = sRaw + nRaw + 0.001;
-            var sPct = Math.round((sRaw / snSum) * 100);
+            // --- 2. S/N (Sensing / Intuition) ---
+            // S: HSP Sensory/Environmental Details (Q1,Q5,Q14,Q17 -> idx 0,4,13,16)
+            var sRaw = (arrAvg(hspA, [0, 4, 13, 16]) - 1) / 6;
+            var sWeight = sRaw * 1.0;
+            
+            // N: HSP Abstract/Deep Processing (Q7,Q13,Q16,Q18 -> idx 6,12,15,17) + ADHD Spacing Out/Anti-routine (Q1,Q8,Q10 -> idx 0,7,9)
+            var nHspRaw = (arrAvg(hspA, [6, 12, 15, 17]) - 1) / 6;
+            var nAdhdRaw = arrAvg(adhdA, [0, 7, 9]) / 4;
+            // Balance the two N signals. ADHD N properties multiplied by 2 due to average expectation gap.
+            var nWeight = (nHspRaw * 1.0 + nAdhdRaw * 2.0) / 2;
+
+            var snSum = sWeight + nWeight + 0.001;
+            var sPct = Math.round((sWeight / snSum) * 100);
             var nPct = 100 - sPct;
 
-            // T/F: HSP emotional/social(Q2,Q4,Q6,Q8,Q10,Q11) -> F; inverse -> T
+            // --- 3. T/F (Thinking / Feeling) ---
+            // F: HSP Emotional Empathy/Reactivity (Q2,Q4,Q6,Q8,Q10,Q11 -> idx 1,3,5,7,9,10)
             var fRaw = (arrAvg(hspA, [1, 3, 5, 7, 9, 10]) - 1) / 6;
-            var tRaw = Math.max(0, 1 - fRaw);
-            var tfSum = tRaw + fRaw + 0.001;
-            var tPct = Math.round((tRaw / tfSum) * 100);
+            var fWeight = fRaw;
+            // T mapped inversely (lack of high empathy points toward standard systemic/logic process)
+            var tWeight = Math.max(0, 1.0 - fRaw);
+
+            var tfSum = tWeight + fWeight + 0.001;
+            var tPct = Math.round((tWeight / tfSum) * 100);
             var fPct = 100 - tPct;
 
-            // J/P: ADHD inattention(Q1,Q2,Q3,Q4,Q7,Q8,Q10) -> P; inverse -> J
-            var pRaw = arrAvg(adhdA, [0, 1, 2, 3, 6, 7, 9]) / 4;
-            var jRaw = Math.max(0, 1 - pRaw);
-            var jpSum = jRaw + pRaw + 0.001;
-            var jPct = Math.round((jRaw / jpSum) * 100);
+            // --- 4. J/P (Judging / Perceiving) ---
+            // P: ADHD Inattention/Disorganization/Procrastination (Q2,Q3,Q4,Q7,Q9,Q11 -> idx 1,2,3,6,8,10)
+            var pRaw = arrAvg(adhdA, [1, 2, 3, 6, 8, 10]) / 4;
+            var pWeight = pRaw;
+            // J: Highly structured behavior is the inverse of ADHD P symptoms. (Usually J answers 0 on ASRS inattention)
+            var jWeight = Math.max(0, 0.5 - pRaw);
+
+            var jpSum = jWeight + pWeight + 0.001;
+            var jPct = Math.round((jWeight / jpSum) * 100);
             var pPct = 100 - jPct;
 
             var typeCode = (ePct > iPct ? 'E' : 'I') +
                            (sPct > nPct ? 'S' : 'N') +
                            (tPct > fPct ? 'T' : 'F') +
                            (jPct > pPct ? 'J' : 'P');
+
+            // Handle pure 50-50 exact ties with defaults logically aligned to HSP
+            if (ePct === iPct) typeCode = 'I' + typeCode.substring(1);
+            if (sPct === nPct) typeCode = typeCode.charAt(0) + 'N' + typeCode.substring(2);
+            if (tPct === fPct) typeCode = typeCode.substring(0,2) + 'F' + typeCode.charAt(3);
+            if (jPct === pPct) typeCode = typeCode.substring(0,3) + 'P';
 
             return {
                 type: typeCode,
