@@ -197,7 +197,11 @@
             <p class="mb-2" data-i18n="adhdMoreInfo"></p>
             <p class="mb-4" data-i18n="adhdContact"></p>
             <p class="mt-4 text-center" data-i18n="disclaimer"></p>
-            <p class="mt-2 text-center text-gray-400" data-i18n="credits"></p>
+            <p class="mt-4 text-center text-gray-400" data-i18n="credits"></p>
+            <div class="mt-4 pt-4 border-t border-gray-200 text-center">
+                <p class="text-[0.65rem] text-gray-400">v0.5.0 — MBTI estimation algorithm based on HSP-R subscale mapping</p>
+                <p class="text-[0.65rem] text-gray-400 mt-1">Developed by <strong>baesic</strong> · <a href="https://github.com/baesic/hsp" target="_blank" class="text-indigo-400 hover:underline">github.com/baesic/hsp</a></p>
+            </div>
         </footer>
     </div>
 
@@ -270,7 +274,7 @@
                 adhdMoreInfo: "ADHD 정보: <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1 허가: <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "본 테스트는 자기 이해를 돕기 위한 참고 자료이며, 전문적인 심리·의학적 진단을 대체할 수 없습니다.",
-                credits: "번역 및 웹서비스 제작 : baesic",
+                credits: "번역 및 웹서비스 제작: baesic · v0.5.0",
                 hspQuestions: [
                     "주변의 물건들이 옮겨졌을 때 알아채는 편인가요?",
                     "긍정적이든 부정적이든 피드백에 쉽게 영향을 받는 편인가요?",
@@ -317,8 +321,8 @@
                 alertCopyManual: "아래 텍스트를 복사해주세요:",
                 shareLinkText: "HSP & ADHD 융합 자가 테스트 시도하기: ",
                 mbtiHeader: "🧩 MBTI 성향 추정",
-                mbtiSubtitle: "HSP·ADHD 응답 패턴 기반 추정 분석",
-                mbtiNote: "※ 주의: 본 테스트의 MBTI 결과는 입력하신 민감도 및 주의력 관련 문항만을 바탕으로 산출된 '단순 유추결과'입니다. 결코 특정 MBTI 유형이 ADHD나 HSP를 의미하거나 직결되는 것이 아님을 명시합니다. 의학적 진단 및 공인된 MBTI 검사와는 무관하므로 가벼운 참고용으로만 즐겨주세요.",
+                mbtiSubtitle: "HSP 기질 응답 패턴 기반 추정 (ADHD 점수 미반영)",
+                mbtiNote: "※ 본 MBTI 추정은 HSP(민감성) 문항 응답만을 기반으로 산출되며, ADHD 임상 문항은 반영되지 않습니다. 특정 MBTI 유형이 질환과 직결되지 않으며, 공인된 MBTI 검사를 대체하지 않습니다. 가벼운 참고용으로만 즐겨주세요.",
                 mbtiDimNames: ["외향(E) ↔ 내향(I)", "감각(S) ↔ 직관(N)", "사고(T) ↔ 감정(F)", "판단(J) ↔ 인식(P)"],
                 mbtiLetterDesc: {
                     E: "외부 활동·사람들로부터 에너지를 얻는 경향",
@@ -404,7 +408,7 @@
                 adhdMoreInfo: "ADHD info: <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1 permissions: <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "This test is a reference tool for self-understanding and does not replace professional psychological or medical diagnosis.",
-                credits: "Translation and Web Service by: baesic",
+                credits: "Translation & Web Service by: baesic · v0.5.0",
                 hspQuestions: [
                     "Do you notice when objects in your surroundings have been moved?",
                     "Are you easily affected by feedback, whether positive or negative?",
@@ -451,8 +455,8 @@
                 alertCopyManual: "Copy the text below:",
                 shareLinkText: "Try the HSP & ADHD Combined Self-Test: ",
                 mbtiHeader: "🧩 Estimated MBTI Tendency",
-                mbtiSubtitle: "Inferred from HSP & ADHD response patterns",
-                mbtiNote: "※ NOTE: This MBTI result is a playful estimation based solely on your responses to sensitivity and attention-related questions. It DOES NOT imply that specific MBTI types are linked to ADHD or HSP. This is entirely separate from medical diagnoses or official MBTI assessments. Please enjoy it strictly for entertainment.",
+                mbtiSubtitle: "Inferred from HSP temperament responses only (ADHD scores excluded)",
+                mbtiNote: "※ This MBTI estimation is based solely on HSP (sensitivity) responses. ADHD clinical items are not factored in. No MBTI type is linked to any condition. This does not replace an official MBTI assessment.",
                 mbtiDimNames: ["Extraversion(E) ↔ Introversion(I)", "Sensing(S) ↔ Intuition(N)", "Thinking(T) ↔ Feeling(F)", "Judging(J) ↔ Perceiving(P)"],
                 mbtiLetterDesc: {
                     E: "Energized by external activities and people",
@@ -538,7 +542,7 @@
                 adhdMoreInfo: "Info TDAH : <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">OMS</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "Autorisations ASRS-v1.1 : <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "Ce test est un outil de référence et ne remplace pas un diagnostic professionnel.",
-                credits: "Traduction et service web par : baesic",
+                credits: "Traduction et service web par: baesic · v0.5.0",
                 hspQuestions: [
                     "Remarquez-vous lorsque des objets dans votre environnement ont été déplacés ?",
                     "Êtes-vous facilement affecté(e) par les retours, qu'ils soient positifs ou négatifs ?",
@@ -585,8 +589,8 @@
                 alertCopyManual: "Copiez le texte ci-dessous :",
                 shareLinkText: "Essayez le test combiné HSP & TDAH : ",
                 mbtiHeader: "🧩 Tendance MBTI estimée",
-                mbtiSubtitle: "Analyse estimée basée sur les réponses",
-                mbtiNote: "※ REMARQUE : Ce résultat est une estimation amusante. Il NE signifie PAS que certains types MBTI sont liés au TDAH ou au HSP. Il est totalement distinct des diagnostics médicaux ou des évaluations MBTI officielles.",
+                mbtiSubtitle: "Basée uniquement sur les réponses HSP (scores TDAH exclus)",
+                mbtiNote: "※ Cette estimation MBTI repose uniquement sur les réponses HSP (sensibilité). Les items cliniques TDAH ne sont pas pris en compte. Aucun type MBTI n'est lié à une condition médicale. Ne remplace pas un test MBTI officiel.",
                 mbtiDimNames: ["Extraversion(E) ↔ Introversion(I)", "Sensation(S) ↔ Intuition(N)", "Pensée(T) ↔ Sentiment(F)", "Jugement(J) ↔ Perception(P)"],
                 mbtiLetterDesc: {
                     E: "Énergisé par les activités extérieures et les gens",
@@ -672,7 +676,7 @@
                 adhdMoreInfo: "ADHD信息：<a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1许可：<a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "本测试是自我理解的参考工具，不能替代专业心理或医学诊断。",
-                credits: "翻译和网络服务制作：baesic",
+                credits: "翻译和网络服务制作：baesic · v0.5.0",
                 hspQuestions: [
                     "您是否会注意到周围物品被移动了？","您是否容易受到反馈的影响？","您是否容易被强烈刺激压倒？",
                     "您是否容易察觉到别人的感受？","您是否会注意到并欣赏精致的气味、味道、声音或艺术品？","您是否容易受到周围人情绪的影响？",
@@ -698,8 +702,8 @@
                 alertCopyManual: "请复制以下文字：",
                 shareLinkText: "尝试HSP与ADHD融合自测：",
                 mbtiHeader: "🧩 MBTI 性格倾向推测",
-                mbtiSubtitle: "基于回答模式的推测分析",
-                mbtiNote: "※ 注：此MBTI结果仅代表通过敏感度和注意力问题进行的趣味估算。绝不意味着特定MBTI类型与ADHD或HSP直接相关。本结果完全独立于医疗诊断和官方MBTI测试，仅供娱乐参考。",
+                mbtiSubtitle: "仅基于HSP气质回答推测（ADHD分数未纳入）",
+                mbtiNote: "※ 本MBTI推测仅基于HSP（敏感性）回答，ADHD临床题目未纳入计算。特定MBTI类型与任何疾病无关。不能替代正式MBTI测试，仅供参考。",
                 mbtiDimNames: ["外向(E) ↔ 内向(I)", "感觉(S) ↔ 直觉(N)", "思维(T) ↔ 情感(F)", "判断(J) ↔ 知觉(P)"],
                 mbtiLetterDesc: {
                     E: "从外部活动和人际交往中获取能量",
@@ -785,7 +789,7 @@
                 adhdMoreInfo: "ADHD情報：<a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1許可：<a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "このテストは自己理解のための参考資料であり、専門的な心理・医学的診断に代わるものではありません。",
-                credits: "翻訳およびウェブサービス制作：baesic",
+                credits: "翻訳およびウェブサービス制作：baesic · v0.5.0",
                 hspQuestions: [
                     "周囲の物が移動されたことに気づきますか？","フィードバックに簡単に影響されますか？","強い刺激に簡単に圧倒されますか？",
                     "他の人の感情を簡単に察知しますか？","繊細な香り、味、音、芸術作品に気づき楽しみますか？","周囲の人の気分に簡単に影響されますか？",
@@ -811,8 +815,8 @@
                 alertCopyManual: "以下のテキストをコピーしてください：",
                 shareLinkText: "HSP＆ADHD統合自己テストを試す：",
                 mbtiHeader: "🧩 MBTI 性格傾向の推定",
-                mbtiSubtitle: "回答パターンに基づく推定分析",
-                mbtiNote: "※ 注意：このMBTI結果は、敏感さや注意力に関する質問のみに基づいたお楽しみ用の推定値です。特定のMBTIタイプがADHDやHSPに関連していることを意味するものではありません。医療診断や公式のMBTIテストとは全く無関係ですので、あくまで参考程度にお楽しみください。",
+                mbtiSubtitle: "HSP気質回答のみに基づく推定（ADHDスコア不使用）",
+                mbtiNote: "※ このMBTI推定はHSP（感受性）回答のみに基づいており、ADHD臨床項目は計算に含まれていません。特定のMBTIタイプが疾患に関連することはありません。公式MBTIテストの代替にはなりません。",
                 mbtiDimNames: ["外向(E) ↔ 内向(I)", "感覚(S) ↔ 直観(N)", "思考(T) ↔ 感情(F)", "判断(J) ↔ 知覚(P)"],
                 mbtiLetterDesc: {
                     E: "外部の活動や人々からエネルギーを得る傾向",
@@ -833,7 +837,7 @@
             }
         };
 
-        // HSP subscale definitions (0-indexed, matching hspQuestions)
+        // HSP-R subscale definitions (0-indexed, matching hspQuestions array)
         const hspSubscales = {
             "Overstimulation": { questionsIndices: [2, 8, 14] },
             "Sensitivity to Positive Experiences": { questionsIndices: [4, 11, 15] },
@@ -843,16 +847,16 @@
             "Sensitivity to Details": { questionsIndices: [0, 13, 16] }
         };
 
-        // ADHD subscale definitions (0-indexed, matching adhdQuestions)
+        // ASRS-v1.1 subscale definitions (0-indexed, matching adhdQuestions array)
         const adhdSubscales = {
             "Inattention": { questionsIndices: [0, 1, 2, 3, 6, 7, 8, 9, 10] },
             "Hyperactivity": { questionsIndices: [4, 5, 11, 12, 13, 14, 15, 16, 17] }
         };
 
-        // ASRS Part A screener thresholds
+        // ASRS-v1.1 Part A screener thresholds (Q1-Q3: >=2, Q4-Q6: >=3)
         const partAThresholds = [2, 2, 2, 3, 3, 3];
 
-        // State
+        // Application state
         const urlParams = new URLSearchParams(window.location.search);
         let urlLang = urlParams.get('lang');
         if (!urlLang && window.location.hash) {
@@ -919,7 +923,7 @@
         }
 
         function renderQuestions() {
-            // HSP questions (1-7 scale)
+            // Render HSP questions (1-7 Likert scale)
             hspQC.innerHTML = '';
             const hspQ = translations[currentLang].hspQuestions;
             const scStart = translations[currentLang].hspScaleStart;
@@ -941,7 +945,7 @@
                 hspQC.appendChild(div);
             });
 
-            // ADHD questions (0-4 scale)
+            // Render ADHD questions (0-4 frequency scale)
             adhdQC.innerHTML = '';
             const adhdQ = translations[currentLang].adhdQuestions;
             const scLabels = translations[currentLang].adhdScaleLabels;
@@ -968,7 +972,7 @@
         function updateResultsText() {
             const t = translations[currentLang];
 
-            // Combined insight
+            // Determine combined insight category
             let combinedKey;
             if (lastHspIsHigh && lastAdhdPositive) combinedKey = 'combinedBoth';
             else if (lastHspIsHigh) combinedKey = 'combinedHspOnly';
@@ -976,13 +980,13 @@
             else combinedKey = 'combinedNeither';
             document.getElementById('combinedText').innerHTML = t[combinedKey];
 
-            // HSP results
+            // Display HSP results
             const hspAvg = (lastHspTotal / 18).toFixed(2);
             document.getElementById('hspTotalScore').textContent = t.hspTotalScore.replace('{score}', lastHspTotal);
             document.getElementById('hspAverageScore').textContent = t.hspAverageScore.replace('{score}', hspAvg);
             document.getElementById('hspInterpretation').textContent = lastHspIsHigh ? t.hspInterpHigh : t.hspInterpLow;
 
-            // HSP subscales
+            // Display HSP subscale breakdown
             const hspSubEl = document.getElementById('hspSubscaleResults');
             hspSubEl.innerHTML = '';
             if (lastHspAnswers.length > 0) {
@@ -999,7 +1003,7 @@
                 }
             }
 
-            // ADHD screener
+            // Display ADHD Part A screener result
             const screenerEl = document.getElementById('adhdScreenerResult');
             document.getElementById('adhdScreenerScore').textContent = t.adhdScreenerScore.replace('{count}', lastScreenerCount);
             document.getElementById('adhdScreenerInterp').textContent = lastAdhdPositive ? t.adhdScreenerPositive : t.adhdScreenerNegative;
@@ -1007,12 +1011,12 @@
                 ? 'adhd-result-card result-card p-6 rounded-lg shadow-lg mb-6 border-2 screener-positive'
                 : 'adhd-result-card result-card p-6 rounded-lg shadow-lg mb-6 border-2 screener-negative';
 
-            // ADHD total
+            // Display ADHD total summary
             const adhdAvg = (lastAdhdTotal / 18).toFixed(2);
             document.getElementById('adhdTotalScore').textContent = t.adhdTotalScore.replace('{score}', lastAdhdTotal);
             document.getElementById('adhdAverageScore').textContent = t.adhdAverageScore.replace('{score}', adhdAvg);
 
-            // ADHD subscales
+            // Display ADHD subscale breakdown
             const adhdSubEl = document.getElementById('adhdSubscaleResults');
             adhdSubEl.innerHTML = '';
             if (lastAdhdAnswers.length > 0) {
@@ -1031,63 +1035,71 @@
             }
         }
 
+        // ====================================================================
+        // MBTI Estimation — v0.5.0
+        // Based SOLELY on HSP-R personality/temperament responses.
+        // ADHD clinical responses are intentionally excluded to prevent
+        // any conflation between psychiatric symptoms and personality type.
+        //
+        // Each of the 6 HSP-R subscales maps to exactly one MBTI dimension
+        // with ZERO index overlap between dimensions:
+        //   Overstimulation           [2,8,14]     -> E/I
+        //   Sensitivity to Details    [0,13,16]    -> S  (in S/N)
+        //   Depth of Processing       [6,12,17]    -> N  (in S/N)
+        //   Social Sensitivity        [3,7,10]     -> F  (in T/F, part 1)
+        //   Emotional Reactivity      [1,5,9]      -> F  (in T/F, part 2)
+        //   Positive Experiences      [4,11,15]    -> P  (in J/P)
+        // ====================================================================
         function calculateMBTI(hspA, adhdA) {
-            function arrAvg(answers, indices) {
+            // Helper: compute average of selected question scores
+            function avg(answers, indices) {
                 if (!indices || indices.length === 0) return 0;
                 return indices.reduce(function(s, i) { return s + answers[i]; }, 0) / indices.length;
             }
-            
-            // --- ADHD 질환과 MBTI의 직접적 연결성을 배제하기 위해 오직 HSP(성격/기질) 응답만을 베이스로 추정합니다 ---
-            
+
+            // Normalize HSP answer (1-7 scale) to 0.0 ~ 1.0 range
+            function norm(val) { return (val - 1) / 6; }
+
             // --- 1. E/I (Extraversion / Introversion) ---
-            // I: HSP Overstimulation & Withdrawal (Q3,Q9,Q15 -> idx 2,8,14)
-            var iRaw = (arrAvg(hspA, [2, 8, 14]) - 1) / 6;
-            var iWeight = iRaw * 1.0; 
-            
-            // E: HSP 중에서도 외부 자극이나 타인과 관계를 즐기는 성향 추출 (Q2,Q4,Q6,Q16 -> idx 1,3,5,15)
-            // 외부 세계(예술, 타인의 기분)에 강하게 반응하는 성향을 외향성(E)의 대리 지표로 사용.
-            var eRaw = (arrAvg(hspA, [1, 3, 5, 15]) - 1) / 6;
-            var eWeight = Math.max(0, 1.0 - iRaw + eRaw) / 2.0; // I 성향과 상반되는 값 계산
-            
-            var eiSum = eWeight + iWeight + 0.001;
-            var ePct = Math.round((eWeight / eiSum) * 100);
+            // Overstimulation subscale [Q3,Q9,Q15]: easily overwhelmed -> I
+            // Inverse (comfortable with stimulation) -> E
+            var overstim = norm(avg(hspA, [2, 8, 14]));
+            var iScore = overstim;
+            var eScore = 1.0 - overstim;
+
+            var eiSum = eScore + iScore + 0.001;
+            var ePct = Math.round((eScore / eiSum) * 100);
             var iPct = 100 - ePct;
 
             // --- 2. S/N (Sensing / Intuition) ---
-            // S: HSP Sensory/Environmental Details 구체적 감각과 세부사항 인지 (Q1,Q5,Q14,Q17 -> idx 0,4,13,16)
-            var sRaw = (arrAvg(hspA, [0, 4, 13, 16]) - 1) / 6;
-            var sWeight = sRaw * 1.0;
-            
-            // N: HSP Abstract/Deep Processing 추상적, 철학적, 내면의 깊은 처리 (Q7,Q13,Q16,Q18 -> idx 6,12,15,17)
-            var nRaw = (arrAvg(hspA, [6, 12, 15, 17]) - 1) / 6;
-            var nWeight = nRaw * 1.0;
+            // Detail Sensitivity subscale [Q1,Q14,Q17]: concrete sensory detection -> S
+            // Depth of Processing subscale [Q7,Q13,Q18]: abstract/philosophical -> N
+            var sScore = norm(avg(hspA, [0, 13, 16]));
+            var nScore = norm(avg(hspA, [6, 12, 17]));
 
-            var snSum = sWeight + nWeight + 0.001;
-            var sPct = Math.round((sWeight / snSum) * 100);
+            var snSum = sScore + nScore + 0.001;
+            var sPct = Math.round((sScore / snSum) * 100);
             var nPct = 100 - sPct;
 
             // --- 3. T/F (Thinking / Feeling) ---
-            // F: HSP Emotional Empathy/Reactivity 정서적 반응성과 공감 (Q2,Q4,Q6,Q8,Q10,Q11 -> idx 1,3,5,7,9,10)
-            var fRaw = (arrAvg(hspA, [1, 3, 5, 7, 9, 10]) - 1) / 6;
-            var fWeight = fRaw;
-            // T: 감정 점수의 역산 (감성적/상호작용적 처리보다는 객관적/사물 중심 처리 선호 추정)
-            var tWeight = Math.max(0, 1.0 - fRaw);
+            // Social Sensitivity [Q4,Q8,Q11] + Emotional Reactivity [Q2,Q6,Q10] -> F
+            // Low empathic/emotional engagement -> T (inverse)
+            var fScore = norm(avg(hspA, [1, 3, 5, 7, 9, 10]));
+            var tScore = 1.0 - fScore;
 
-            var tfSum = tWeight + fWeight + 0.001;
-            var tPct = Math.round((tWeight / tfSum) * 100);
+            var tfSum = tScore + fScore + 0.001;
+            var tPct = Math.round((tScore / tfSum) * 100);
             var fPct = 100 - tPct;
 
             // --- 4. J/P (Judging / Perceiving) ---
-            // J/P는 HSP에서 직접 도출하기 가장 어렵지만, 깊은 사고(N)와 세부사항(S)의 대비를 통해 추론합니다.
-            // J: 세부사항의 통제와 인식(S), 그리고 외부 자극에 대한 통제 욕구(I)의 조합. (과자극을 피하기 위한 통제 선호)
-            var jWeight = (sRaw + iRaw) / 2.0;
+            // Positive Experience Sensitivity [Q5,Q12,Q16]: aesthetic openness,
+            // spontaneous immersion in art/music -> P
+            // Low aesthetic openness: practical, structure-preferring -> J (inverse)
+            var pScore = norm(avg(hspA, [4, 11, 15]));
+            var jScore = 1.0 - pScore;
 
-            // P: 깊은 생각의 흐름을 타는 개방성과 새로운 자극(예술) 선호 (Q5, Q12, Q16, Q18 -> idx 4, 11, 15, 17)
-            var pRaw = (arrAvg(hspA, [4, 11, 15, 17]) - 1) / 6;
-            var pWeight = pRaw;
-
-            var jpSum = jWeight + pWeight + 0.001;
-            var jPct = Math.round((jWeight / jpSum) * 100);
+            var jpSum = jScore + pScore + 0.001;
+            var jPct = Math.round((jScore / jpSum) * 100);
             var pPct = 100 - jPct;
 
             var typeCode = (ePct > iPct ? 'E' : 'I') +
@@ -1095,7 +1107,7 @@
                            (tPct > fPct ? 'T' : 'F') +
                            (jPct > pPct ? 'J' : 'P');
 
-            // Handle pure 50-50 exact ties with defaults logically aligned to HSP
+            // Tie-breaker: exact 50/50 defaults based on HSP population tendencies
             if (ePct === iPct) typeCode = 'I' + typeCode.substring(1);
             if (sPct === nPct) typeCode = typeCode.charAt(0) + 'N' + typeCode.substring(2);
             if (tPct === fPct) typeCode = typeCode.substring(0,2) + 'F' + typeCode.charAt(3);
@@ -1145,14 +1157,14 @@
         }
 
         function calculateResults() {
-            // Collect HSP answers
+            // Collect HSP answers (1-7)
             const hspAnswers = [];
             for (let i = 0; i < 18; i++) {
                 const sel = document.querySelector(`input[name="hsp${i}"]:checked`);
                 if (!sel) { alert(translations[currentLang].alertAllAnswered); return; }
                 hspAnswers.push(parseInt(sel.value));
             }
-            // Collect ADHD answers
+            // Collect ADHD answers (0-4)
             const adhdAnswers = [];
             for (let i = 0; i < 18; i++) {
                 const sel = document.querySelector(`input[name="adhd${i}"]:checked`);
