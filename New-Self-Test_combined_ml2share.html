@@ -105,22 +105,9 @@
         </div>
 
         <form id="combinedTestForm">
-            <!-- HSP Section -->
-            <div id="hspSection">
-                <h3 class="text-lg font-bold text-blue-700 mb-4 flex items-center" data-i18n="hspSectionTitle">
-                    <span class="test-type-label hsp-label mr-2">HSP</span> 민감성 테스트 (18문항)
-                </h3>
-                <div id="hspQuestionsContainer" class="space-y-6"></div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <!-- ADHD Section -->
-            <div id="adhdSection">
-                <h3 class="text-lg font-bold text-purple-700 mb-4 flex items-center" data-i18n="adhdSectionTitle">
-                    <span class="test-type-label adhd-label mr-2">ADHD</span> 고기능 ADHD 선별 (18문항)
-                </h3>
-                <div id="adhdQuestionsContainer" class="space-y-6"></div>
+            <!-- Unified Questions Section (HSP + ADHD shuffled, labels hidden) -->
+            <div id="questionsSection">
+                <div id="questionsContainer" class="space-y-6"></div>
             </div>
 
             <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -199,7 +186,7 @@
             <p class="mt-4 text-center" data-i18n="disclaimer"></p>
             <p class="mt-4 text-center text-gray-400" data-i18n="credits"></p>
             <div class="mt-4 pt-4 border-t border-gray-200 text-center">
-                <p class="text-[0.65rem] text-gray-400">v0.5.0 — MBTI estimation algorithm based on HSP-R subscale mapping</p>
+                <p class="text-[0.65rem] text-gray-400">v1.0.0 — MBTI estimation algorithm based on HSP-R subscale mapping</p>
                 <p class="text-[0.65rem] text-gray-400 mt-1">Developed by <strong>baesic</strong> · <a href="https://github.com/baesic/hsp" target="_blank" class="text-indigo-400 hover:underline">github.com/baesic/hsp</a></p>
             </div>
         </footer>
@@ -212,7 +199,7 @@
                 mainTitle: "HSP & 고기능 ADHD 융합 자가 테스트",
                 subTitle: "HSP-R (18문항) + ASRS-v1.1 (18문항) 통합 분석",
                 introHeader: "테스트 안내",
-                introText: "이 테스트는 <strong>HSP(매우 민감한 사람)</strong>과 <strong>고기능 ADHD</strong>를 한 번에 평가합니다.<br><br>▸ <strong>Part 1 (HSP)</strong>: 18문항, 1~7점 척도 (1=전혀 그렇지 않다 ~ 7=매우 그렇다)<br>▸ <strong>Part 2 (ADHD)</strong>: 18문항, 0~4점 빈도 척도 (0=전혀 없음 ~ 4=매우 자주)<br><br>모든 36문항에 답변해주셔야 정확한 결과를 얻을 수 있습니다.",
+                introText: "이 테스트는 <strong>민감성(HSP)</strong>과 <strong>주의력(ADHD)</strong> 관련 성향을 통합 평가합니다.<br><br>▸ 총 <strong>36문항</strong>이 무작위 순서로 제시됩니다.<br>▸ 문항별로 1~7 또는 0~4 척도가 표시됩니다. 제시된 척도에 따라 솔직하게 답변해 주세요.<br><br>모든 36문항에 답변해주셔야 정확한 결과를 얻을 수 있습니다.",
                 hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> 민감성 테스트 (18문항)',
                 adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> 고기능 ADHD 선별 (18문항)',
                 submitButton: "결과 보기",
@@ -274,7 +261,7 @@
                 adhdMoreInfo: "ADHD 정보: <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1 허가: <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "본 테스트는 자기 이해를 돕기 위한 참고 자료이며, 전문적인 심리·의학적 진단을 대체할 수 없습니다.",
-                credits: "번역 및 웹서비스 제작: baesic · v0.5.0",
+                credits: "번역 및 웹서비스 제작: baesic · v1.0.0",
                 hspQuestions: [
                     "주변의 물건들이 옮겨졌을 때 알아채는 편인가요?",
                     "긍정적이든 부정적이든 피드백에 쉽게 영향을 받는 편인가요?",
@@ -346,7 +333,7 @@
                 mainTitle: "HSP & High-Functioning ADHD Combined Self-Test",
                 subTitle: "HSP-R (18 items) + ASRS-v1.1 (18 items) Integrated Analysis",
                 introHeader: "Test Instructions",
-                introText: "This test evaluates both <strong>HSP (Highly Sensitive Person)</strong> and <strong>High-Functioning ADHD</strong> in a single session.<br><br>▸ <strong>Part 1 (HSP)</strong>: 18 questions, 1–7 scale (1=Not at all to 7=Very much so)<br>▸ <strong>Part 2 (ADHD)</strong>: 18 questions, 0–4 frequency scale (0=Never to 4=Very Often)<br><br>Please answer all 36 questions for accurate results.",
+                introText: "This test evaluates both <strong>sensitivity (HSP)</strong> and <strong>attention (ADHD)</strong> traits in a single session.<br><br>▸ A total of <strong>36 questions</strong> are presented in randomized order.<br>▸ Each question shows either a 1–7 or 0–4 scale. Please answer honestly using the scale provided.<br><br>All 36 questions must be answered for accurate results.",
                 hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> Sensitivity Test (18 Questions)',
                 adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> High-Functioning ADHD Screening (18 Questions)',
                 submitButton: "Show Results",
@@ -408,7 +395,7 @@
                 adhdMoreInfo: "ADHD info: <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1 permissions: <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "This test is a reference tool for self-understanding and does not replace professional psychological or medical diagnosis.",
-                credits: "Translation & Web Service by: baesic · v0.5.0",
+                credits: "Translation & Web Service by: baesic · v1.0.0",
                 hspQuestions: [
                     "Do you notice when objects in your surroundings have been moved?",
                     "Are you easily affected by feedback, whether positive or negative?",
@@ -480,7 +467,7 @@
                 mainTitle: "Test combiné HSP & TDAH de haut niveau",
                 subTitle: "HSP-R (18 items) + ASRS-v1.1 (18 items) Analyse intégrée",
                 introHeader: "Instructions du test",
-                introText: "Ce test évalue à la fois <strong>HSP (Personne Hautement Sensible)</strong> et <strong>TDAH de haut niveau</strong> en une seule session.<br><br>▸ <strong>Partie 1 (HSP)</strong> : 18 questions, échelle 1–7 (1=Pas du tout à 7=Tout à fait)<br>▸ <strong>Partie 2 (TDAH)</strong> : 18 questions, échelle de fréquence 0–4 (0=Jamais à 4=Très souvent)<br><br>Veuillez répondre aux 36 questions pour des résultats précis.",
+                introText: "Ce test évalue à la fois les traits de <strong>sensibilité (HSP)</strong> et d'<strong>attention (TDAH)</strong> en une seule session.<br><br>▸ <strong>36 questions</strong> au total sont présentées dans un ordre aléatoire.<br>▸ Chaque question affiche une échelle 1–7 ou 0–4. Répondez honnêtement selon l'échelle indiquée.<br><br>Veuillez répondre aux 36 questions pour des résultats précis.",
                 hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> Test de sensibilité (18 questions)',
                 adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">TDAH</span> Dépistage TDAH de haut niveau (18 questions)',
                 submitButton: "Afficher les résultats",
@@ -542,7 +529,7 @@
                 adhdMoreInfo: "Info TDAH : <a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">OMS</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "Autorisations ASRS-v1.1 : <a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "Ce test est un outil de référence et ne remplace pas un diagnostic professionnel.",
-                credits: "Traduction et service web par: baesic · v0.5.0",
+                credits: "Traduction et service web par: baesic · v1.0.0",
                 hspQuestions: [
                     "Remarquez-vous lorsque des objets dans votre environnement ont été déplacés ?",
                     "Êtes-vous facilement affecté(e) par les retours, qu'ils soient positifs ou négatifs ?",
@@ -614,7 +601,7 @@
                 mainTitle: "HSP与高功能ADHD融合自测",
                 subTitle: "HSP-R（18题）+ ASRS-v1.1（18题）综合分析",
                 introHeader: "测试说明",
-                introText: "此测试一次性评估<strong>HSP（高敏感人群）</strong>和<strong>高功能ADHD</strong>。<br><br>▸ <strong>第1部分（HSP）</strong>：18题，1-7分量表（1=完全不符 到 7=非常符合）<br>▸ <strong>第2部分（ADHD）</strong>：18题，0-4频率量表（0=从不 到 4=非常频繁）<br><br>请回答所有36题以获得准确结果。",
+                introText: "本测试综合评估<strong>敏感性（HSP）</strong>和<strong>注意力（ADHD）</strong>相关特征。<br><br>▸ 共<strong>36道题目</strong>以随机顺序呈现。<br>▸ 每道题显示1-7或0-4量表，请按所示量表如实作答。<br><br>请回答所有36题以获得准确结果。",
                 hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> 敏感性测试（18题）',
                 adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> 高功能ADHD筛查（18题）',
                 submitButton: "查看结果",
@@ -676,7 +663,7 @@
                 adhdMoreInfo: "ADHD信息：<a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1许可：<a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "本测试是自我理解的参考工具，不能替代专业心理或医学诊断。",
-                credits: "翻译和网络服务制作：baesic · v0.5.0",
+                credits: "翻译和网络服务制作：baesic · v1.0.0",
                 hspQuestions: [
                     "您是否会注意到周围物品被移动了？","您是否容易受到反馈的影响？","您是否容易被强烈刺激压倒？",
                     "您是否容易察觉到别人的感受？","您是否会注意到并欣赏精致的气味、味道、声音或艺术品？","您是否容易受到周围人情绪的影响？",
@@ -727,7 +714,7 @@
                 mainTitle: "HSP＆高機能ADHD統合自己テスト",
                 subTitle: "HSP-R（18問）+ ASRS-v1.1（18問）統合分析",
                 introHeader: "テスト案内",
-                introText: "このテストは<strong>HSP（非常に敏感な人）</strong>と<strong>高機能ADHD</strong>を一度に評価します。<br><br>▸ <strong>パート1（HSP）</strong>：18問、1〜7尺度（1=全くそうではない 〜 7=非常にそうである）<br>▸ <strong>パート2（ADHD）</strong>：18問、0〜4頻度尺度（0=全くない 〜 4=非常に頻繁）<br><br>正確な結果のために全36問に回答してください。",
+                introText: "このテストは<strong>感受性（HSP）</strong>と<strong>注意力（ADHD）</strong>の特性を統合的に評価します。<br><br>▸ 合計<strong>36問</strong>がランダムな順序で出題されます。<br>▸ 各問題には1〜7または0〜4の尺度が表示されます。表示された尺度に従って正直にお答えください。<br><br>正確な結果のために全36問に回答してください。",
                 hspSectionTitle: '<span class="test-type-label hsp-label mr-2">HSP</span> 感度テスト（18問）',
                 adhdSectionTitle: '<span class="test-type-label adhd-label mr-2">ADHD</span> 高機能ADHDスクリーニング（18問）',
                 submitButton: "結果を見る",
@@ -789,7 +776,7 @@
                 adhdMoreInfo: "ADHD情報：<a href=\"https://www.who.int/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">WHO</a> | <a href=\"https://add.org/\" target=\"_blank\" class=\"text-indigo-600 hover:underline\">ADDA</a>",
                 adhdContact: "ASRS-v1.1許可：<a href=\"mailto:ronkadm@hcp.med.harvard.edu\">ronkadm@hcp.med.harvard.edu</a>",
                 disclaimer: "このテストは自己理解のための参考資料であり、専門的な心理・医学的診断に代わるものではありません。",
-                credits: "翻訳およびウェブサービス制作：baesic · v0.5.0",
+                credits: "翻訳およびウェブサービス制作：baesic · v1.0.0",
                 hspQuestions: [
                     "周囲の物が移動されたことに気づきますか？","フィードバックに簡単に影響されますか？","強い刺激に簡単に圧倒されますか？",
                     "他の人の感情を簡単に察知しますか？","繊細な香り、味、音、芸術作品に気づき楽しみますか？","周囲の人の気分に簡単に影響されますか？",
@@ -866,8 +853,7 @@
         let currentLang = urlLang || localStorage.getItem('combinedTestLang') || 'ko';
         if (!translations[currentLang]) currentLang = 'ko';
 
-        const hspQC = document.getElementById('hspQuestionsContainer');
-        const adhdQC = document.getElementById('adhdQuestionsContainer');
+        const questionsContainer = document.getElementById('questionsContainer');
         const submitButton = document.getElementById('submitButton');
         const restartButton = document.getElementById('restartButton');
         const resultsContainer = document.getElementById('resultsContainer');
@@ -884,8 +870,9 @@
         let lastAdhdPositive = false;
         let lastMbtiResult = null;
         let resultImageBlob = null;
+        let shuffleMap = null;
 
-        const htmlKeys = ['introText', 'hspSectionTitle', 'adhdSectionTitle',
+        const htmlKeys = ['introText',
             'hspReference', 'hspCopyright', 'hspMoreInfo', 'hspContact',
             'adhdReference', 'adhdCopyright', 'adhdPublicInterest', 'adhdMoreInfo', 'adhdContact'];
 
@@ -922,50 +909,55 @@
             });
         }
 
+        // Fisher-Yates shuffle: generates randomized question order (HSP + ADHD mixed)
+        function generateShuffleMap() {
+            const items = [];
+            for (let i = 0; i < 18; i++) items.push({ type: 'hsp', origIdx: i });
+            for (let i = 0; i < 18; i++) items.push({ type: 'adhd', origIdx: i });
+            for (let i = items.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [items[i], items[j]] = [items[j], items[i]];
+            }
+            return items;
+        }
+
         function renderQuestions() {
-            // Render HSP questions (1-7 Likert scale)
-            hspQC.innerHTML = '';
-            const hspQ = translations[currentLang].hspQuestions;
-            const scStart = translations[currentLang].hspScaleStart;
-            const scEnd = translations[currentLang].hspScaleEnd;
+            if (!shuffleMap) shuffleMap = generateShuffleMap();
+            questionsContainer.innerHTML = '';
+            const t = translations[currentLang];
 
-            hspQ.forEach((q, idx) => {
+            shuffleMap.forEach((item, displayIdx) => {
+                const qText = item.type === 'hsp'
+                    ? t.hspQuestions[item.origIdx]
+                    : t.adhdQuestions[item.origIdx];
                 const div = document.createElement('div');
-                div.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-blue-100';
-                let radios = '<div class="flex flex-wrap justify-between items-center mt-3">';
-                radios += `<span class="text-xs text-gray-500 scale-label mr-2">${scStart}</span>`;
-                for (let i = 1; i <= 7; i++) {
-                    radios += `<label for="hsp${idx}_${i}" class="flex flex-col items-center cursor-pointer mx-1">
-                        <input type="radio" id="hsp${idx}_${i}" name="hsp${idx}" value="${i}" class="mb-1">
-                        <span class="text-xs">${i}</span>
-                    </label>`;
-                }
-                radios += `<span class="text-xs text-gray-500 scale-label ml-2">${scEnd}</span></div>`;
-                div.innerHTML = `<p class="text-base md:text-lg font-medium text-gray-800"><span class="test-type-label hsp-label">HSP</span>${idx + 1}. ${q}</p>${radios}`;
-                hspQC.appendChild(div);
-            });
+                div.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-gray-200';
+                let radios = '';
 
-            // Render ADHD questions (0-4 frequency scale)
-            adhdQC.innerHTML = '';
-            const adhdQ = translations[currentLang].adhdQuestions;
-            const scLabels = translations[currentLang].adhdScaleLabels;
-            const paLabel = translations[currentLang].partALabel;
-            const pbLabel = translations[currentLang].partBLabel;
-
-            adhdQ.forEach((q, idx) => {
-                const div = document.createElement('div');
-                div.className = 'question-card bg-white p-6 rounded-lg shadow-lg border border-purple-100';
-                const partTag = idx < 6 ? `<span class="part-label part-a">${paLabel}</span>` : `<span class="part-label part-b">${pbLabel}</span>`;
-                let radios = '<div class="flex flex-wrap justify-between items-center mt-3">';
-                for (let i = 0; i <= 4; i++) {
-                    radios += `<label for="adhd${idx}_${i}" class="flex flex-col items-center cursor-pointer mx-1 mb-2">
-                        <input type="radio" id="adhd${idx}_${i}" name="adhd${idx}" value="${i}" class="mb-1">
-                        <span class="scale-label text-center">${i}<br><span class="text-[0.65rem] text-gray-400">${scLabels[i]}</span></span>
-                    </label>`;
+                if (item.type === 'hsp') {
+                    radios = '<div class="flex flex-wrap justify-between items-center mt-3">';
+                    radios += `<span class="text-xs text-gray-500 scale-label mr-2">${t.hspScaleStart}</span>`;
+                    for (let i = 1; i <= 7; i++) {
+                        radios += `<label for="q${displayIdx}_${i}" class="flex flex-col items-center cursor-pointer mx-1">
+                            <input type="radio" id="q${displayIdx}_${i}" name="q${displayIdx}" value="${i}" class="mb-1">
+                            <span class="text-xs">${i}</span>
+                        </label>`;
+                    }
+                    radios += `<span class="text-xs text-gray-500 scale-label ml-2">${t.hspScaleEnd}</span></div>`;
+                } else {
+                    const scLabels = t.adhdScaleLabels;
+                    radios = '<div class="flex flex-wrap justify-between items-center mt-3">';
+                    for (let i = 0; i <= 4; i++) {
+                        radios += `<label for="q${displayIdx}_${i}" class="flex flex-col items-center cursor-pointer mx-1 mb-2">
+                            <input type="radio" id="q${displayIdx}_${i}" name="q${displayIdx}" value="${i}" class="mb-1">
+                            <span class="scale-label text-center">${i}<br><span class="text-[0.65rem] text-gray-400">${scLabels[i]}</span></span>
+                        </label>`;
+                    }
+                    radios += '</div>';
                 }
-                radios += '</div>';
-                div.innerHTML = `<p class="text-base md:text-lg font-medium text-gray-800"><span class="test-type-label adhd-label">ADHD</span>${partTag}${idx + 1}. ${q}</p>${radios}`;
-                adhdQC.appendChild(div);
+
+                div.innerHTML = `<p class="text-base md:text-lg font-medium text-gray-800">${displayIdx + 1}. ${qText}</p>${radios}`;
+                questionsContainer.appendChild(div);
             });
         }
 
@@ -1036,7 +1028,7 @@
         }
 
         // ====================================================================
-        // MBTI Estimation — v0.5.0
+        // MBTI Estimation — v1.0.0
         // Based SOLELY on HSP-R personality/temperament responses.
         // ADHD clinical responses are intentionally excluded to prevent
         // any conflation between psychiatric symptoms and personality type.
@@ -1146,19 +1138,19 @@
         }
 
         function calculateResults() {
-            // Collect HSP answers (1-7)
-            const hspAnswers = [];
-            for (let i = 0; i < 18; i++) {
-                const sel = document.querySelector(`input[name="hsp${i}"]:checked`);
+            // Collect all answers from shuffled unified questions
+            // and map back to original HSP/ADHD indices
+            const hspAnswers = new Array(18);
+            const adhdAnswers = new Array(18);
+            for (let i = 0; i < 36; i++) {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
                 if (!sel) { alert(translations[currentLang].alertAllAnswered); return; }
-                hspAnswers.push(parseInt(sel.value));
-            }
-            // Collect ADHD answers (0-4)
-            const adhdAnswers = [];
-            for (let i = 0; i < 18; i++) {
-                const sel = document.querySelector(`input[name="adhd${i}"]:checked`);
-                if (!sel) { alert(translations[currentLang].alertAllAnswered); return; }
-                adhdAnswers.push(parseInt(sel.value));
+                const val = parseInt(sel.value);
+                if (shuffleMap[i].type === 'hsp') {
+                    hspAnswers[shuffleMap[i].origIdx] = val;
+                } else {
+                    adhdAnswers[shuffleMap[i].origIdx] = val;
+                }
             }
 
             lastHspAnswers = hspAnswers;
@@ -1212,6 +1204,8 @@
             document.getElementById('mbtiDimBars').innerHTML = '';
             document.getElementById('mbtiTypeCode').textContent = '';
             document.getElementById('mbtiTypeName').textContent = '';
+            shuffleMap = null;
+            renderQuestions();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
