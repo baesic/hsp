@@ -1,23 +1,37 @@
 # hsp
 HSP & High-Functioning ADHD Self-Test Suite
 
+> **현재 릴리스: v1.1.0 (2026-08-27)**
+>
+> GitHub Pages는 저장소 루트의 `index.html`을 공식 실행 페이지로 사용합니다.
+
 ## 🚀 바로 테스트 하기 (Run Test)
 
 원하는 언어를 클릭하여 바로 웹에서 **HSP & 고기능 ADHD 융합 자가 테스트**를 진행해보세요!  
 (Click your preferred language below to start the combined test immediately)
 
-* � **[테스트 기본 페이지 (Default - 한국어/다국어)](https://baesic.github.io/hsp/)**
+* 🌐 **[테스트 기본 페이지 (Default - 한국어/다국어)](https://baesic.github.io/hsp/)**
 * 🇰🇷 **[한국어 (Korean) 테스트 하기](https://baesic.github.io/hsp/?lang=ko)**
 * 🇺🇸 **[English (영어) 테스트 하기](https://baesic.github.io/hsp/?lang=en)**
 * 🇫🇷 **[Français (프랑스어) 테스트 하기](https://baesic.github.io/hsp/?lang=fr)**
-* 🇨🇳 **[中文 (중국어) 테스트 하기](https://baesic.github.io/hsp/?lang=zh)**
+* 🇨🇳 **[简体中文 (중국어 간체) 테스트 하기](https://baesic.github.io/hsp/?lang=zh)**
 * 🇯🇵 **[日本語 (일본어) 테스트 하기](https://baesic.github.io/hsp/?lang=ja)**
 
 ---
 
 ## 🌟 주요 기능 (Key Features)
 
-본 프로젝트는 **HSP(Highly Sensitive Person, 매우 민감한 사람)** 및 **고기능 ADHD(High-Functioning ADHD)** 자가 진단 테스트를 다양한 언어와 공유 기능을 통해 웹에서 편리하게 수행할 수 있도록 구축한 시스템입니다.
+본 프로젝트는 **HSP-R(Highly Sensitive Person Scale-Revised)** 민감성 경향과 **ASRS-v1.1** 성인 ADHD 관련 증상을 함께 살펴보는 다국어 자가 점검 서비스입니다. 한국어·영어·프랑스어·중국어 간체·일본어를 지원하며, 결과는 자기 이해를 위한 참고 자료로만 제공됩니다.
+
+### v1.1.0 핵심 변경 사항
+
+- 업로드된 HSP-R 영문 원문의 18문항을 공식 영어 문구로 복원
+- 한국어·프랑스어·중국어 간체·일본어 문항을 원문의 의미와 현지 표현에 맞게 전면 교정
+- HSP는 평소의 전반적인 모습, ADHD는 최근 6개월의 빈도로 응답하도록 안내 기준을 분리
+- HSP 7점 척도의 기준점 `1 / 4 / 7`에 현지어 의미 라벨 표시
+- HSP 결과를 진단이 아닌 연속적인 민감성 경향으로 설명하고 문화적 배경 등의 차이 안내
+- HSP-R 전체 참고문헌·저작권·허용 범위와 중국어 `zh-CN` 언어 메타데이터 보완
+- GitHub Pages용 `index.html`과 통합 배포본 `New-Self-Test_combined_ml2share.html` 동기화
 
 ---
 
@@ -67,7 +81,9 @@ HSP & High-Functioning ADHD Self-Test Suite
 ### C. HSP + ADHD 융합 테스트 (Combined HSP & ADHD Test) ✨ NEW
 
 #### 5. [추천] 융합 다국어 공유 완전판 (Combined Multilingual & Sharing Version)
-- `New-Self-Test_combined_ml2share.html` :
+- `index.html` : GitHub Pages에서 서비스되는 공식 최신 버전
+- `New-Self-Test_combined_ml2share.html` : `index.html`과 동일한 다운로드용 통합 배포본
+
   HSP-R (18문항) + ASRS-v1.1 (18문항) = **총 36문항**을 한 번에 수행하여 HSP와 고기능 ADHD를 동시에 분석합니다.
   - **통합 분석 결과**: HSP+ADHD 모두 높은 경우 "민감한 ADHD" 유형 해석, 한쪽만 높은 경우 맞춤 해석, 모두 낮은 경우에도 고기능 ADHD 보상 전략 안내
   - **HSP 결과**: 총점/평균 + 6개 하위 척도 (과도한 자극, 긍정적 경험 민감성, 사회적 민감성, 정보 처리 깊이, 정서적 반응성, 세부 사항 민감성)
@@ -82,6 +98,8 @@ HSP & High-Functioning ADHD Self-Test Suite
 ### HSP-R (Highly Sensitive Person Scale - Revised)
 
 이 온라인 테스트는 Pluess, M., Aron, E., 외 (2024)의 'Highly Sensitive Person Scale - Revised (HSP-R)' PDF 설문지를 기반으로 하여, 사용자들이 온라인에서 편리하게 자가 평가를 진행할 수 있도록 각색한 것입니다. 원본 연구 및 설문지의 저작권을 존중하며, 이 웹 버전은 개인의 이해와 교육적 목적으로만 사용해주시기 바랍니다.
+
+이번 현지화의 기준 원문: [`HSP_New-Self-Test-PDF_eng.pdf`](HSP_New-Self-Test-PDF_eng.pdf)
 
 The original Highly Sensitive Person self-test by Dr. Elaine Aron, which this revised scale builds upon, can also be found at: [https://hsperson.com/test/highly-sensitive-test/](https://hsperson.com/test/highly-sensitive-test/)
 
